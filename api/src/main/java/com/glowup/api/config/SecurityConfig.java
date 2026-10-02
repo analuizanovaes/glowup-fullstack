@@ -35,13 +35,21 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll(); // Liberação crítica do endpoint de login
+                    req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/auth/esqueci-senha").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/auth/redefinir-senha").permitAll();
+    
+                    req.requestMatchers(
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**"
+                    ).permitAll();
+                    // O anyRequest() fica obrigatoriamente na última linha
                     req.anyRequest().authenticated();
                 })
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Injeção do nosso filtro
-                                                                                             // JWT
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

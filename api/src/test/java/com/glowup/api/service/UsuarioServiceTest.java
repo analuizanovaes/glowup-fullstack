@@ -56,7 +56,7 @@ class UsuarioServiceTest {
     @DisplayName("Deve lançar exceção e bloquear cadastro para idade irreal (ex: 121 anos)")
     void naoDeveCadastrarIdadeIrreal() {
         UsuarioCadastroDTO dto2 = new UsuarioCadastroDTO(
-                "Ana Antiga",
+                "Ana Velha",
                 "ana@teste.com",
                 "Senha@123",
                 LocalDate.now().minusYears(121),

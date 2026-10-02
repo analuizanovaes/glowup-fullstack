@@ -3,7 +3,7 @@ package com.glowup.api.service;
 import com.glowup.api.model.Role;
 import com.glowup.api.model.TermoAceite;
 import com.glowup.api.model.Usuario;
-import com.glowup.api.model.Telefone; // Import adicionado
+import com.glowup.api.model.Telefone; 
 import com.glowup.api.dto.UsuarioCadastroDTO;
 import com.glowup.api.repository.TermoAceiteRepository;
 import com.glowup.api.repository.UsuarioRepository;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List; // Import adicionado
+import java.util.List; 
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +40,6 @@ public class UsuarioService {
             throw new IllegalArgumentException("Data de nascimento inválida. Verifique o ano informado.");
         }
 
-        // --- INÍCIO DO TRECHO MODIFICADO ---
         Usuario novoUsuario = Usuario.builder()
                 .nome(dto.nome())
                 .email(dto.email())
@@ -62,7 +61,6 @@ public class UsuarioService {
 
         // O save do repositório de Usuario persistirá os Telefones automaticamente graças ao CascadeType.ALL
         Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
-        // --- FIM DO TRECHO MODIFICADO ---
 
         // Termo salvo diretamente, pois o @AssertTrue garantiu a validação no Controller
         TermoAceite termo = TermoAceite.builder()

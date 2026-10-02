@@ -25,14 +25,17 @@ public class UsuarioService {
 
     @Transactional
     public Usuario registrarUsuario(UsuarioCadastroDTO dto) {
-        
+
         if (usuarioRepository.existsByEmail(dto.email())) {
             throw new IllegalArgumentException("O e-mail informado já está registado na plataforma.");
         }
 
         int idade = Period.between(dto.dataNascimento(), LocalDate.now()).getYears();
         if (idade < 18) {
-            throw new IllegalArgumentException("O registo não é permitido para menores de 18 anos.");
+            throw new IllegalArgumentException("O cadastro não é permitido para menores de 18 anos.");
+        }
+        if (idade > 120) {
+            throw new IllegalArgumentException("Data de nascimento inválida. Verifique o ano informado.");
         }
 
         Usuario novoUsuario = Usuario.builder()
@@ -46,7 +49,8 @@ public class UsuarioService {
 
         Usuario usuarioSalvo = usuarioRepository.save(novoUsuario);
 
-        // Termo salvo diretamente, pois o @AssertTrue garantiu a validação no Controller
+        // Termo salvo diretamente, pois o @AssertTrue garantiu a validação no
+        // Controller
         TermoAceite termo = TermoAceite.builder()
                 .dataHoraAceite(LocalDateTime.now())
                 .versaoDocumento("v1.0")

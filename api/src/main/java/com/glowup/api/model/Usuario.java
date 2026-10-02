@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDate;
@@ -48,6 +49,10 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     @Builder.Default
     private boolean ativo = true;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Telefone> telefones = new ArrayList<>();
 
     public int calcularIdade() {
         if (this.dataNascimento == null) {

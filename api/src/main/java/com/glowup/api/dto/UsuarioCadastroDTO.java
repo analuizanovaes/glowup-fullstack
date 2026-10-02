@@ -2,6 +2,7 @@ package com.glowup.api.dto;
 
 import jakarta.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.List;
 
 public record UsuarioCadastroDTO(
     @NotBlank(message = "O nome é obrigatório")
@@ -21,6 +22,10 @@ public record UsuarioCadastroDTO(
     @NotNull(message = "A data de nascimento é obrigatória")
     @Past(message = "A data de nascimento deve estar no passado")
     LocalDate dataNascimento,
+
+    // Trecho adicionado aqui
+    @NotEmpty(message = "É obrigatório informar pelo menos um telefone")
+    List<@NotBlank(message = "O número do telefone não pode ser vazio") String> telefones,
 
     @AssertTrue(message = "É obrigatório aceitar os Termos de Uso e declarar ser maior de 18 anos")
     boolean aceitaTermos

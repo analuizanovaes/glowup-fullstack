@@ -25,7 +25,6 @@ public class UsuarioController {
     public ResponseEntity<UsuarioRespostaDTO> registrar(@RequestBody @Valid UsuarioCadastroDTO dto) {
         Usuario usuario = usuarioService.registrarUsuario(dto);
         
-        // Trecho modificado e adicionado aqui:
         List<String> telefonesResposta = usuario.getTelefones().stream()
                 .map(Telefone::getNumero)
                 .toList();
@@ -37,7 +36,6 @@ public class UsuarioController {
                 usuario.getDataNascimento(),
                 telefonesResposta
         );
-        // Fim do trecho adicionado
 
         // Constrói automaticamente o cabeçalho "Location" com a URL completa do novo recurso 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

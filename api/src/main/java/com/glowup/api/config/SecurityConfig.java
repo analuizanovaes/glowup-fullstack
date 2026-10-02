@@ -36,14 +36,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll(); // Liberação crítica do endpoint de login
+                    req.requestMatchers(HttpMethod.POST, "/api/auth/esqueci-senha").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/api/auth/redefinir-senha").permitAll();
                     req.anyRequest().authenticated();
                 })
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Injeção do nosso filtro JWT
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Injeção do nosso filtro
+                                                                                             // JWT
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Carrinho</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-dark: #4A1942;
+            --text-muted: #7D6B78;
+            --primary-pink: #E85D9E;
+            --primary-hover: #D44687;
+            --badge-bg: #FCE8F3;
+            --border-color: #E8CEDD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid rgba(232, 206, 221, 0.4);
+            padding: 1rem 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--badge-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text span {
+            color: var(--primary-pink);
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.7rem 1rem 0.7rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            outline: none;
+            background-color: #FAFAFA;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .search-bar svg {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-pink);
+        }
+
+        .cart-badge {
+            background-color: var(--primary-pink);
+            color: #fff;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        main {
+            flex: 1;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2.5rem 5% 4rem 5%;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .cart-main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .top-action-bar {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 3rem;
+        }
+
+        .btn-clear-cart {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-clear-cart:hover {
+            border-color: var(--primary-pink);
+            color: var(--primary-pink);
+        }
+
+        .empty-cart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .empty-cart-icon {
+            width: 64px;
+            height: 64px;
+            border: 2px solid var(--text-dark);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+            color: var(--text-dark);
+        }
+
+        .empty-cart-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-explore {
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 15px rgba(232, 93, 158, 0.25);
+        }
+
+        .btn-explore:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 1.75rem;
+            box-shadow: 0 10px 25px rgba(74, 25, 66, 0.03);
+        }
+
+        .summary-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.85rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .summary-row.total-row {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .coupon-container {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0 1.25rem 0;
+            padding-top: 1.25rem;
+            border-top: 1px solid #F3E5EC;
+        }
+
+        .coupon-input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .coupon-input:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .btn-apply {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-apply:hover {
+            border-color: var(--primary-pink);
+            color: var(--primary-pink);
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            border: none;
+            padding: 0.9rem 0;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 12px rgba(232, 93, 158, 0.25);
+            text-decoration: none;
+        }
+
+        .btn-checkout:hover {
+            background-color: var(--primary-hover);
+        }
+
+        footer {
+            border-top: 1px solid rgba(232, 206, 221, 0.5);
+            padding: 1.5rem 5%;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: transparent;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 850px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-container">
+            <div class="logo-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+                    <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+                    <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+                    <circle cx="9.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+                    <circle cx="14.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+                    <circle cx="10" cy="5.8" r="1.8" fill="#E85D9E"/>
+                    <circle cx="14" cy="5.8" r="1.8" fill="#E85D9E"/>
+                    <circle cx="12" cy="7.2" r="1" fill="#FCE8F3"/>
+                </svg>
+            </div>
+            <span class="logo-text">Glow<span>Up</span></span>
+        </a>
+
+        <div class="search-bar">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="Buscar produtos, marcas e categorias">
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Vitrine</a>
+            <a href="#" class="active">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                </svg>
+                Carrinho <span class="cart-badge">0</span>
+            </a>
+            <a href="#">Pedidos</a>
+            <a href="#">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="cart-layout">
+            <div class="cart-main-content">
+                <div class="top-action-bar">
+                    <button class="btn-clear-cart">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                        Esvaziar Carrinho
+                    </button>
+                </div>
+
+                <div class="empty-cart-container">
+                    <div class="empty-cart-icon">
+                        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+                        </svg>
+                    </div>
+                    <h2 class="empty-cart-title">Seu carrinho está vazio</h2>
+                    <a href="#" class="btn-explore">Explorar vitrine</a>
+                </div>
+            </div>
+
+            <aside class="summary-card">
+                <h2 class="summary-title">Resumo</h2>
+                
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>R$ 0,00</span>
+                </div>
+                
+                <div class="summary-row">
+                    <span>Frete</span>
+                    <span>Calculado no checkout</span>
+                </div>
+
+                <div class="coupon-container">
+                    <input type="text" class="coupon-input" placeholder="Inserir Cupom de Desconto">
+                    <button class="btn-apply">Aplicar</button>
+                </div>
+
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span>R$ 0,00</span>
+                </div>
+
+                <a href="#" class="btn-checkout">
+                    Ir para checkout
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Devolução</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

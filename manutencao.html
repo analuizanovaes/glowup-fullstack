@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Em Manutenção</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-dark: #4A1942;
+      --text-muted: #7D6B78;
+      --primary-pink: #E85D9E;
+      --primary-hover: #D44687;
+      --badge-bg: #FCE8F3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+      background-attachment: fixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .maintenance-card {
+      background-color: #FFFFFF;
+      width: 100%;
+      max-width: 480px;
+      padding: 3rem 2.5rem;
+      border-radius: 2rem;
+      text-align: center;
+      box-shadow: 0 20px 60px 15px rgba(232, 93, 158, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .icon-container {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.1rem;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .description {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      max-width: 380px;
+    }
+
+    .btn-action {
+      background-color: var(--primary-pink);
+      color: #FFFFFF;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 15px rgba(232, 93, 158, 0.25);
+    }
+
+    .btn-action:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 480px) {
+      .maintenance-card {
+        padding: 2.25rem 1.5rem;
+        border-radius: 1.5rem;
+      }
+
+      .title {
+        font-size: 1.75rem;
+      }
+
+      .description {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="maintenance-card">
+    
+    <div class="icon-container">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+        <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+        <circle cx="9.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+        <circle cx="14.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+        <circle cx="10" cy="5.8" r="1.8" fill="#E85D9E"/>
+        <circle cx="14" cy="5.8" r="1.8" fill="#E85D9E"/>
+        <circle cx="12" cy="7.2" r="1" fill="#FCE8F3"/>
+      </svg>
+    </div>
+
+    <h1 class="title">
+      Estamos cuidando de<br>cada detalhe.
+    </h1>
+
+    <p class="description">
+      O GlowUp está em uma breve manutenção. Voltaremos em instantes com sua experiência ainda melhor.
+    </p>
+
+    <button class="btn-action" onclick="window.history.back()">
+      Voltar ao painel
+    </button>
+
+  </main>
+
+</body>
+</html>

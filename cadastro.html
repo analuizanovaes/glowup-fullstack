@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Crie sua conta</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-dark: #4A1942;
+            --text-muted: #7D6B78;
+            --primary-pink: #E85D9E;
+            --primary-hover: #D44687;
+            --badge-bg: #FCE8F3;
+            --border-color: #E8CEDD;
+            --success-green: #2e7d32;
+            --error-red: #c2185b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            box-shadow: 0 20px 50px rgba(74, 25, 66, 0.08);
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .auth-form-side {
+            padding: 2.5rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--badge-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text span {
+            color: var(--primary-pink);
+        }
+
+        .auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .auth-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-switch {
+            background-color: #FAF0F5;
+            border-radius: 50px;
+            padding: 0.25rem;
+            display: flex;
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 1.75rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.5rem 0;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            border-radius: 50px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #FCE8F3;
+            color: var(--primary-pink);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(232, 93, 158, 0.25);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            outline: none;
+            background-color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+        }
+
+        .input-icon-wrapper svg {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .btn-add-phone {
+            background: none;
+            border: none;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            cursor: pointer;
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .password-rules {
+            list-style: none;
+            margin-top: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .password-rules li {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+            transition: color 0.2s ease;
+        }
+
+        .password-rules li.valid {
+            color: var(--success-green);
+        }
+
+        .password-rules li.invalid {
+            color: var(--error-red);
+        }
+
+        .password-rules li::before {
+            content: '✕';
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            font-size: 0.7rem;
+            color: var(--error-red);
+        }
+
+        .password-rules li.valid::before {
+            content: '✓';
+            color: var(--success-green);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.78rem;
+            color: var(--text-dark);
+        }
+
+        .checkbox-group input {
+            accent-color: var(--primary-pink);
+            margin-top: 2px;
+        }
+
+        .checkbox-group a {
+            color: var(--text-dark);
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            border: none;
+            padding: 0.85rem 0;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 15px rgba(232, 93, 158, 0.25);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .auth-image-side {
+            background-image: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            .auth-image-side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-form-side">
+            <a href="#" class="logo-container">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+                        <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Glow<span>Up</span></span>
+            </a>
+
+            <h1 class="auth-title">Sua beleza, do seu jeito.</h1>
+            <p class="auth-subtitle">Acesse a curadoria da Domingas com segurança.</p>
+
+            <div class="tab-switch">
+                <a href="#" class="tab-btn">Entrar</a>
+                <a href="#" class="tab-btn active">Cadastrar</a>
+            </div>
+
+            <h2 class="section-title">Crie sua conta</h2>
+            <p class="section-subtitle">Somente os dados necessários. CPF não é solicitado.</p>
+
+            <form class="form-container">
+                <div class="form-group">
+                    <label>Nome completo</label>
+                    <input type="text" class="form-control" placeholder="Como você quer ser chamada">
+                </div>
+
+                <div class="form-group">
+                    <label>Data de nascimento</label>
+                    <div class="input-icon-wrapper">
+                        <input type="text" class="form-control" placeholder="dd / mm / aaaa">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" placeholder="voce@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="text" class="form-control" placeholder="(61) 99999-9999">
+                    <button type="button" class="btn-add-phone">+ Adicionar outro número</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <div class="input-icon-wrapper">
+                        <!-- Campo de senha com ID e evento de validação -->
+                        <input type="password" id="password-input" class="form-control" oninput="validatePassword(this.value)">
+                        
+                        <!-- Ícone de olho interativo -->
+                        <svg id="eye-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" onclick="togglePasswordVisibility()" style="cursor: pointer;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <ul class="password-rules">
+                        <li id="rule-length">Mínimo de 8 caracteres</li>
+                        <li id="rule-upper">Uma letra maiúscula</li>
+                        <li id="rule-lower">Uma letra minúscula</li>
+                        <li id="rule-number">Um número</li>
+                        <li id="rule-special">Um símbolo especial</li>
+                    </ul>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">Declaro que sou maior de 18 anos e li os <a href="#">Termos de Uso</a>.</label>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar conta</button>
+            </form>
+        </div>
+
+        <div class="auth-image-side"></div>
+    </div>
+
+    <footer>
+        <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+        <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Devolução</a>
+        </div>
+    </footer>
+
+    <script>
+        // Função para mostrar ou ocultar a senha ao clicar no olho
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                // Muda o ícone para indicar que a senha está visível (traçado diferente ou opcional)
+                eyeIcon.style.color = '#E85D9E';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.color = '#7D6B78';
+            }
+        }
+
+        // Função de validação em tempo real com check (✓) e x (✕)
+        function validatePassword(value) {
+            const ruleLength = document.getElementById('rule-length');
+            const ruleUpper = document.getElementById('rule-upper');
+            const ruleLower = document.getElementById('rule-lower');
+            const ruleNumber = document.getElementById('rule-number');
+            const ruleSpecial = document.getElementById('rule-special');
+
+            if (value.length >= 8) {
+                ruleLength.classList.add('valid');
+                ruleLength.classList.remove('invalid');
+            } else {
+                ruleLength.classList.remove('valid');
+                if(value.length > 0) ruleLength.classList.add('invalid');
+            }
+
+            if (/[A-Z]/.test(value)) {
+                ruleUpper.classList.add('valid');
+                ruleUpper.classList.remove('invalid');
+            } else {
+                ruleUpper.classList.remove('valid');
+                if(value.length > 0) ruleUpper.classList.add('invalid');
+            }
+
+            if (/[a-z]/.test(value)) {
+                ruleLower.classList.add('valid');
+                ruleLower.classList.remove('invalid');
+            } else {
+                ruleLower.classList.remove('valid');
+                if(value.length > 0) ruleLower.classList.add('invalid');
+            }
+
+            if (/[0-9]/.test(value)) {
+                ruleNumber.classList.add('valid');
+                ruleNumber.classList.remove('invalid');
+            } else {
+                ruleNumber.classList.remove('valid');
+                if(value.length > 0) ruleNumber.classList.add('invalid');
+            }
+
+            if (/[\W_]/.test(value)) {
+                ruleSpecial.classList.add('valid');
+                ruleSpecial.classList.remove('invalid');
+            } else {
+                ruleSpecial.classList.remove('valid');
+                if(value.length > 0) ruleSpecial.classList.add('invalid');
+            }
+        }
+    </script>
+
+</body>
+</html>

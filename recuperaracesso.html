@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Recuperar Acesso</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-dark: #4A1942;
+            --text-muted: #7D6B78;
+            --primary-pink: #E85D9E;
+            --primary-hover: #D44687;
+            --badge-bg: #FCE8F3;
+            --border-color: #E8CEDD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            box-shadow: 0 20px 50px rgba(74, 25, 66, 0.08);
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .auth-form-side {
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--badge-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .logo-text span {
+            color: var(--primary-pink);
+        }
+
+        .auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 0.35rem;
+        }
+
+        .auth-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .tab-switch {
+            background-color: #FAF0F5;
+            border-radius: 50px;
+            padding: 0.25rem;
+            display: flex;
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.5rem 0;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            border-radius: 50px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            background-color: #FCE8F3;
+            color: var(--primary-pink);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            outline: none;
+            background-color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            border: none;
+            padding: 0.85rem 0;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 15px rgba(232, 93, 158, 0.25);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .auth-image-side {
+            background-image: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            .auth-image-side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-form-side">
+            <a href="#" class="logo-container">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+                        <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Glow<span>Up</span></span>
+            </a>
+
+            <h1 class="auth-title">Sua beleza, do seu jeito.</h1>
+            <p class="auth-subtitle">Acesse a curadoria da Domingas com segurança.</p>
+
+            <div class="tab-switch">
+                <a href="#" class="tab-btn">Entrar</a>
+                <a href="#" class="tab-btn">Cadastrar</a>
+            </div>
+
+            <h2 class="section-title">Recuperar acesso</h2>
+            <p class="section-subtitle">Acesse sua conta com segurança.</p>
+
+            <form class="form-container">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" placeholder="voce@email.com">
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar código</button>
+            </form>
+        </div>
+
+        <div class="auth-image-side"></div>
+    </div>
+
+    <footer>
+        <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+        <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Devolução</a>
+        </div>
+    </footer>
+
+</body>
+</html>

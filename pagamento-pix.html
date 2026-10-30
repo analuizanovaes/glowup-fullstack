@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Pagamento Pix</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-dark: #4A1942;
+      --text-muted: #7D6B78;
+      --primary-pink: #E85D9E;
+      --primary-hover: #D44687;
+      --badge-bg: #FCE8F3;
+      --border-color: #E8CEDD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+      background-attachment: fixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .pix-card {
+      background: #ffffff;
+      border-radius: 1.75rem;
+      padding: 2.5rem 2rem;
+    
+      box-shadow: 0 20px 40px rgba(232, 93, 158, 0.15), 0 5px 15px rgba(74, 25, 66, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid rgba(232, 206, 221, 0.5);
+      width: 100%;
+      max-width: 480px;
+      margin: auto;
+    }
+
+    .card-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .logo-text span {
+      color: var(--primary-pink);
+    }
+
+    .pix-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .pix-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .qrcode-box {
+      width: 180px;
+      height: 180px;
+      border: 2px dashed #E85D9E;
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      color: var(--primary-pink);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background-color: #fffafc;
+      gap: 0.5rem;
+    }
+
+    .qrcode-box svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--primary-pink);
+    }
+
+    .pix-copy-section {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: #FAFAFA;
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      margin-bottom: 1.5rem;
+      gap: 0.5rem;
+    }
+
+    .pix-copy-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      text-overflow: ellipsis;
+    }
+
+    .btn-copy {
+      background-color: var(--badge-bg);
+      color: var(--primary-pink);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-copy:hover {
+      background-color: #f7d4e6;
+    }
+
+    .btn-pay {
+      background-color: var(--primary-pink);
+      color: #ffffff;
+      border: none;
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(232, 93, 158, 0.35);
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-pay:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-top: 1.5rem;
+      line-height: 1.4;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+
+    footer a:hover {
+      color: var(--text-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pix-card">
+    <div class="card-logo">
+      <div class="logo-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+          <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+        </svg>
+      </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </div>
+
+    <div class="pix-header">
+      <h1>Pagamento via Pix</h1>
+      <p>Escaneie o QR Code abaixo ou copie o código Pix para finalizar.</p>
+    </div>
+
+    <div class="qrcode-box">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.25 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h1.5v-1.5H6v1.5zM6 17.25h1.5v-1.5H6v1.5zM16.5 7.5H18v-1.5h-1.5V7.5zM14.5 14.25h1.5v1.5h-1.5v-1.5zM18.75 14.25h1.5v1.5h-1.5v-1.5zM14.25 18.75h1.5v1.5h-1.5v-1.5z"></path>
+      </svg>
+      <span>QR Code Pix</span>
+    </div>
+
+    <div class="pix-copy-section">
+      <input type="text" class="pix-copy-input" value="00020126580014br.gov.bcb.pix..." readonly>
+      <button class="btn-copy">Copiar</button>
+    </div>
+
+    <button class="btn-pay">Efetuar pagamento</button>
+  </div>
+
+  <footer>
+    <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+    <div style="margin-top: 0.3rem;">
+      <a href="#">Termos de Uso</a> &bull; <a href="#">Política de Devolução</a>
+    </div>
+  </footer>
+
+</body>
+</html>

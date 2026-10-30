@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Vitrine</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-dark: #4A1942;
+      --text-muted: #7D6B78;
+      --primary-pink: #E85D9E;
+      --primary-hover: #D44687;
+      --badge-bg: #FCE8F3;
+      --border-color: #E8CEDD;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+      background-attachment: fixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid rgba(232, 206, 221, 0.4);
+      padding: 1rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .logo-text span {
+      color: var(--primary-pink);
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 500px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      font-size: 0.9rem;
+      outline: none;
+      background-color: #FAFAFA;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--primary-pink);
+    }
+
+    .search-bar svg {
+      position: absolute;
+      left: 14px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--primary-pink);
+    }
+
+    .cart-badge {
+      background-color: var(--primary-pink);
+      color: #fff;
+      font-size: 0.7rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 5% 4rem 5%;
+    }
+
+    .hero-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 2.5rem 3rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(74, 25, 66, 0.04);
+      gap: 2rem;
+    }
+
+    .hero-text .curation-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-pink);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .hero-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .delivery-card {
+      background-color: var(--badge-bg);
+      border: 1px solid rgba(232, 93, 158, 0.2);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 280px;
+    }
+
+    .delivery-icon {
+      color: var(--primary-pink);
+      background: #ffffff;
+      padding: 0.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delivery-info h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .delivery-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .categories-filter {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .cat-btn {
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background-color: var(--primary-pink);
+      color: #ffffff;
+      border-color: var(--primary-pink);
+      box-shadow: 0 2px 8px rgba(232, 93, 158, 0.25);
+    }
+
+    .filter-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .filter-dropdowns {
+      display: flex;
+      gap: 1rem;
+      position: relative;
+    }
+
+    /* Custom Dropdown Styling */
+    .custom-dropdown {
+      position: relative;
+      user-select: none;
+    }
+
+    .dropdown-select-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      outline: none;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      min-width: 140px;
+      transition: border-color 0.2s ease;
+    }
+
+    .dropdown-select-btn:hover {
+      border-color: var(--primary-pink);
+    }
+
+    .dropdown-select-btn svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+
+    .custom-dropdown.open .dropdown-select-btn svg {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 100%;
+      min-width: 180px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.08);
+      display: none;
+      flex-direction: column;
+      z-index: 50;
+      overflow: hidden;
+      padding: 0.4rem;
+    }
+
+    .custom-dropdown.open .dropdown-menu {
+      display: flex;
+    }
+
+    .dropdown-item {
+      padding: 0.6rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      border-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background-color 0.15s ease;
+    }
+
+    .dropdown-item:hover {
+      background-color: var(--badge-bg);
+    }
+
+    .dropdown-item.selected {
+      background-color: var(--badge-bg);
+      font-weight: 600;
+    }
+
+    .dropdown-item.selected::after {
+      content: "✓";
+      color: var(--primary-pink);
+      font-size: 0.8rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 1.75rem;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.05);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(74, 25, 66, 0.1);
+    }
+
+    .product-image-container {
+      width: 100%;
+      aspect-ratio: 1/1;
+      position: relative;
+      overflow: hidden;
+      background: #f7e2e8;
+    }
+
+    .product-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tag-status {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-pronta-entrega {
+      background-color: #2e7d32;
+      color: #ffffff;
+    }
+
+    .tag-sob-encomenda {
+      background-color: #fce4ec;
+      color: #c2185b;
+    }
+
+    .product-info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .brand-name {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--primary-pink);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+      margin-bottom: 1.25rem;
+      min-height: 2.6rem;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .btn-add-cart {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--primary-pink);
+      color: #ffffff;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 10px rgba(232, 93, 158, 0.3);
+    }
+
+    .btn-add-cart:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.05);
+    }
+
+    footer {
+      border-top: 1px solid rgba(232, 206, 221, 0.4);
+      padding: 1.5rem 5%;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: transparent;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.25rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 850px) {
+      header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1rem;
+      }
+      .hero-banner {
+        flex-direction: column;
+        padding: 2rem 1.5rem;
+        text-align: center;
+      }
+      .delivery-card {
+        width: 100%;
+        justify-content: center;
+      }
+      .filter-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo-container">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+          <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+          <circle cx="9.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+          <circle cx="14.5" cy="8.5" r="1.8" fill="#E85D9E"/>
+          <circle cx="10" cy="5.8" r="1.8" fill="#E85D9E"/>
+          <circle cx="14" cy="5.8" r="1.8" fill="#E85D9E"/>
+          <circle cx="12" cy="7.2" r="1" fill="#FCE8F3"/>
+        </svg>
+      </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </a>
+
+    <div class="search-bar">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="M21 21l-4.35-4.35"/>
+      </svg>
+      <input type="text" placeholder="Buscar produtos, marcas e categorias">
+    </div>
+
+    <nav class="nav-links">
+      <a href="#" class="active">Vitrine</a>
+      <a href="#">Carrinho <span class="cart-badge">0</span></a>
+      <a href="#">Pedidos</a>
+      <a href="#">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-banner">
+      <div class="hero-text">
+        <span class="curation-tag">Sua rotina de autocuidado começa aqui</span>
+        <h1>Beleza que combina com você.</h1>
+        <p>Escolhas especiais com atendimento próximo, retirada gratuita e entrega local.</p>
+      </div>
+      <div class="delivery-card">
+        <div class="delivery-icon">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+          </svg>
+        </div>
+        <div class="delivery-info">
+          <h3>Pronta-entrega</h3>
+          <p>Receba mais rápido em Itapoã e Paranoá</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="categories-filter">
+      <button class="cat-btn active">Todas</button>
+      <button class="cat-btn">Natura</button>
+      <button class="cat-btn">O Boticário</button>
+      <button class="cat-btn">Eudora</button>
+      <button class="cat-btn">Avon</button>
+    </div>
+
+    <div class="filter-toolbar">
+      <div class="filter-dropdowns">
+        <div class="custom-dropdown" id="dropdown-category">
+          <button class="dropdown-select-btn" type="button">
+            <span class="selected-value">Todas</span>
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <div class="dropdown-item selected" data-value="Todas">Todas</div>
+            <div class="dropdown-item" data-value="Perfumaria feminina">Perfumaria feminina</div>
+            <div class="dropdown-item" data-value="Perfumaria masculina">Perfumaria masculina</div>
+            <div class="dropdown-item" data-value="Corpo e banho">Corpo e banho</div>
+            <div class="dropdown-item" data-value="Kits e presentes">Kits e presentes</div>
+          </div>
+        </div>
+
+        <div class="custom-dropdown" id="dropdown-sort">
+          <button class="dropdown-select-btn" type="button">
+            <span class="selected-value">Destaques</span>
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="dropdown-menu">
+            <div class="dropdown-item selected" data-value="Destaques">Destaques</div>
+            <div class="dropdown-item" data-value="Menor preço">Menor preço</div>
+            <div class="dropdown-item" data-value="Maior preço">Maior preço</div>
+          </div>
+        </div>
+      </div>
+      <span>6 produtos</span>
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop" alt="Kit Skincare Rosé">
+          <span class="tag-status tag-pronta-entrega">Pronta-Entrega</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">O BOTICÁRIO</span>
+            <h2 class="product-title">Kit Cuide-se Bem Rosé Hidratação</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 89,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop" alt="Perfume Clássico">
+          <span class="tag-status tag-pronta-entrega">Pronta-Entrega</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">NATURA</span>
+            <h2 class="product-title">Essencial Exclusivo Feminino 100ml</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 159,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop" alt="Frasco Cosmético">
+          <span class="tag-status tag-pronta-entrega">Pronta-Entrega</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">AVON</span>
+            <h2 class="product-title">Renew Sérum Facial Concentrado 30ml</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 69,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop" alt="Far Away Glamour">
+          <span class="tag-status tag-pronta-entrega">Pronta-Entrega</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">AVON</span>
+            <h2 class="product-title">Far Away Glamour Deo Parfum 50ml</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 119,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop" alt="Eudora Rouge">
+          <span class="tag-status tag-sob-encomenda">Sob Encomenda</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">EUDORA</span>
+            <h2 class="product-title">Eudora Rouge Eau de Parfum 75ml</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 189,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image-container">
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop" alt="Tododia Creme">
+          <span class="tag-status tag-pronta-entrega">Pronta-Entrega</span>
+        </div>
+        <div class="product-info">
+          <div>
+            <span class="brand-name">NATURA</span>
+            <h2 class="product-title">Tododia Creme Nutritivo Ameixa e Flor de Baunilha 400ml</h2>
+          </div>
+          <div class="product-footer">
+            <span class="product-price">R$ 79,90</span>
+            <button class="btn-add-cart" aria-label="Adicionar ao carrinho">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+      <div class="footer-links">
+        <a href="#">Termos de Uso</a>
+        <a href="#">Política de Devolução</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+      const btn = dropdown.querySelector('.dropdown-select-btn');
+      const items = dropdown.querySelectorAll('.dropdown-item');
+      const spanValue = dropdown.querySelector('.selected-value');
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.custom-dropdown').forEach(d => {
+          if (d !== dropdown) d.classList.remove('open');
+        });
+        dropdown.classList.toggle('open');
+      });
+
+      items.forEach(item => {
+        item.addEventListener('click', () => {
+          items.forEach(i => i.classList.remove('selected'));
+          item.classList.add('selected');
+          spanValue.textContent = item.textContent;
+          dropdown.classList.remove('open');
+        });
+      });
+    });
+
+    window.addEventListener('click', () => {
+      document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>

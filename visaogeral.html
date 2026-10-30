@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Visão geral</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-dark: #4A1942;
+      --text-muted: #7D6B78;
+      --primary-pink: #E85D9E;
+      --badge-bg: #FCE8F3;
+      --border-color: #E8CEDD;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: linear-gradient(135deg, #fffeff 0%, #fffeff 50%, #e2ccf3 90%);
+      background-attachment: fixed;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid rgba(232, 206, 221, 0.4);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .logo-text span {
+      color: var(--primary-pink);
+    }
+    .search-bar {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      outline: none;
+      background-color: #FAFAFA;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .search-bar svg {
+      position: absolute;
+      left: 12px;
+      color: var(--text-muted);
+      width: 16px;
+      height: 16px;
+    }
+    .layout-container {
+      display: flex;
+      flex: 1;
+    }
+    aside {
+      width: 260px;
+      background: #ffffff;
+      border-right: 1px solid rgba(232, 206, 221, 0.4);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .sidebar-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding-left: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.75rem;
+      border-radius: 50px;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .sidebar-link svg {
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      background-color: var(--badge-bg);
+      color: var(--primary-pink);
+    }
+    .sidebar-link:hover svg, .sidebar-link.active svg {
+      color: var(--primary-pink);
+    }
+    .sidebar-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(232, 206, 221, 0.4);
+    }
+    .maintenance-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 36px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .3s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--primary-pink);
+    }
+    input:checked + .slider:before {
+      transform: translateX(16px);
+    }
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 0.7rem;
+      border-radius: 50px;
+      color: var(--text-dark);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    main {
+      flex: 1;
+      padding: 2.5rem;
+      overflow-y: auto;
+    }
+    .page-header {
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+    .page-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+  
+    .filter-dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+    .date-filter-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(74, 25, 66, 0.03);
+      outline: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .date-filter-btn:hover {
+      border-color: var(--primary-pink);
+      background-color: var(--badge-bg);
+      color: var(--primary-pink);
+    }
+    .filter-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: #ffffff;
+      border: 1px solid rgba(232, 206, 221, 0.6);
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.08);
+      width: 200px;
+      display: none;
+      flex-direction: column;
+      z-index: 50;
+      overflow: hidden;
+      padding: 0.4rem 0;
+    }
+    .filter-menu.show {
+      display: flex;
+    }
+    .filter-item {
+      padding: 0.65rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .filter-item:hover {
+      background-color: var(--badge-bg);
+      color: var(--primary-pink);
+    }
+    .filter-item.active {
+      background-color: var(--badge-bg);
+      color: var(--primary-pink);
+      font-weight: 700;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+      border: 1px solid rgba(232, 206, 221, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--badge-bg);
+      color: var(--primary-pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .stat-extra {
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .alert-card {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+      border: 1px solid rgba(232, 206, 221, 0.4);
+      margin-bottom: 2rem;
+    }
+    .alert-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .alert-header svg {
+      color: #d97706;
+      width: 20px;
+      height: 20px;
+    }
+    .alert-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .alert-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .alert-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .alert-product-box {
+      background: #FAFAFA;
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .alert-product-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .alert-product-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 0.75rem;
+      object-fit: cover;
+      background: var(--badge-bg);
+    }
+    .alert-product-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .alert-product-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .badge-days {
+      background-color: #d32f2f;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 50px;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+    }
+    .panel-box {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+      border: 1px solid rgba(232, 206, 221, 0.4);
+    }
+    .panel-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .panel-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+    .recent-order-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(232, 206, 221, 0.3);
+      font-size: 0.85rem;
+    }
+    .recent-order-item:last-child {
+      border-bottom: none;
+    }
+    .order-id-name {
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .order-date-client {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .status-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 50px;
+    }
+    .status-entregue { background: #fce8f3; color: #c2185b; }
+    .status-enviado { background: #fff8e1; color: #f57f17; }
+    .status-pago { background: #e8f5e9; color: #2e7d32; }
+    .chart-container {
+      height: 220px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-top: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .chart-bar-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .chart-bar {
+      width: 100%;
+      max-width: 24px;
+      background: var(--primary-pink);
+      border-radius: 6px 6px 0 0;
+    }
+    .chart-bar.light {
+      background: #F8C8DF;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo-container">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 18C8 19.6569 9.79086 21 12 21C14.2091 21 16 19.6569 16 18H8Z" fill="#E85D9E"/>
+          <path d="M12 18V10" stroke="#E85D9E" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="7" r="2" fill="#E85D9E"/>
+        </svg>
+      </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </a>
+    <div class="search-bar">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Buscar pedidos, clientes e produtos">
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <aside>
+      <div>
+        <span class="sidebar-section-title">Gestão Domingas</span>
+        <nav class="sidebar-menu">
+          <a href="visao-geral.html" class="sidebar-link active">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Visão geral
+          </a>
+          <a href="pedidos.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            Pedidos
+          </a>
+          <a href="devolucoes.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Devoluções
+          </a>
+          <a href="produtos.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            Produtos
+          </a>
+          <a href="crm.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            CRM Reposição
+          </a>
+          <a href="meuperfil.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Meu Perfil
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="maintenance-toggle">
+          <span>Modo manutenção</span>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <a href="login.html" class="logout-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sair / Logout
+        </a>
+      </div>
+    </aside>
+
+    <main>
+      <div class="page-header">
+        <div>
+          <p class="page-subtitle">Segunda-feira, 14 de setembro</p>
+          <h1 class="page-title">Bom dia, Domingas</h1>
+        </div>
+        
+        <div class="filter-dropdown-container">
+          <button class="date-filter-btn" id="filterBtn">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="currentFilterLabel">Últimos 30 dias</span>
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          
+          <div class="filter-menu" id="filterMenu">
+            <div class="filter-item" data-value="Hoje">Hoje</div>
+            <div class="filter-item" data-value="Últimos 7 dias">Últimos 7 dias</div>
+            <div class="filter-item" data-value="Este Mês">Este Mês</div>
+            <div class="filter-item active" data-value="Últimos 30 dias">Últimos 30 dias</div>
+            <div class="filter-item" data-value="Último Ano">Último Ano</div>
+            <div class="filter-item" data-value="Todo o período">Todo o período</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+          <span class="stat-label">Vendas</span>
+          <div class="stat-value">38</div>
+          <span class="stat-extra" style="color: #2e7d32;">+12% no período</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+          <span class="stat-label">Faturamento</span>
+          <div class="stat-value">R$ 5.842</div>
+          <span class="stat-extra" style="color: var(--text-muted);">Ticket médio R$ 153,74</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+          <span class="stat-label">Lucro real</span>
+          <div class="stat-value">R$ 1.946</div>
+          <span class="stat-extra" style="color: var(--text-muted);">Após custos e taxas</span>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+          <span class="stat-label">Itens em estoque</span>
+          <div class="stat-value">64</div>
+          <span class="stat-extra" style="color: #d32f2f;">6 com estoque baixo</span>
+        </div>
+      </div>
+
+      <div class="alert-card">
+        <div class="alert-header">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <div class="alert-title">Alertas de vencimento</div>
+            <div class="alert-desc">Produtos à pronta-entrega que vencem nos próximos 25 dias.</div>
+          </div>
+        </div>
+        <div class="alert-items-grid">
+          <div class="alert-product-box">
+            <div class="alert-product-info">
+              <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=200&auto=format&fit=crop" class="alert-product-img" alt="Creme">
+              <div>
+                <div class="app-product-title" style="font-size: 0.85rem; font-weight: 700; color: var(--text-dark);">Creme Acetinado Lily 250g</div>
+                <div class="alert-product-sub">5 unidades em estoque</div>
+              </div>
+            </div>
+            <span class="badge-days">18 dias</span>
+          </div>
+          <div class="alert-product-box">
+            <div class="alert-product-info">
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=200&auto=format&fit=crop" class="alert-product-img" alt="Perfume">
+              <div>
+                <div class="app-product-title" style="font-size: 0.85rem; font-weight: 700; color: var(--text-dark);">Far Away Glamour Deo Parfum 50ml</div>
+                <div class="alert-product-sub">12 unidades em estoque</div>
+              </div>
+            </div>
+            <span class="badge-days">22 dias</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="panel-box">
+          <h2 class="panel-title">Pedidos recentes</h2>
+          <p class="panel-subtitle">Acompanhe as últimas movimentações</p>
+          <div class="recent-order-item">
+            <div>
+              <div class="order-id-name">GU-1048</div>
+              <div class="order-date-client">Mariana Alves · 23 de out. de 2026</div>
+            </div>
+            <span class="status-badge status-entregue">Entregue</span>
+            <div style="font-weight: 700;">R$ 329,80</div>
+          </div>
+          <div class="recent-order-item">
+            <div>
+              <div class="order-id-name">GU-1031</div>
+              <div class="order-date-client">Mariana Alves · 25 de out. de 2026</div>
+            </div>
+            <span class="status-badge status-enviado">Enviado</span>
+            <div style="font-weight: 700;">R$ 163,04</div>
+          </div>
+          <div class="recent-order-item">
+            <div>
+              <div class="order-id-name">GU-1022</div>
+              <div class="order-date-client">Mariana Alves · 28 de out. de 2026</div>
+            </div>
+            <span class="status-badge status-pago">Pago</span>
+            <div style="font-weight: 700;">R$ 169,80</div>
+          </div>
+          <div class="recent-order-item">
+            <div>
+              <div class="order-id-name">GU-1009</div>
+              <div class="order-date-client">Mariana Alves · 05 de out. de 2026</div>
+            </div>
+            <span class="status-badge status-entregue">Entregue</span>
+            <div style="font-weight: 700;">R$ 149,90</div>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--primary-pink);">Desempenho Financeiro</span>
+              <h2 class="panel-title">Receita e lucro</h2>
+            </div>
+            <span style="font-size: 0.8rem; font-weight: 700; color: #2e7d32;">+12,4%</span>
+          </div>
+          <div class="chart-container">
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 20%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 45%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 35%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 65%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 25%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 55%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 40%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 80%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 50%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 70%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 60%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 95%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar light" style="height: 45%;"></div></div>
+            <div class="chart-bar-group"><div class="chart-bar" style="height: 85%;"></div></div>
+          </div>
+          <div style="display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted);">
+            <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="width: 8px; height: 8px; background: var(--primary-pink); border-radius: 50%;"></span> Faturamento</div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="width: 8px; height: 8px; background: #F8C8DF; border-radius: 50%;"></span> Lucro real</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+  
+    const filterBtn = document.getElementById('filterBtn');
+    const filterMenu = document.getElementById('filterMenu');
+    const currentFilterLabel = document.getElementById('currentFilterLabel');
+    const filterItems = document.querySelectorAll('.filter-item');
+
+    filterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      filterMenu.classList.toggle('show');
+    });
+
+    window.addEventListener('click', () => {
+      filterMenu.classList.remove('show');
+    });
+
+    filterItems.forEach(item => {
+      item.addEventListener('click', () => {
+        filterItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        currentFilterLabel.textContent = item.getAttribute('data-value');
+        filterMenu.classList.remove('show');
+      });
+    });
+  </script>
+
+</body>
+</html>

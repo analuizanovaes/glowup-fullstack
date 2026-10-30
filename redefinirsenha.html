@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Redefinir Senha</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --text-dark: #4A1942;
+            --text-muted: #7D6B78;
+            --primary-pink: #E85D9E;
+            --primary-hover: #D44687;
+            --badge-bg: #FCE8F3;
+            --border-color: #E8CEDD;
+            --success-green: #2e7d32;
+            --error-red: #c2185b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            box-shadow: 0 20px 50px rgba(74, 25, 66, 0.08);
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+
+        .auth-form-side {
+            padding: 3.5rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            outline: none;
+            background-color: #ffffff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-pink);
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+        }
+
+        .input-icon-wrapper svg {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .password-rules {
+            list-style: none;
+            margin-top: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .password-rules li {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+            transition: color 0.2s ease;
+        }
+
+        .password-rules li.valid {
+            color: var(--success-green);
+        }
+
+        .password-rules li.invalid {
+            color: var(--error-red);
+        }
+
+        .password-rules li::before {
+            content: '✕';
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            font-size: 0.7rem;
+            color: var(--error-red);
+        }
+
+        .password-rules li.valid::before {
+            content: '✓';
+            color: var(--success-green);
+        }
+
+        .notice-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-pink);
+            color: #ffffff;
+            border: none;
+            padding: 0.85rem 0;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            box-shadow: 0 4px 15px rgba(232, 93, 158, 0.25);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .auth-image-side {
+            background-image: url('https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+            .auth-image-side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-form-side">
+            <h2 class="section-title">Redefinir senha</h2>
+
+            <form class="form-container">
+                <div class="form-group">
+                    <label>Nova Senha</label>
+                    <div class="input-icon-wrapper">
+                        <input type="password" id="new-password" class="form-control" oninput="validatePassword(this.value)">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" onclick="togglePassword('new-password')" style="cursor: pointer;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <ul class="password-rules">
+                        <li id="rule-length">Mínimo de 8 caracteres</li>
+                        <li id="rule-upper">Uma letra maiúscula</li>
+                        <li id="rule-lower">Uma letra minúscula</li>
+                        <li id="rule-number">Um número</li>
+                        <li id="rule-special">Um símbolo especial</li>
+                    </ul>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Nova Senha</label>
+                    <div class="input-icon-wrapper">
+                        <input type="password" id="confirm-password" class="form-control">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" onclick="togglePassword('confirm-password')" style="cursor: pointer;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <p class="notice-text">Abra o link de recuperação recebido por e-mail para continuar.</p>
+
+                <button type="submit" class="btn-submit">Concluir</button>
+            </form>
+        </div>
+
+        <div class="auth-image-side"></div>
+    </div>
+
+    <footer>
+        <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+        <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Devolução</a>
+        </div>
+    </footer>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field.type === 'password') {
+                field.type = 'text';
+            } else {
+                field.type = 'password';
+            }
+        }
+
+        function validatePassword(value) {
+            const ruleLength = document.getElementById('rule-length');
+            const ruleUpper = document.getElementById('rule-upper');
+            const ruleLower = document.getElementById('rule-lower');
+            const ruleNumber = document.getElementById('rule-number');
+            const ruleSpecial = document.getElementById('rule-special');
+
+            if (value.length >= 8) {
+                ruleLength.classList.add('valid');
+                ruleLength.classList.remove('invalid');
+            } else {
+                ruleLength.classList.remove('valid');
+                if(value.length > 0) ruleLength.classList.add('invalid');
+            }
+
+            if (/[A-Z]/.test(value)) {
+                ruleUpper.classList.add('valid');
+                ruleUpper.classList.remove('invalid');
+            } else {
+                ruleUpper.classList.remove('valid');
+                if(value.length > 0) ruleUpper.classList.add('invalid');
+            }
+
+            if (/[a-z]/.test(value)) {
+                ruleLower.classList.add('valid');
+                ruleLower.classList.remove('invalid');
+            } else {
+                ruleLower.classList.remove('valid');
+                if(value.length > 0) ruleLower.classList.add('invalid');
+            }
+
+            if (/[0-9]/.test(value)) {
+                ruleNumber.classList.add('valid');
+                ruleNumber.classList.remove('invalid');
+            } else {
+                ruleNumber.classList.remove('valid');
+                if(value.length > 0) ruleNumber.classList.add('invalid');
+            }
+
+            if (/[\W_]/.test(value)) {
+                ruleSpecial.classList.add('valid');
+                ruleSpecial.classList.remove('invalid');
+            } else {
+                ruleSpecial.classList.remove('valid');
+                if(value.length > 0) ruleSpecial.classList.add('invalid');
+            }
+        }
+    </script>
+
+</body>
+</html>

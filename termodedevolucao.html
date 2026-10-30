@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Devolução - GlowUp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fffeff 0%, #f7e4ea 50%, #e2ccf3 90%);
+            background-attachment: fixed;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background-color: #ffffff;
+            width: 90%;
+            max-width: 480px;
+            padding: 30px 28px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px 15px rgba(232, 93, 158, 0.25);
+            position: relative;
+        }
+
+        .btn-fechar {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 26px;
+            height: 26px;
+            border: 1.5px solid #d880a6;
+            border-radius: 50%;
+            background: transparent;
+            color: #d880a6;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-fechar:hover {
+            background-color: #d880a6;
+            color: #ffffff;
+        }
+
+        .modal-card h2 {
+            font-size: 1.15rem;
+            color: #333333;
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .modal-card p {
+            font-size: 0.88rem;
+            color: #555555;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .modal-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-card strong {
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="modal-overlay">
+        <div class="modal-card">
+            <button class="btn-fechar" onclick="history.back()">&times;</button>
+            <h2>Política de Devolução</h2>
+            <p>Você pode solicitar a devolução em até 7 dias corridos após o recebimento.</p>
+            <p><strong>Regra sanitária:</strong> perfumes e cosméticos só podem ser devolvidos com lacre original intacto, sem sinais de uso ou violação.</p>
+            <p>A devolução poderá ocorrer por coleta com frete combinado ou entrega presencial no ponto de retirada. Após conferência, o estorno segue o meio de pagamento original.</p>
+        </div>
+    </div>
+
+</body>
+</html>

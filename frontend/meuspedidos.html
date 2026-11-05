@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Meus Pedidos</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/layouts/store-shell.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/meuspedidos.css">
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-container">
+            <div class="logo-icon">
+                <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+            </div>
+            <span class="logo-text">Glow<span>Up</span></span>
+        </a>
+
+        <div class="search-bar">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="Buscar produtos, marcas e categorias">
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Vitrine</a>
+            <a href="#">Carrinho <span class="cart-badge">0</span></a>
+            <a href="#" class="active">Pedidos</a>
+            <a href="#">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="page-title">Meus pedidos</h1>
+        <p class="page-subtitle">Acompanhe cada etapa em tempo real.</p>
+
+        <div class="orders-list">
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id">Pedido GU-1048 • 08 set 2026</div>
+                        <div class="order-items">Malbec Gold • 1 un. + Far Away Beyond • 1 un.</div>
+                    </div>
+                    <span class="status-tag">Entregue</span>
+                </div>
+                <div class="order-footer">
+                    <span class="order-price">R$ 259,80</span>
+                    <button class="btn-refund">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Solicitar Devolução
+                    </button>
+                </div>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id">Pedido GU-1031 • 29 ago 2026</div>
+                        <div class="order-items">Kit Instance Baunilha • 1 un.</div>
+                    </div>
+                    <span class="status-tag">Enviado</span>
+                </div>
+                <div class="order-footer">
+                    <span class="order-price">R$ 94,90</span>
+                </div>
+            </div>
+
+            <div class="order-card">
+                <div class="order-header">
+                    <div>
+                        <div class="order-id">Pedido GU-1022 • 17 ago 2026</div>
+                        <div class="order-items">Ekos Castanha • 2 un.</div>
+                    </div>
+                    <span class="status-tag">Pago</span>
+                </div>
+                <div class="order-footer">
+                    <span class="order-price">R$ 169,80</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Devolução</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/meus-pedidos.js"></script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Cadastrar Produto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/layouts/admin-shell.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/cadastrarprodutos.css">
+</head>
+<body>
+
+  <header>
+    <a href="#" class="logo-container">
+      <div class="logo-icon">
+                <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+            </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </a>
+    <div class="search-bar">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Buscar pedidos, clientes e produtos">
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <aside>
+      <div>
+        <span class="sidebar-section-title">Gestão Domingas</span>
+        <nav class="sidebar-menu">
+          <a href="visao-geral.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Visão geral
+          </a>
+          <a href="pedidos.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            Pedidos
+          </a>
+          <a href="devolucoes.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Devoluções
+          </a>
+          <a href="produtos.html" class="sidebar-link active">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            Produtos
+          </a>
+          <a href="crm.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            CRM Reposição
+          </a>
+          <a href="meuperfil.html" class="sidebar-link">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Meu Perfil
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="maintenance-toggle">
+          <span>Modo manutenção</span>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <a href="login.html" class="logout-btn">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+          Sair / Logout
+        </a>
+      </div>
+    </aside>
+
+    <main>
+      <!-- Modal Cadastrar Produto -->
+      <div class="modal-overlay">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h2 class="modal-title">Cadastrar produto</h2>
+            <button class="modal-close">&times;</button>
+          </div>
+
+          <div class="upload-box">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload de Imagem
+          </div>
+
+          <form style="display: flex; flex-direction: column; gap: 0.9rem;">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-input" placeholder="Nome do produto">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Marca</label>
+                <input type="text" class="form-input" placeholder="Marca">
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Data de Vencimento do Lote</label>
+                <input type="text" class="form-input" placeholder="dd / mm / aaaa">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Custo de fábrica</label>
+                <input type="text" class="form-input" placeholder="R$ 0,00">
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Preço base original</label>
+                <input type="text" class="form-input" placeholder="R$ 0,00">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tipo de Venda</label>
+                <select class="form-select">
+                  <option value="">Selecione</option>
+                  <option value="varejo">Varejo</option>
+                  <option value="kit">Kit / Presente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Modalidade</label>
+                <select class="form-select">
+                  <option value="pronta-entrega">Pronta-Entrega</option>
+                  <option value="sob-encomenda">Sob Encomenda</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quantidade em estoque</label>
+                <input type="number" class="form-input" placeholder="0">
+              </div>
+            </div>
+
+            <div class="promo-row">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider"></span>
+              </label>
+              <span>Ativar promoção</span>
+            </div>
+
+            <button type="submit" class="btn-submit">Salvar produto</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/cadastrar-produtos.js"></script>
+</body>
+</html>

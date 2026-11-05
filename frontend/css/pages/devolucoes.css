@@ -1,0 +1,85 @@
+/* Estilos exclusivos da tela: devolucoes */
+
+body {
+    background: linear-gradient(135deg, #fffeff 0%, #fffeff 50%, #e2ccf3 90%);
+    background-attachment: fixed;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.empty-state-box {
+    background: #ffffff;
+    border-radius: 1.5rem;
+    padding: 3rem;
+    text-align: center;
+    border: 1px solid rgba(232, 206, 221, 0.4);
+    box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Solicitações de devolução (renderizadas pelo JavaScript) */
+.return-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.return-card {
+    background: #ffffff;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(232, 206, 221, 0.4);
+    box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.return-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    color: var(--text-dark);
+}
+
+.return-meta,
+.return-reason {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+}
+
+.return-items {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-top: 0.5rem;
+}
+
+.return-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+    .return-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .return-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}

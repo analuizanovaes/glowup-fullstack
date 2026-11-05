@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Pagamento Pix</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/pagamento-pix.css">
+</head>
+<body>
+
+  <div class="pix-card">
+    <div class="card-logo">
+      <div class="logo-icon">
+                <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+            </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </div>
+
+    <div class="pix-header">
+      <h1>Pagamento via Pix</h1>
+      <p>Escaneie o QR Code abaixo ou copie o código Pix para finalizar.</p>
+    </div>
+
+    <div class="qrcode-box">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM14.25 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h1.5v-1.5H6v1.5zM6 17.25h1.5v-1.5H6v1.5zM16.5 7.5H18v-1.5h-1.5V7.5zM14.5 14.25h1.5v1.5h-1.5v-1.5zM18.75 14.25h1.5v1.5h-1.5v-1.5zM14.25 18.75h1.5v1.5h-1.5v-1.5z"></path>
+      </svg>
+      <span>QR Code Pix</span>
+    </div>
+
+    <div class="pix-copy-section">
+      <input type="text" class="pix-copy-input" value="00020126580014br.gov.bcb.pix..." readonly>
+      <button class="btn-copy">Copiar</button>
+    </div>
+
+    <button class="btn-pay">Efetuar pagamento</button>
+  </div>
+
+  <footer>
+    <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+    <div style="margin-top: 0.3rem;">
+      <a href="#">Termos de Uso</a> &bull; <a href="#">Política de Devolução</a>
+    </div>
+  </footer>
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/pagamento-pix.js"></script>
+</body>
+</html>

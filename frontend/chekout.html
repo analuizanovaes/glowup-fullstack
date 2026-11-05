@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Checkout</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/layouts/store-shell.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/order-summary.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/chekout.css">
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo-container">
+            <div class="logo-icon">
+                <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+            </div>
+            <span class="logo-text">Glow<span>Up</span></span>
+        </a>
+
+        <div class="search-bar">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input type="text" placeholder="Buscar produtos, marcas e categorias">
+        </div>
+
+        <nav class="nav-links">
+            <a href="#">Vitrine</a>
+            <a href="#" class="active">Carrinho <span class="cart-badge">0</span></a>
+            <a href="#">Pedidos</a>
+            <a href="#">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="checkout-layout">
+            <div>
+                <div class="step-header">
+                    <span class="step-number">1</span>
+                    <h2 class="step-title">Como você quer receber?</h2>
+                </div>
+
+                <div class="delivery-options">
+                    <div class="option-card selected">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        <div class="option-info">
+                            <h4>Entrega em Casa</h4>
+                            <p>Itapoã/Paranoá • R$ 10,00</p>
+                        </div>
+                        <div class="radio-dot"></div>
+                    </div>
+
+                    <div class="option-card">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                        <div class="option-info">
+                            <h4>Retirada no Local</h4>
+                            <p>Grátis • Combine o horário</p>
+                        </div>
+                        <div class="radio-dot"></div>
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>CEP</label>
+                            <input type="text" class="form-control" placeholder="00000-000">
+                            <p class="notice-text">Atenção: Entregas domiciliares exclusivas para Itapoã e Paranoá. Para outras regiões, incluindo Itapoã Parque e Paranoá Parque, selecione Retirada no Local.</p>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Número</label>
+                            <input type="text" class="form-control" placeholder="Número da residência">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rua</label>
+                            <input type="text" class="form-control" placeholder="Nome da rua">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Bairro</label>
+                            <input type="text" class="form-control" placeholder="Seu bairro">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Complemento</label>
+                            <input type="text" class="form-control" placeholder="Opcional">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cidade/UF</label>
+                            <input type="text" class="form-control" value="Brasília/DF">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-header">
+                    <span class="step-number">2</span>
+                    <h2 class="step-title">Pagamento</h2>
+                </div>
+
+                <div class="payment-options">
+                    <div class="option-card selected">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <div class="option-info">
+                            <h4>Pix</h4>
+                            <p>Preço oficial, sem acréscimo</p>
+                        </div>
+                        <div class="radio-dot"></div>
+                    </div>
+
+                    <div class="option-card">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                        <div class="option-info">
+                            <h4>Cartão de Crédito</h4>
+                            <p>Até 3x com juros da operadora</p>
+                        </div>
+                        <div class="radio-dot"></div>
+                    </div>
+                </div>
+
+                <div id="card-form-box" class="form-box card-details-box">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Número do Cartão</label>
+                            <input type="text" class="form-control" placeholder="0000 0000 0000 0000">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nome do Titular</label>
+                            <input type="text" class="form-control" placeholder="Como impresso no cartão">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Validade</label>
+                            <input type="text" class="form-control" placeholder="MM/AA">
+                        </div>
+
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" class="form-control" placeholder="123">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>CPF do Titular</label>
+                            <input type="text" class="form-control" placeholder="000.000.000-00">
+                            <p class="notice-text">Exclusivo para o gateway antifraude Mercado Pago (não será salvo)</p>
+                        </div>
+                    </div>
+
+                    <div class="alert-interest-box">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div>
+                            <h5>Juros da operadora</h5>
+                            <p>Os juros e taxas do parcelamento são repassados ao comprador e aparecem antes da confirmação.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Parcelas</label>
+                        <select class="select-control">
+                            <option>1x de R$ 10,00</option>
+                            <option>2x de R$ 5,00 + juros</option>
+                            <option>3x de R$ 3,33 + juros</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <aside class="summary-card">
+                <h2 class="summary-title">Seu pedido</h2>
+
+                <div class="coupon-container">
+                    <input type="text" class="coupon-input" placeholder="Inserir Cupom de Desconto">
+                    <button class="btn-apply">Aplicar</button>
+                </div>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>R$ 0,00</span>
+                </div>
+
+                <div class="summary-row">
+                    <span>Frete</span>
+                    <span>R$ 10,00</span>
+                </div>
+
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span>R$ 10,00</span>
+                </div>
+
+                <button class="btn-submit-order">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Confirmar pedido
+                </button>
+
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+            <div class="footer-links">
+                <a href="#">Termos de Uso</a>
+                <a href="#">Política de Devolução</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/checkout.js"></script>
+</body>
+</html>

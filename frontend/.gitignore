@@ -1,0 +1,9 @@
+# Configurações do VS Code e Editores
+.vscode/
+.idea/
+*.code-workspace
+
+# Arquivos de Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini

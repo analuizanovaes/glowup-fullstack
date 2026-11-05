@@ -1,0 +1,111 @@
+/* Estilos exclusivos da tela: meuperfil */
+
+body {
+    background: linear-gradient(135deg, #fffeff 0%, #fffeff 50%, #e2ccf3 90%);
+    background-attachment: fixed;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.profile-card {
+    background: #ffffff;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    border: 1px solid rgba(232, 206, 221, 0.5);
+    box-shadow: 0 10px 25px rgba(74, 25, 66, 0.04);
+    max-width: 600px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-input {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    font-size: 0.85rem;
+    outline: none;
+    background-color: #FAFAFA;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+}
+
+.form-input:focus {
+    border-color: var(--primary-pink);
+}
+
+.btn-primary {
+    background-color: var(--primary-pink);
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(232, 93, 158, 0.3);
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Responsivo: tablet e mobile */
+@media (max-width: 768px) {
+    .profile-card {
+        max-width: none;
+        padding: 1.5rem;
+    }
+
+    .form-input {
+        min-height: 44px;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        min-height: 48px;
+    }
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        padding: 1.25rem;
+        border-radius: 1.25rem;
+    }
+}

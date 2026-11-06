@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowUp - Crie sua conta</title>
+    
+    <link rel="icon" type="image/svg+xml" href="assets/img/logo-flor.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/layouts/auth-shell.css">
+    <link rel="stylesheet" href="css/components/auth-tabs.css">
+    <link rel="stylesheet" href="css/components/password-rules.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/cadastro.css">
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-form-side">
+            <a href="#" class="logo-container">
+                <div class="logo-icon">
+                    <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+                </div>
+                <span class="logo-text">Glow<span>Up</span></span>
+            </a>
+
+            <h1 class="auth-title">Sua beleza, do seu jeito.</h1>
+            <p class="auth-subtitle">Acesse a curadoria da Domingas com segurança.</p>
+
+            <div class="tab-switch">
+                <a href="#" class="tab-btn">Entrar</a>
+                <a href="#" class="tab-btn active">Cadastrar</a>
+            </div>
+
+            <h2 class="section-title">Crie sua conta</h2>
+            <p class="section-subtitle">Somente os dados necessários. CPF não é solicitado.</p>
+
+            <form class="form-container">
+                <div class="form-group">
+                    <label>Nome completo</label>
+                    <input type="text" class="form-control" placeholder="Como você quer ser chamada">
+                </div>
+
+                <div class="form-group">
+                    <label>Data de nascimento</label>
+                    <div class="input-icon-wrapper">
+                        <input type="text" class="form-control" placeholder="dd / mm / aaaa">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" placeholder="voce@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Telefone</label>
+                    <input type="text" class="form-control" placeholder="(61) 99999-9999">
+                    <button type="button" class="btn-add-phone">+ Adicionar outro número</button>
+                </div>
+
+                <div class="form-group form-group--full">
+                    <label>Senha</label>
+                    <div class="input-icon-wrapper">
+                        <!-- Campo de senha com ID e evento de validação -->
+                        <input type="password" id="password-input" class="form-control">
+                        
+                        <!-- Ícone de olho interativo -->
+                        <svg id="eye-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="cursor: pointer;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <ul class="password-rules">
+                        <li id="rule-length">Mínimo de 8 caracteres</li>
+                        <li id="rule-upper">Uma letra maiúscula</li>
+                        <li id="rule-lower">Uma letra minúscula</li>
+                        <li id="rule-number">Um número</li>
+                        <li id="rule-special">Um símbolo especial</li>
+                    </ul>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">Declaro que sou maior de 18 anos e li os <a href="#">Termos de Uso</a>.</label>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar conta</button>
+            </form>
+        </div>
+
+        <div class="auth-image-side">
+            <img src="assets/img/pexels-n-voitkevich-8558526.jpg" alt="make">
+        </div>
+        
+    </div>
+
+    <footer>
+        <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+        <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Devolução</a>
+        </div>
+    </footer>
+
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/cadastro.js"></script>
+</body>
+</html>

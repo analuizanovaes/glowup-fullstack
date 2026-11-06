@@ -1,0 +1,502 @@
+/* Avisos e janelas do GlowUp: toasts, diálogos, erros de campo e estados vazios.
+   Todas as classes começam com "gu-" para não colidir com os estilos das telas. */
+
+/* ---------- Toasts ---------- */
+.gu-toast-stack {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(380px, calc(100vw - 2rem));
+    pointer-events: none;
+}
+
+.gu-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 1.1rem;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 14px 34px rgba(74, 25, 66, 0.14);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.gu-toast.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.gu-toast.is-leaving {
+    opacity: 0;
+    transform: translateX(24px);
+}
+
+.gu-toast-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--badge-bg);
+    color: var(--primary-pink);
+}
+
+.gu-toast-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.gu-toast-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.gu-toast-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.gu-toast-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    margin-top: 0.1rem;
+}
+
+.gu-toast-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.65rem;
+}
+
+.gu-toast-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1.15rem;
+    line-height: 1;
+    padding: 0.1rem 0.25rem;
+    border-radius: 50%;
+}
+
+.gu-toast-close:hover {
+    color: var(--primary-pink);
+}
+
+.gu-toast-progress {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background: var(--primary-pink);
+    opacity: 0.5;
+    transform-origin: left;
+    animation: gu-progress linear forwards;
+}
+
+@keyframes gu-progress {
+    from { transform: scaleX(1); }
+    to { transform: scaleX(0); }
+}
+
+.gu-toast--success .gu-toast-icon { background: #e8f5e9; color: #2e7d32; }
+.gu-toast--success .gu-toast-progress { background: #2e7d32; }
+.gu-toast--error .gu-toast-icon { background: #fdeaf1; color: #c2185b; }
+.gu-toast--error .gu-toast-progress { background: #c2185b; }
+.gu-toast--warning .gu-toast-icon { background: #fff8e1; color: #f57f17; }
+.gu-toast--warning .gu-toast-progress { background: #f57f17; }
+
+/* ---------- Diálogos ---------- */
+.gu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    background: rgba(74, 25, 66, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    opacity: 0;
+    transition: opacity 0.22s ease;
+}
+
+.gu-overlay.is-visible {
+    opacity: 1;
+}
+
+.gu-dialog {
+    background: #ffffff;
+    border-radius: 1.6rem;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 2.5rem);
+    overflow-y: auto;
+    padding: 1.9rem 1.9rem 1.6rem;
+    box-shadow: 0 24px 60px rgba(74, 25, 66, 0.22);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    transform: translateY(18px) scale(0.98);
+    transition: transform 0.25s ease;
+    position: relative;
+}
+
+.gu-overlay.is-visible .gu-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.gu-dialog--wide { max-width: 620px; }
+
+.gu-dialog-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--badge-bg);
+    color: var(--primary-pink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.gu-dialog-icon svg { width: 26px; height: 26px; }
+.gu-dialog-icon.is-danger { background: #fdeaf1; color: #c2185b; }
+.gu-dialog-icon.is-success { background: #e8f5e9; color: #2e7d32; }
+
+.gu-dialog-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+}
+
+.gu-dialog-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.gu-dialog-text strong { color: var(--text-dark); }
+
+.gu-dialog-body { margin-top: 1rem; }
+
+.gu-dialog-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.gu-dialog-close:hover { color: var(--primary-pink); }
+
+.gu-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.6rem;
+}
+
+/* ---------- Botões dos avisos ---------- */
+.gu-btn {
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+    color: var(--text-dark);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gu-btn:hover {
+    border-color: var(--primary-pink);
+    color: var(--primary-pink);
+}
+
+.gu-btn--primary {
+    background: var(--primary-pink);
+    border-color: var(--primary-pink);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(232, 93, 158, 0.28);
+}
+
+.gu-btn--primary:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+.gu-btn--danger {
+    background: #c2185b;
+    border-color: #c2185b;
+    color: #ffffff;
+}
+
+.gu-btn--danger:hover {
+    background: #a3134b;
+    border-color: #a3134b;
+    color: #ffffff;
+}
+
+.gu-btn--sm {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.95rem;
+}
+
+.gu-btn[disabled], .gu-btn.is-loading {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ---------- Campos dentro dos diálogos ---------- */
+.gu-field { margin-bottom: 0.95rem; }
+
+.gu-field label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    color: var(--text-dark);
+}
+
+.gu-input, .gu-textarea, .gu-select {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-dark);
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.gu-input { border-radius: 50px; }
+.gu-select { border-radius: 50px; }
+.gu-textarea { resize: vertical; min-height: 84px; }
+
+.gu-input:focus, .gu-textarea:focus, .gu-select:focus {
+    border-color: var(--primary-pink);
+}
+
+.gu-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 0.9rem;
+}
+
+.gu-check {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.gu-check input {
+    accent-color: var(--primary-pink);
+    margin-top: 2px;
+}
+
+/* ---------- Detalhes (listas dentro de diálogos) ---------- */
+.gu-detail-list {
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    font-size: 0.82rem;
+}
+
+.gu-detail-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0.95rem;
+    border-bottom: 1px solid rgba(232, 206, 221, 0.45);
+}
+
+.gu-detail-row:last-child { border-bottom: none; }
+.gu-detail-row span:first-child { color: var(--text-muted); }
+.gu-detail-row span:last-child { font-weight: 700; text-align: right; }
+.gu-detail-row.is-total { background: #fdf4f9; }
+.gu-detail-row.is-total span { color: var(--text-dark); font-size: 0.95rem; }
+.gu-detail-row.is-profit span:last-child { color: #2e7d32; }
+
+.gu-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--primary-pink);
+    margin: 1.1rem 0 0.45rem;
+}
+
+.gu-legal p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.gu-legal strong { color: var(--text-dark); }
+
+/* ---------- Erros de formulário ---------- */
+.has-error,
+.has-error:focus {
+    border-color: #c2185b !important;
+    box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.08);
+}
+
+.gu-field-error {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #c2185b;
+    margin-top: 0.3rem;
+    padding-left: 0.5rem;
+    animation: gu-fade 0.2s ease;
+}
+
+@keyframes gu-fade {
+    from { opacity: 0; transform: translateY(-3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.gu-shake { animation: gu-shake 0.35s ease; }
+
+@keyframes gu-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ---------- Estados ---------- */
+.gu-empty {
+    background: #ffffff;
+    border: 1px dashed var(--border-color);
+    border-radius: 1.5rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    grid-column: 1 / -1;
+}
+
+.gu-empty small {
+    display: block;
+    margin-top: 0.35rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.gu-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: -3px;
+    margin-right: 0.5rem;
+    animation: gu-spin 0.7s linear infinite;
+}
+
+@keyframes gu-spin { to { transform: rotate(360deg); } }
+
+.gu-processing {
+    text-align: center;
+    padding: 0.5rem 0 0.25rem;
+}
+
+.gu-processing .gu-bloom {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    animation: gu-spin 2.4s linear infinite;
+}
+
+@media (max-width: 600px) {
+    .gu-toast-stack {
+        top: auto;
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
+    }
+    .gu-grid-2 { grid-template-columns: 1fr; }
+    .gu-dialog { padding: 1.5rem 1.25rem 1.25rem; }
+}
+
+/* Responsivo: tablet e mobile */
+@media (max-width: 768px) {
+    .gu-btn {
+        min-height: 44px;
+    }
+
+    .gu-input,
+    .gu-select {
+        min-height: 44px;
+        font-size: 1rem;
+    }
+
+    .gu-textarea {
+        font-size: 1rem;
+    }
+
+    .gu-check {
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .gu-dialog-close,
+    .gu-toast-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .gu-dialog-close {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gu-dialog-actions > .gu-btn {
+        flex: 1 1 auto;
+    }
+}

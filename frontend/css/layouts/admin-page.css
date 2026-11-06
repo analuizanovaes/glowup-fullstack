@@ -1,0 +1,49 @@
+/* Estrutura de página interna do painel administrativo (conteúdo principal e cabeçalho). */
+
+main {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Responsivo: tablet e mobile */
+@media (max-width: 1024px) {
+    .layout-container > main {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout-container > main {
+        order: 2;
+        flex: 1 1 auto;
+        min-width: 0;
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .layout-container .page-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .page-title {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.4rem;
+    }
+}

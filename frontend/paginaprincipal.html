@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlowUp - Seu ritual de beleza, mais perto.</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo-flor.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo-flor.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/base/variables.css">
+    <link rel="stylesheet" href="css/base/reset.css">
+    <link rel="stylesheet" href="css/components/footer.css">
+    <link rel="stylesheet" href="css/components/logo.css">
+    <link rel="stylesheet" href="css/components/feedback.css">
+    <link rel="stylesheet" href="css/pages/paginaprincipal.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">
+                <img src="assets/img/logo-flor.svg" alt="Flor GlowUp">
+            </div>
+      <span class="logo-text">Glow<span>Up</span></span>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-grid">
+      
+      <div class="hero-content">
+        
+        <div class="badge-top">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#E85D9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+            <path d="M20 3L20.8 5.2L23 6L20.8 6.8L20 9L19.2 6.8L17 6L19.2 5.2L20 3Z" fill="#E85D9E" stroke="none"/>
+          </svg>
+          <span>Beleza escolhida com carinho</span>
+        </div>
+
+        <h1 class="main-title">
+          Seu ritual de<br>beleza, mais perto.
+        </h1>
+
+        <p class="main-subtitle">
+          Produtos Natura, O Boticário, Eudora e Avon com atendimento pessoal da Domingas, entrega local ou retirada.
+        </p>
+
+        <div class="button-group">
+          <button class="btn-primary">
+            <span>Entrar</span>
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </button>
+          <button class="btn-secondary">
+            Cadastrar
+          </button>
+        </div>
+
+      </div>
+
+      <div class="mosaic-grid">
+        
+        <div class="mosaic-card-tall">
+          <img 
+            src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop" 
+            alt="Perfume e creme"
+          />
+        </div>
+
+        <div class="mosaic-right-column">
+          <div class="mosaic-card-square">
+            <img 
+              src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=800&auto=format&fit=crop" 
+              alt="Skincare"
+            />
+          </div>
+
+          <div class="curation-card">
+            <span class="curation-tag">REVENDEDORA DOMINGAS</span>
+            <h2 class="curation-title">Escolhas para todos os estilos.</h2>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>Este é um trabalho puramente acadêmico para um cliente real. Todos os direitos de imagem dos produtos pertencem exclusivamente às marcas Natura, O Boticário, Avon e Eudora.</p>
+      <div class="footer-links">
+        <a href="#">Termos de Uso</a>
+        <a href="#">Política de Devolução</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal-overlay" id="termsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Termos de Uso do GlowUp</h2>
+        <button class="modal-close-btn" aria-label="Fechar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>O GlowUp é um protótipo acadêmico criado para apoiar a revendedora Domingas. Ao usar a plataforma, você declara ter 18 anos ou mais.</p>
+        <p>Por privacidade e minimização de dados, <strong>não coletamos nem armazenamos CPF</strong>. São usados apenas os dados necessários para conta, contato e entrega.</p>
+        <p>A entrega em casa é restrita a Itapoã e Paranoá, DF. Paranoá Parque, Itapoã Parque e endereços fora da área devem usar Retirada Grátis.</p>
+        <p>O aceite destes termos é registrado com data e hora. Pagamentos deste protótipo são simulações acadêmicas.</p>
+      </div>
+    </div>
+  </div>
+
+    <script src="js/core/config.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/legal.js"></script>
+    <script src="js/core/ui.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/layout.js"></script>
+    <script src="js/pages/pagina-principal.js"></script>
+</body>
+</html>

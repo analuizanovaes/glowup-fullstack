@@ -1,0 +1,75 @@
+/* Estrutura de página interna do painel administrativo (conteúdo principal e cabeçalho). */
+
+main {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Rodapé (Termos de Uso e Política de Devolução) */
+.admin-footer {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(232, 206, 221, 0.5);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.admin-footer .footer-links {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.4rem;
+}
+
+.admin-footer .footer-links a {
+    color: var(--text-muted);
+    text-decoration: underline;
+}
+
+.admin-footer .footer-links a:hover {
+    color: var(--text-dark);
+}
+
+/* Responsivo: tablet e mobile */
+@media (max-width: 1024px) {
+    .layout-container > main {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout-container > main {
+        order: 2;
+        flex: 1 1 auto;
+        min-width: 0;
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .layout-container .page-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .page-title {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.4rem;
+    }
+}

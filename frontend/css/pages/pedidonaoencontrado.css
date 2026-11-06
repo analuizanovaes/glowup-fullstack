@@ -1,0 +1,5 @@
+/* Estilos exclusivos da tela: pedidonaoencontrado */
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}

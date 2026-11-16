@@ -40,7 +40,7 @@
       <div>
         <span class="sidebar-section-title">Gestão Domingas</span>
         <nav class="sidebar-menu">
-          <a href="visao-geral.html" class="sidebar-link active">
+          <a href="visaogeral.html" class="sidebar-link active">
             <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             Visão geral
           </a>
@@ -111,30 +111,30 @@
         <div class="stat-card">
           <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
           <span class="stat-label">Vendas</span>
-          <div class="stat-value">38</div>
-          <span class="stat-extra" style="color: #2e7d32;">+12% no período</span>
+          <div class="stat-value">—</div>
+          <span class="stat-extra"></span>
         </div>
         <div class="stat-card">
           <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
           <span class="stat-label">Faturamento</span>
-          <div class="stat-value">R$ 5.842</div>
-          <span class="stat-extra" style="color: var(--text-muted);">Ticket médio R$ 153,74</span>
+          <div class="stat-value">—</div>
+          <span class="stat-extra"></span>
         </div>
         <div class="stat-card">
           <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
           <span class="stat-label">Lucro real</span>
-          <div class="stat-value">R$ 1.946</div>
-          <span class="stat-extra" style="color: var(--text-muted);">Após custos e taxas</span>
+          <div class="stat-value">—</div>
+          <span class="stat-extra"></span>
         </div>
         <div class="stat-card">
           <div class="stat-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
           <span class="stat-label">Itens em estoque</span>
-          <div class="stat-value">64</div>
-          <span class="stat-extra" style="color: #d32f2f;">6 com estoque baixo</span>
+          <div class="stat-value">—</div>
+          <span class="stat-extra"></span>
         </div>
       </div>
 
-      <div class="alert-card">
+      <div class="alert-card" style="display:none">
         <div class="alert-header">
           <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <div>
@@ -142,66 +142,13 @@
             <div class="alert-desc">Produtos à pronta-entrega que vencem nos próximos 25 dias.</div>
           </div>
         </div>
-        <div class="alert-items-grid">
-          <div class="alert-product-box">
-            <div class="alert-product-info">
-              <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=200&auto=format&fit=crop" class="alert-product-img" alt="Creme">
-              <div>
-                <div class="app-product-title" style="font-size: 0.85rem; font-weight: 700; color: var(--text-dark);">Creme Acetinado Lily 250g</div>
-                <div class="alert-product-sub">5 unidades em estoque</div>
-              </div>
-            </div>
-            <span class="badge-days">18 dias</span>
-          </div>
-          <div class="alert-product-box">
-            <div class="alert-product-info">
-              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=200&auto=format&fit=crop" class="alert-product-img" alt="Perfume">
-              <div>
-                <div class="app-product-title" style="font-size: 0.85rem; font-weight: 700; color: var(--text-dark);">Far Away Glamour Deo Parfum 50ml</div>
-                <div class="alert-product-sub">12 unidades em estoque</div>
-              </div>
-            </div>
-            <span class="badge-days">22 dias</span>
-          </div>
-        </div>
+        <div class="alert-items-grid"></div>
       </div>
 
       <div class="dashboard-grid">
         <div class="panel-box">
           <h2 class="panel-title">Pedidos recentes</h2>
           <p class="panel-subtitle">Acompanhe as últimas movimentações</p>
-          <div class="recent-order-item">
-            <div>
-              <div class="order-id-name">GU-1048</div>
-              <div class="order-date-client">Mariana Alves · 23 de out. de 2026</div>
-            </div>
-            <span class="status-badge status-entregue">Entregue</span>
-            <div style="font-weight: 700;">R$ 329,80</div>
-          </div>
-          <div class="recent-order-item">
-            <div>
-              <div class="order-id-name">GU-1031</div>
-              <div class="order-date-client">Mariana Alves · 25 de out. de 2026</div>
-            </div>
-            <span class="status-badge status-enviado">Enviado</span>
-            <div style="font-weight: 700;">R$ 163,04</div>
-          </div>
-          <div class="recent-order-item">
-            <div>
-              <div class="order-id-name">GU-1022</div>
-              <div class="order-date-client">Mariana Alves · 28 de out. de 2026</div>
-            </div>
-            <span class="status-badge status-pago">Pago</span>
-            <div style="font-weight: 700;">R$ 169,80</div>
-          </div>
-          <div class="recent-order-item">
-            <div>
-              <div class="order-id-name">GU-1009</div>
-              <div class="order-date-client">Mariana Alves · 05 de out. de 2026</div>
-            </div>
-            <span class="status-badge status-entregue">Entregue</span>
-            <div style="font-weight: 700;">R$ 149,90</div>
-          </div>
         </div>
 
         <div class="panel-box">
@@ -210,24 +157,9 @@
               <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--primary-pink);">Desempenho Financeiro</span>
               <h2 class="panel-title">Receita e lucro</h2>
             </div>
-            <span style="font-size: 0.8rem; font-weight: 700; color: #2e7d32;">+12,4%</span>
+            <span id="trendBadge" style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">—</span>
           </div>
-          <div class="chart-container">
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 20%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 45%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 35%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 65%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 25%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 55%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 40%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 80%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 50%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 70%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 60%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 95%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar light" style="height: 45%;"></div></div>
-            <div class="chart-bar-group"><div class="chart-bar" style="height: 85%;"></div></div>
-          </div>
+          <div class="chart-container"></div>
           <div style="display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted);">
             <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="width: 8px; height: 8px; background: var(--primary-pink); border-radius: 50%;"></span> Faturamento</div>
             <div style="display: flex; align-items: center; gap: 0.4rem;"><span style="width: 8px; height: 8px; background: #F8C8DF; border-radius: 50%;"></span> Lucro real</div>
@@ -250,6 +182,7 @@
     <script src="js/core/utils.js"></script>
     <script src="js/core/legal.js"></script>
     <script src="js/core/ui.js"></script>
+    <script src="js/core/api.js"></script>
     <script src="js/core/store.js"></script>
     <script src="js/core/layout.js"></script>
     <script src="js/pages/visao-geral.js"></script>

@@ -15,7 +15,7 @@ GlowUp.ready(function () {
     U.$('.forgot-link').setAttribute('href', R.recover);
     UI.bindPasswordToggle(U.$('.toggle-password'), password);
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
         UI.clearErrors(form);
         let ok = true;
@@ -24,8 +24,14 @@ GlowUp.ready(function () {
         if (!ok) { UI.focusFirstError(form); return; }
 
         UI.setLoading(submit, true, 'Entrando...');
-        setTimeout(function () {
-            const res = S.login(email.value, password.value);
+        let wakeProc = null;
+        const res = await S.login(email.value, password.value, {
+            onWaiting: (attempt) => {
+                if (!wakeProc) wakeProc = UI.processing('Acordando o servidor', 'Estamos iniciando nosso servidor seguro para entrar...');
+                else wakeProc.setText(`Ainda acordando o servidor... tentativa ${attempt} de 4.`);
+            }
+        });
+        if (wakeProc) wakeProc.close();
             if (!res.ok) {
                 UI.setLoading(submit, false);
                 UI.setError(password, res.message);
@@ -34,9 +40,9 @@ GlowUp.ready(function () {
                 UI.toast(res.message, { type: 'error', title: 'Não foi possível entrar' });
                 return;
             }
-            UI.flash(`Que bom ver você, ${U.firstName(res.user.nome)}!`, { type: 'success', title: 'Login efetuado' });
+            UI.flash(`Que bom ver você, ${U.firstName(res.user ? res.user.nome : '')}!`, { type: 'success', title: 'Login efetuado' });
             const next = U.query('next');
-            location.href = res.user.role === 'ADMIN' ? R.dashboard : (next || R.store);
-        }, 450);
+            const perfil = res.user && (res.user.perfil || res.user.role);
+            location.href = perfil === 'ADMIN' ? R.dashboard : (next || R.store);
     });
 });

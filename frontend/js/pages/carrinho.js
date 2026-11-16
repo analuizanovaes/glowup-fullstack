@@ -1,5 +1,5 @@
 /* Tela: carrinho.html */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, layout: L, config: C } = GlowUp;
     const R = C.routes;
     const esc = U.escapeHtml;
@@ -80,11 +80,11 @@ GlowUp.ready(function () {
         if (act === 'remove') {
             const ok = await UI.confirm({ title: 'Remover item?', message: `"${line.produto.nome}" sairá da sua sacola.`, confirmText: 'Remover', danger: true });
             if (!ok) return;
-            S.cartRemove(id); render();
+            await S.cartRemove(id); render();
             UI.toast('Item removido da sacola.', { type: 'info', title: 'Sacola' });
             return;
         }
-        const res = S.cartSetQty(id, line.qtd + (act === 'inc' ? 1 : -1));
+        const res = await S.cartSetQty(id, line.qtd + (act === 'inc' ? 1 : -1));
         if (!res.ok && res.message) UI.toast(res.message, { type: 'warning', title: 'Estoque' });
         render();
     });
@@ -92,13 +92,13 @@ GlowUp.ready(function () {
     clearBtn.addEventListener('click', async function () {
         const ok = await UI.confirm({ title: 'Esvaziar carrinho?', message: 'Todos os itens serão removidos da sua sacola.', confirmText: 'Esvaziar', danger: true });
         if (!ok) return;
-        S.cartClear(); render();
+        await S.cartClear(); render();
         UI.toast('Sua sacola está vazia.', { type: 'info', title: 'Carrinho esvaziado' });
     });
 
-    function applyCoupon() {
+    async function applyCoupon() {
         if (couponInput.disabled) return;
-        const res = S.applyCoupon(couponInput.value);
+        const res = await S.applyCoupon(couponInput.value);
         if (!res.ok) { UI.toast(res.message, { type: 'error', title: 'Cupom' }); couponInput.classList.add('has-error'); return; }
         couponInput.classList.remove('has-error');
         render();
@@ -119,6 +119,7 @@ GlowUp.ready(function () {
         if (bad) { e.preventDefault(); UI.toast(`Ajuste "${bad.produto.nome}": o estoque mudou.`, { type: 'warning', title: 'Estoque' }); }
     });
 
+    await S.cart().catch(() => null);
     S.cartReconcile().forEach(m => UI.toast(m, { type: 'warning', title: 'Sua sacola mudou' }));
     render();
 });

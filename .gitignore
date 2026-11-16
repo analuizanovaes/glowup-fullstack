@@ -1,0 +1,10 @@
+# Segredos e ambiente local — nunca versionar
+.env
+*.local
+
+# Java / Maven
+api/target/
+*.class
+
+# Node
+node_modules/

@@ -14,26 +14,17 @@ GlowUp.ready(function () {
     tabs[1].setAttribute('href', R.signup);
     U.$('.logo-container').setAttribute('href', R.landing);
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
         UI.clearErrors(form);
         if (!U.isEmail(email.value)) { UI.setError(email, 'Informe o e-mail da sua conta.'); email.focus(); return; }
         UI.setLoading(btn, true, 'Enviando...');
-        setTimeout(function () {
-            UI.setLoading(btn, false);
-            const res = S.requestPasswordReset(email.value);
-            // Mensagem neutra: não revela se o e-mail existe.
-            const goReset = { label: 'Digitar o código', onClick: () => { location.href = R.reset; } };
-            if (res.found) {
-                // Protótipo: sem servidor de e-mail, o código que seria enviado aparece neste aviso.
-                UI.toast('Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos. Neste protótipo, seu código é ' + res.otp + '.', {
-                    type: 'success', title: 'Verifique seu e-mail', duration: 0, actions: [goReset]
-                });
-            } else {
-                UI.toast('Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos em instantes.', {
-                    type: 'info', title: 'Verifique seu e-mail', duration: 0, actions: [goReset]
-                });
-            }
-        }, 600);
+        const res = await S.requestPasswordReset(email.value);
+        UI.setLoading(btn, false);
+        // Mensagem neutra: não revela se o e-mail existe.
+        const goReset = { label: 'Digitar o código', onClick: () => { location.href = R.reset + '?email=' + encodeURIComponent(email.value); } };
+        UI.toast('Se o e-mail estiver cadastrado, você receberá um código de 6 dígitos em instantes.', {
+            type: 'info', title: 'Verifique seu e-mail', duration: 0, actions: [goReset]
+        });
     });
 });

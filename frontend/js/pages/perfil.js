@@ -1,5 +1,5 @@
 /* Tela: perfil.html (perfil da cliente) */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, layout: L } = GlowUp;
     const esc = U.escapeHtml;
     const user = S.currentUser();
@@ -63,10 +63,10 @@ GlowUp.ready(function () {
         if (act && act.dataset.act === 'edit') { addressDialog(fresh().enderecos.find(a => a.id === id)); return; }
         if (act && act.dataset.act === 'remove') {
             const ok = await UI.confirm({ title: 'Remover endereço?', message: 'Esse endereço deixará de aparecer no checkout.', confirmText: 'Remover', danger: true });
-            if (ok) { S.removeAddress(user.id, id); renderAddresses(); UI.toast('Endereço removido.', { type: 'info' }); }
+            if (ok) { await S.removeAddress(user.id, id); renderAddresses(); UI.toast('Endereço removido.', { type: 'info' }); }
             return;
         }
-        S.setDefaultAddress(user.id, id);
+        await S.setDefaultAddress(user.id, id);
         renderAddresses();
         UI.toast('Esse será o endereço padrão das suas entregas.', { type: 'success', title: 'Endereço padrão' });
     });
@@ -101,7 +101,7 @@ GlowUp.ready(function () {
             title: existing ? 'Editar endereço' : 'Novo endereço', node,
             actions: [
                 { label: 'Cancelar', value: false },
-                { label: 'Salvar endereço', primary: true, value: true, onClick: () => {
+                { label: 'Salvar endereço', primary: true, value: true, onClick: async () => {
                     let ok = true;
                     node.querySelectorAll('.gu-field-error').forEach(x => x.remove());
                     const need = (id, msg) => { const el = $f(id); el.classList.remove('has-error'); if (!el.value.trim()) { el.classList.add('has-error'); const s = document.createElement('span'); s.className = 'gu-field-error'; s.textContent = msg; el.insertAdjacentElement('afterend', s); ok = false; } };
@@ -112,7 +112,7 @@ GlowUp.ready(function () {
                     if (!ok) return false;
                     const data = { apelido: $f('ad-apelido').value.trim(), cep: $f('ad-cep').value, rua: $f('ad-rua').value.trim(), numero: $f('ad-numero').value.trim(), complemento: $f('ad-compl').value.trim(), bairro: $f('ad-bairro').value.trim(), cidade: parts[0].trim(), uf: parts[1].trim().toUpperCase() };
                     if (existing) data.id = existing.id;
-                    S.saveAddress(user.id, data);
+                    await S.saveAddress(user.id, data);
                 } }
             ]
         }).then(done => { if (done) { renderAddresses(); UI.toast('Endereço salvo.', { type: 'success' }); } });
@@ -120,10 +120,10 @@ GlowUp.ready(function () {
     U.$('.btn-add-address').addEventListener('click', () => addressDialog(null));
 
     /* ---- salvar ---- */
-    saveBtn.addEventListener('click', function () {
+    saveBtn.addEventListener('click', async function () {
         UI.clearErrors(document.body);
         const phones = U.$$('.phone-input', phoneList);
-        const res = S.updateProfile(user.id, { nome: nome.value, email: email.value, telefones: phones.map(p => p.value) });
+        const res = await S.updateProfile(user.id, { nome: nome.value, email: email.value, telefones: phones.map(p => p.value) });
         if (!res.ok) {
             const map = { nome, email };
             Object.keys(res.errors).forEach(k => {

@@ -108,3 +108,19 @@ body {
         padding: 1.1rem;
     }
 }
+
+/* botão secundário (ex.: "Descartar" em cada sugestão) */
+.crm-card .btn-secondary {
+    background-color: #ffffff;
+    color: var(--primary-pink);
+    border: 1.5px solid var(--primary-pink);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.crm-card .btn-secondary:hover {
+    background-color: var(--badge-bg);
+}

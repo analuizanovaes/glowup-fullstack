@@ -178,3 +178,9 @@ body {
         flex: 1 1 100%;
     }
 }
+
+/* Ilustrações do catálogo inicial (SVG quadrado): mostra o produto inteiro em vez de cortá-lo */
+.admin-product-img[src^="assets/img/produtos/"] {
+    object-fit: contain;
+    background: linear-gradient(180deg, #fffeff 0%, #f7e4ea 58%, #e6d0f2 100%);
+}

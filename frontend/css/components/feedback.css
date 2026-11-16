@@ -421,6 +421,29 @@
     font-size: 0.8rem;
 }
 
+.gu-error {
+    background: #ffffff;
+    border: 1px solid #f1c0c0;
+    border-radius: 1.5rem;
+    padding: 2.25rem 1.5rem;
+    text-align: center;
+    color: #b3261e;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.gu-error small {
+    display: block;
+    margin-top: 0.35rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.gu-error .gu-btn {
+    margin-top: 1rem;
+}
+
 .gu-spinner {
     width: 16px;
     height: 16px;

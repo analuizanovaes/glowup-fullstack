@@ -14,17 +14,19 @@ GlowUp.ready(function () {
     UI.bindPasswordToggle(confirm.parentNode.querySelector('svg'), confirm);
 
     const code = U.$('#otp-code');
+    const email = U.$('#reset-email');
     code.addEventListener('input', () => { code.value = U.digits(code.value).slice(0, 6); });
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
         UI.clearErrors(form);
         let ok = true;
+        if (!U.isEmail(email.value)) ok = UI.setError(email, 'Informe o e-mail da conta.') && ok;
         if (U.digits(code.value).length !== 6) ok = UI.setError(code, 'Informe o código de 6 dígitos.') && ok;
         if (!U.isStrongPassword(pw.value)) ok = UI.setError(pw, 'A senha não atende a todos os requisitos.') && ok;
         if (confirm.value !== pw.value || !confirm.value) ok = UI.setError(confirm, 'As senhas não coincidem.') && ok;
         if (!ok) { UI.focusFirstError(form); return; }
-        const res = S.resetPassword(U.digits(code.value), pw.value);
+        const res = await S.resetPassword(U.digits(code.value), pw.value, email.value);
         if (!res.ok) { UI.setError(code, res.message); code.focus(); return; }
         UI.flash('Senha redefinida! Entre com a nova senha.', { type: 'success', title: 'Tudo certo' });
         location.href = R.login;

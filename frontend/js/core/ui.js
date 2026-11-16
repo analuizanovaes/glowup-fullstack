@@ -242,7 +242,12 @@
             html: `<div class="gu-processing">${bloom}<h2 class="gu-dialog-title">${esc(title || 'Processando...')}</h2><p class="gu-dialog-text">${esc(text || 'Aguarde um instante.')}</p></div>`,
             onOpen: api => { handle = api; }
         });
-        return { close: () => { const t = setInterval(() => { if (handle) { handle.close(); clearInterval(t); } }, 30); } };
+        const update = (selector, value) => { const el = document.querySelector('.gu-processing ' + selector); if (el) el.textContent = value; };
+        return {
+            close: () => { const t = setInterval(() => { if (handle) { handle.close(); clearInterval(t); } }, 30); },
+            setTitle: (value) => update('.gu-dialog-title', value || 'Processando...'),
+            setText: (value) => update('.gu-dialog-text', value || 'Aguarde um instante.')
+        };
     };
 
     /* ---------- Formulários ---------- */
@@ -284,6 +289,13 @@
     UI.focusFirstError = function (form) {
         const el = form.querySelector('.has-error');
         if (el) { el.focus(); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+    };
+
+    /** Caixa de erro para listas/painéis que não carregaram. O botão leva data-retry: a tela escuta o clique e recarrega. */
+    UI.errorBox = function (message, hint) {
+        return `<div class="gu-error" role="alert">${esc(message || 'Não foi possível carregar os dados.')}` +
+            `<small>${esc(hint || 'Confira se a API está no ar e tente de novo.')}</small>` +
+            `<div><button type="button" class="gu-btn gu-btn--primary gu-btn--sm" data-retry>Tentar novamente</button></div></div>`;
     };
 
     UI.setLoading = function (btn, loading, text) {
@@ -333,7 +345,7 @@
     };
 
     /** Máscara de data + ícone de calendário abrindo o seletor nativo. */
-    UI.bindDateField = function (input) {
+    UI.bindDateField = function (input, opts) {
         if (!input) return;
         U.bindMask(input, 'date');
         input.setAttribute('inputmode', 'numeric');
@@ -345,7 +357,7 @@
         icon.addEventListener('click', () => {
             const picker = document.createElement('input');
             picker.type = 'date';
-            picker.max = U.toISODate(new Date());
+            if (!(opts && opts.future)) picker.max = U.toISODate(new Date()); // datas futuras só onde faz sentido (ex.: validade)
             const cur = U.parseDateBR(input.value);
             if (cur) picker.value = U.toISODate(cur);
             picker.style.cssText = 'position:fixed;opacity:0;pointer-events:none;top:0;left:0;';

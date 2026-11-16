@@ -589,3 +589,8 @@ footer {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+/* Ilustrações do catálogo inicial (SVG quadrado): no detalhe do produto aparecem inteiras, sem corte */
+.gu-dialog img[src^="assets/img/produtos/"] {
+    object-fit: contain !important;
+    background: linear-gradient(180deg, #fffeff 0%, #f7e4ea 58%, #e6d0f2 100%);
+}

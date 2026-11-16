@@ -48,6 +48,9 @@ logs/
 .env.backup
 .env.bak
 
+# Template versionado (somente placeholders, sem valores reais)
+!.env.example
+
 # Propriedades do Spring com senhas ou configurações locais
 application-secret.properties
 application-local.properties

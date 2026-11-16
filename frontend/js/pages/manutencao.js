@@ -12,7 +12,7 @@ GlowUp.ready(function () {
     }
 
     btn.textContent = 'Tentar novamente';
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', async function () {
         if (S.isMaintenance()) {
             UI.toast('Ainda estamos ajustando alguns detalhes. Volte em instantes!', { type: 'info', title: 'Manutenção em andamento' });
         } else {
@@ -25,10 +25,10 @@ GlowUp.ready(function () {
     link.className = 'maintenance-admin-link';
     link.href = R.login;
     link.textContent = S.currentUser() ? 'Entrar com outra conta' : 'Sou administradora';
-    link.addEventListener('click', function (e) {
+    link.addEventListener('click', async function (e) {
         if (!S.currentUser()) return;
         e.preventDefault();
-        S.logout();
+        await S.logout();
         location.href = R.login;
     });
     btn.insertAdjacentElement('afterend', link);

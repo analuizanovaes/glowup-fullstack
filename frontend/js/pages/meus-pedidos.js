@@ -1,5 +1,5 @@
 /* Tela: meuspedidos.html */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, layout: L, config: C } = GlowUp;
     const R = C.routes;
     const esc = U.escapeHtml;
@@ -9,41 +9,53 @@ GlowUp.ready(function () {
     const refundIcon = (U.$('.btn-refund svg') || { outerHTML: '' }).outerHTML;
     let query = '';
 
+    GlowUp.showPage();
+    let allOrders = [];
+    try { allOrders = await S.listOrders(); }
+    catch (e) {
+        if (e && e.status === 401) { location.replace(R.login); return; }
+        listEl.innerHTML = `<div class="gu-empty">Não foi possível carregar seus pedidos<small>${esc(GlowUp.api.errorMessage(e))}</small></div>`;
+        return;
+    }
+
     // pedido específico pedido pela URL
     const wanted = U.query('pedido');
     if (wanted) {
-        const o = S.getOrder(wanted);
+        const o = allOrders.find(x => String(x.id) === String(wanted));
         if (!o || o.userId !== user.id) { location.replace(R.notFound); return; }
     }
 
-    const orders = () => S.listOrders({ userId: user.id }).filter(o => {
+    const orders = async () => allOrders.filter(o => {
         if (!query) return true;
         return U.normalize(o.id + ' ' + o.status + ' ' + o.itens.map(i => i.nome).join(' ')).includes(U.normalize(query));
     });
 
     function card(o) {
         const items = o.itens.map(i => `${esc(i.nome)} • ${i.qtd} un.`).join(' + ');
-        const rs = S.returnState(o);
+        const rs = S.returnState ? S.returnState(o) : 'none';
         let action = '';
         if (rs === 'eligible') action = `<button type="button" class="btn-refund" data-act="return">${refundIcon}Solicitar Devolução</button>`;
         else if (rs === 'expired') action = '<span class="order-note">Prazo de devolução encerrado</span>';
         else if (rs === 'rejected') action = '<span class="order-note">Devolução não aprovada (lacre violado)</span>';
         else if (rs === 'requested') action = '<span class="order-note">Devolução em análise</span>';
         else if (rs === 'done') action = '<span class="order-note">Devolução concluída</span>';
-        const pay = o.status === 'Aguardando pagamento' && o.pagamento.metodo === 'PIX'
+        const pay = o.status === 'AGUARDANDO_PAGAMENTO'
             ? `<a class="order-link" href="${R.pix}?pedido=${o.id}">Pagar agora</a>` : '';
+        const wa = o.entrega.tipo === 'pickup' && o.linkWhatsapp && !['CANCELADO', 'AGUARDANDO_PAGAMENTO'].includes(o.status)
+            ? `<a class="order-link" href="${esc(o.linkWhatsapp)}" target="_blank" rel="noopener">Combinar retirada</a>` : '';
         return `<div class="order-card${o.id === wanted ? ' is-highlight' : ''}" data-id="${o.id}">
             <div class="order-header">
                 <div>
                     <div class="order-id">Pedido ${o.id} • ${U.formatDateShort(o.criadoEm)}</div>
                     <div class="order-items">${items}</div>
                 </div>
-                <span class="status-tag">${esc(o.status)}</span>
+                <span class="status-tag">${esc(S.statusLabel(o.status))}</span>
             </div>
             <div class="order-footer">
                 <span class="order-price">${U.money(o.total)}</span>
                 <div class="order-actions">
                     ${pay}
+                    ${wa}
                     <button type="button" class="order-link" data-act="details">Ver detalhes</button>
                     ${action}
                 </div>
@@ -51,8 +63,8 @@ GlowUp.ready(function () {
         </div>`;
     }
 
-    function render() {
-        const list = orders();
+    async function render() {
+        const list = await orders();
         listEl.innerHTML = list.length ? list.map(card).join('')
             : `<div class="gu-empty">${query ? 'Nenhum pedido encontrado' : 'Você ainda não fez pedidos'}<small>${query ? 'Tente outro termo de busca.' : 'Que tal conhecer a vitrine?'}</small></div>`;
     }
@@ -70,8 +82,8 @@ GlowUp.ready(function () {
                 ${row('Total', U.money(o.total), 'is-total')}
             </div>
             <div class="gu-section-label">Pagamento e entrega</div><div class="gu-detail-list">
-                ${row('Pagamento', o.pagamento.metodo === 'PIX' ? 'Pix' : `Cartão em ${o.pagamento.parcelas}x`)}
-                ${row('Recebimento', o.entrega.tipo === 'home' ? `Entrega em casa (até ${o.entrega.prazoDias} dias)` : 'Retirada no local')}
+                ${o.pagamento.metodo ? row('Pagamento', o.pagamento.metodo === 'PIX' ? 'Pix' : `Cartão em ${o.pagamento.parcelas || 1}x`) : ''}
+                ${row('Recebimento', o.entrega.tipo === 'home' ? `Entrega em casa (até ${C.deliveryDays} dias)` : 'Retirada no local')}
                 ${addr ? row('Endereço', `${esc(addr.rua)}, ${esc(addr.numero)} - ${esc(addr.bairro)}`) : ''}
             </div>`;
         UI.modal({ title: `Pedido ${o.id}`, text: `${o.status} • ${U.formatDate(o.criadoEm)}`, html, wide: true, actions: [{ label: 'Fechar', primary: true }] });
@@ -99,22 +111,24 @@ GlowUp.ready(function () {
             ]
         });
         if (res !== true) return;
-        const r = S.requestReturn(o.id, { motivo: node.querySelector('#ret-motivo').value, lacrado: true });
+        const r = await S.requestReturn(o.id, { motivo: node.querySelector('#ret-motivo').value, lacrado: true });
+        try { allOrders = await S.listOrders(); } catch (e) { /* mantém a lista atual */ }
         if (!r.ok) { UI.toast(r.message, { type: 'error', title: 'Devolução' }); render(); return; }
         UI.toast('A Domingas vai analisar e retornará em breve.', { type: 'success', title: 'Solicitação enviada' });
         render();
     }
 
-    listEl.addEventListener('click', function (e) {
+    listEl.addEventListener('click', async function (e) {
         const btn = e.target.closest('[data-act]');
         if (!btn) return;
-        const o = S.getOrder(btn.closest('.order-card').dataset.id);
+        const o = allOrders.find(x => String(x.id) === btn.closest('.order-card').dataset.id);
+        if (!o) return;
         if (btn.dataset.act === 'details') details(o); else requestReturn(o);
     });
 
     L.onSearch = (q) => { query = q; render(); };
     L.refreshCart();
-    render();
+    await render();
     const hl = U.$('.order-card.is-highlight');
     if (hl) hl.scrollIntoView({ block: 'center', behavior: 'smooth' });
 });

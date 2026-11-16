@@ -5,3 +5,17 @@
     margin: 0;
     padding: 0;
 }
+
+/* Esconde o conteúdo de exemplo do HTML até os dados reais chegarem (a classe gu-ready é posta pelo layout.js). */
+body:not(.gu-ready) main,
+body:not(.gu-ready) .gu-gate { visibility: hidden; animation: gu-reveal 0s linear 25s forwards; }
+body:not(.gu-ready)::after {
+    content: ''; position: fixed; top: 45%; left: 50%; width: 36px; height: 36px; margin: -18px 0 0 -18px;
+    border: 3px solid rgba(214, 51, 132, .2); border-top-color: var(--primary-pink, #d63384); border-radius: 50%;
+    opacity: 0; pointer-events: none; z-index: 5;
+    animation: gu-spin .8s linear infinite, gu-show 0s linear .4s forwards, gu-hide 0s linear 25s forwards;
+}
+@keyframes gu-spin { to { transform: rotate(360deg); } }
+@keyframes gu-show { to { opacity: 1; } }
+@keyframes gu-hide { to { opacity: 0; } }
+@keyframes gu-reveal { to { visibility: visible; } }

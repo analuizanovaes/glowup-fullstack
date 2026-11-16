@@ -10,7 +10,15 @@
         guardsEnabled: true,
 
         storagePrefix: 'glowup:',
+        apiBaseUrl: 'http://localhost:8080',
+        mercadoPagoPublicKey: '',
         termsVersion: '1.0',
+
+        // Contato da revendedora (usado no botão de WhatsApp da retirada no local).
+        // Preencha só com dígitos e DDI, ex.: '5561999999999'.
+        adminNome: 'Domingas',
+        adminWhatsapp: '5561999999999',
+        adminEmail: '',
 
         minAge: 18,                 // RN07 / RD02
         returnWindowDays: 7,        // RN01 / RD03
@@ -23,7 +31,7 @@
         crmWindowDays: 30,          // CRM: mostra reposições previstas nesse prazo
 
         // Bairros com entrega em casa (RN03). Comparação sem acento/maiúsculas.
-        allowedNeighborhoods: ['itapoa', 'paranoa'],
+        allowedNeighborhoods: ['itapoa', 'paranoa', 'itapua'],
 
         // Taxas do gateway absorvidas pela revendedora (RN02/RN05). Valores de simulação:
         // na integração real virão do Mercado Pago (webhook) ou da tela de configuração.
@@ -38,7 +46,7 @@
                      'termosdeuso', 'termodedevolucao', 'manutencao', 'pedidonaoencontrado'],
             client: ['vitrini', 'carrinho', 'chekout', 'pagamento-pix', 'confirmacaodepedido',
                      'meuspedidos', 'perfil'],
-            admin: ['visaogeral', 'pedidos', 'devolucoes', 'produtos', 'cadastrarprodutos', 'crm', 'meuperfil']
+            admin: ['visaogeral', 'pedidos', 'devolucoes', 'produtos', 'produtosinativos', 'cadastrarprodutos', 'crm', 'meuperfil']
         },
 
         // Nomes reais dos arquivos HTML do projeto
@@ -63,6 +71,7 @@
             orders: 'pedidos.html',
             returns: 'devolucoes.html',
             products: 'produtos.html',
+            inactiveProducts: 'produtosinativos.html',
             productForm: 'cadastrarprodutos.html',
             crm: 'crm.html',
             adminProfile: 'meuperfil.html'

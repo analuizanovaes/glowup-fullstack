@@ -1,9 +1,26 @@
 /* Tela: chekout.html */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, layout: L, config: C } = GlowUp;
     const R = C.routes;
     const esc = U.escapeHtml;
 
+    let cartError = null;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+        try { await S.cart(); cartError = null; break; }
+        catch (e) {
+            cartError = e;
+            const retryable = !e || e.status == null || e.status === 408 || e.status === 425 || e.status === 502 || e.status === 503 || e.status === 504 || e.name === 'AbortError' || e.name === 'TypeError';
+            if (!retryable || attempt === 4) break;
+            const wake = UI.processing('Acordando o servidor', 'Estamos iniciando nosso servidor seguro para carregar sua sacola...');
+            await new Promise((resolve) => setTimeout(resolve, 12000));
+            wake.close();
+        }
+    }
+    if (cartError) {
+        UI.toast('Não foi possível carregar sua sacola. Verifique sua conexão e tente novamente.', { type: 'error', title: 'Sacola indisponível' });
+        location.href = R.cart;
+        return;
+    }
     if (!S.cartTotals().lines.length) {
         UI.flash('Sua sacola está vazia. Escolha alguns produtos antes de finalizar.', { type: 'info', title: 'Sacola vazia' });
         location.href = R.cart;
@@ -81,16 +98,39 @@ GlowUp.ready(function () {
         cepNotice.textContent = reason || cepNoticeOriginal;
     }
 
+    let rejectedNow = false;
+
+    /**
+     * Endereço sem entrega em casa: mostra um aviso bem visível, apaga o que foi digitado e libera a troca,
+     * para a pessoa informar outro endereço (ou seguir com a Retirada Grátis) em vez de ficar travada.
+     */
+    function rejectAddress(reason, opts) {
+        rejectedNow = true;
+        [cep, numero, rua, bairro, complemento, cidade].forEach(el => { el.value = ''; });
+        UI.clearErrors(addressBox);
+        setBlocked(null);
+        selectDelivery(opts && opts.pickup ? 'pickup' : 'home');
+        cepNotice.classList.add('is-error');
+        cepNotice.textContent = 'O endereço anterior foi removido. Informe um endereço de Itapoã ou Paranoá (DF) para receber em casa.';
+        UI.alert(`${reason} Os campos do endereço foram apagados: informe outro endereço ou escolha a Retirada Grátis no Local.`, {
+            title: 'Esse endereço não tem entrega em casa',
+            icon: UI.icons.warning,
+            iconClass: 'is-danger',
+            okText: 'Entendi'
+        }).then(() => { if (state.entrega === 'home') cep.focus(); });
+    }
+
     /** Avalia as regras de entrega com o que está digitado (sem forçar a troca de opção). */
     function evaluateAddress(silent) {
         const c = parseCity();
         if (!U.digits(cep.value).length && !bairro.value.trim()) { setBlocked(null); return true; }
         if (!bairro.value.trim()) { setBlocked(null); return true; }
+        // sem cidade/UF ainda não dá para dizer que o endereço foi recusado (a pessoa pode estar no meio do preenchimento)
+        if (!c.uf) { setBlocked(null); return true; }
         const res = S.checkDelivery({ pais: 'Brasil', uf: c.uf, bairro: bairro.value });
         setBlocked(res.allowed ? null : res.reason);
         if (!res.allowed && state.entrega === 'home' && !silent) {
-            UI.toast(res.reason, { type: 'warning', title: 'Sem entrega em casa' });
-            selectDelivery('pickup');
+            rejectAddress(res.reason);
         }
         return res.allowed;
     }
@@ -118,7 +158,10 @@ GlowUp.ready(function () {
             delete cep.dataset.busy;
         }
     }
-    cep.addEventListener('input', () => { if (U.digits(cep.value).length === 8) lookupCep(); });
+    cep.addEventListener('input', () => {
+        if (!state.bloqueado && cepNotice.classList.contains('is-error')) { cepNotice.classList.remove('is-error'); cepNotice.textContent = cepNoticeOriginal; }
+        if (U.digits(cep.value).length === 8) lookupCep();
+    });
     [bairro, cidade].forEach(el => el.addEventListener('change', () => evaluateAddress(false)));
     [bairro, cidade].forEach(el => el.addEventListener('input', U.debounce(() => evaluateAddress(true), 250)));
 
@@ -129,15 +172,19 @@ GlowUp.ready(function () {
         cep.value = main.cep; numero.value = main.numero; rua.value = main.rua;
         bairro.value = main.bairro; complemento.value = main.complemento || ''; cidade.value = `${main.cidade}/${main.uf}`;
         evaluateAddress(true);
-        if (state.bloqueado) selectDelivery('pickup');
+        if (state.bloqueado) rejectAddress(S.checkDelivery({ pais: 'Brasil', uf: parseCity().uf, bairro: bairro.value }).reason, { pickup: true });
     }
 
     /* ---- resumo e parcelas ---- */
+    function addressPayload() {
+        if (state.entrega !== 'home') return null;
+        const c = parseCity();
+        return { id: null, cep: cep.value, rua: rua.value.trim(), numero: numero.value.trim(), complemento: complemento.value.trim(), bairro: bairro.value.trim(), cidade: c.cidade, uf: c.uf, pais: 'Brasil' };
+    }
     function currentInstallments() { return state.metodo === 'CARTAO' ? Number(installments.value || 1) : 1; }
 
-    function buildInstallments() {
+    function buildInstallments(t) {
         const keep = installments.value || '1';
-        const t = S.previewTotals(state.entrega, { metodo: 'PIX', parcelas: 1 });
         const base = t.total;
         installments.innerHTML = [1, 2, 3].map(n => {
             const total = U.round2(base * (1 + (C.installmentInterest[n] || 0)));
@@ -147,9 +194,9 @@ GlowUp.ready(function () {
         installments.value = keep;
     }
 
-    function refresh() {
-        buildInstallments();
-        const t = S.previewTotals(state.entrega, { metodo: state.metodo, parcelas: currentInstallments() });
+    async function refresh() {
+        const t = await S.previewTotals(state.entrega, { metodo: state.metodo, parcelas: currentInstallments() }, addressPayload());
+        buildInstallments(t);
         subtotalEl.textContent = U.money(t.subtotal);
         freteEl.textContent = t.frete ? U.money(t.frete) : 'Grátis';
         totalEl.textContent = U.money(t.total);
@@ -173,9 +220,9 @@ GlowUp.ready(function () {
     }
     installments.addEventListener('change', refresh);
 
-    function applyCoupon() {
+    async function applyCoupon() {
         if (couponInput.disabled) return;
-        const res = S.applyCoupon(couponInput.value);
+        const res = await S.applyCoupon(couponInput.value);
         if (!res.ok) { UI.toast(res.message, { type: 'error', title: 'Cupom' }); return; }
         refresh();
         UI.toast(`Cupom ${res.cupom.codigo} aplicado: você economizou ${U.money(res.desconto)}.`, { type: 'success', title: 'Cupom aplicado' });
@@ -194,7 +241,7 @@ GlowUp.ready(function () {
             if (!c.uf) ok = UI.setError(cidade, 'Use o formato Cidade/UF (ex.: Brasília/DF).') && ok;
             if (ok) {
                 const chk = S.checkDelivery({ pais: 'Brasil', uf: c.uf, bairro: bairro.value });
-                if (!chk.allowed) ok = UI.setError(cep, chk.reason) && ok;
+                if (!chk.allowed) { rejectAddress(chk.reason); return false; }
             }
         }
         if (state.metodo === 'CARTAO') {
@@ -209,7 +256,11 @@ GlowUp.ready(function () {
 
     submitBtn.addEventListener('click', async function () {
         UI.clearErrors(document.body);
-        if (!validate()) { UI.focusFirstError(document.body); UI.toast('Confira os campos destacados.', { type: 'warning', title: 'Quase lá' }); return; }
+        rejectedNow = false;
+        if (!validate()) {
+            if (!rejectedNow) { UI.focusFirstError(document.body); UI.toast('Confira os campos destacados.', { type: 'warning', title: 'Quase lá' }); }
+            return;
+        }
 
         const c = parseCity();
         const payload = {
@@ -221,32 +272,61 @@ GlowUp.ready(function () {
         };
 
         UI.setLoading(submitBtn, true, 'Confirmando...');
-        const res = S.createOrder(payload);
+        let wakeProc = null;
+        const res = await S.createOrder(payload, {
+            onWaiting: (attempt) => {
+                if (!wakeProc) wakeProc = UI.processing('Acordando o servidor', 'Estamos iniciando nosso servidor seguro. Isso pode levar alguns segundos na primeira vez do dia.');
+                else wakeProc.setText(`Ainda acordando o servidor... tentativa ${attempt} de 4.`);
+            }
+        });
+        if (wakeProc) wakeProc.close();
         if (!res.ok) {
             UI.setLoading(submitBtn, false);
-            if (res.field === 'cep') { UI.setError(cep, res.message); selectDelivery('pickup'); }
+            if (/aguardando pagamento/i.test(res.message || '')) {
+                // Já existe um pedido pendente: leva a cliente direto para pagá-lo.
+                const pend = (await S.listOrders().catch(() => [])).find(o => o.status === 'AGUARDANDO_PAGAMENTO');
+                UI.toast(res.message, { type: 'info', title: 'Pedido pendente' });
+                setTimeout(() => { location.href = pend ? R.pix + '?pedido=' + pend.id : R.myOrders; }, 1500);
+                return;
+            }
+            if (res.field === 'cep') { rejectAddress(res.message); return; }
             UI.toast(res.message, { type: 'error', title: 'Não foi possível confirmar' });
             if (res.stock) setTimeout(() => { location.href = R.cart; }, 1800);
             return;
         }
         const order = res.order;
 
-        if (state.metodo === 'PIX') { location.href = R.pix + '?pedido=' + order.id; return; }
-
-        // Cartão: simula a análise antifraude / aprovação do gateway
-        const proc = UI.processing('Processando pagamento', 'Estamos confirmando com a operadora do cartão...');
-        setTimeout(function () {
-            proc.close();
-            const declined = U.digits(cNumber.value).slice(-4) === '0002'; // cartão de teste recusado
-            if (declined) {
-                S.rejectPayment(order.id);
-                UI.setLoading(submitBtn, false);
-                setTimeout(() => UI.alert('O pagamento foi recusado pela análise de segurança. Sua sacola foi mantida: tente outro cartão ou pague com Pix.', { title: 'Pagamento recusado', icon: UI.icons.error, iconClass: 'is-danger', okText: 'Voltar' }), 300);
+        if (state.metodo === 'PIX') {
+            const payment = await S.startPayment({ orderId: order.id, metodo: 'PIX', parcelas: 1 });
+            UI.setLoading(submitBtn, false);
+            if (!payment.ok) {
+                // O pedido já existe: a tela do Pix tenta gerar o pagamento de novo.
+                UI.toast(payment.message, { type: 'warning', title: 'Pagamento não iniciado' });
+                setTimeout(() => { location.href = R.pix + '?pedido=' + order.id; }, 1500);
                 return;
             }
-            S.approvePayment(order.id);
-            location.href = R.confirmation + '?pedido=' + order.id;
-        }, 2000);
+            if (payment.status === 'APROVADO' || payment.statusPedido === 'PAGO') {
+                location.href = R.confirmation + '?pedido=' + order.id;
+                return;
+            }
+            location.href = R.pix + '?pedido=' + order.id;
+            return;
+        }
+
+        const token = await S.tokenizeCard({ number: cNumber.value, name: cName.value, expiry: cExpiry.value, cvv: cCvv.value, cpf: cCpf.value });
+        UI.setLoading(submitBtn, false);
+        if (!token.ok) { UI.toast(token.message, { type: 'error', title: 'Cartão não validado' }); return; }
+        const payment = await S.startPayment({
+            orderId: order.id,
+            metodo: 'CARTAO',
+            parcelas: currentInstallments(),
+            tokenCartao: token.card?.id,
+            bandeiraCartao: token.card?.payment_method_id,
+            documento: U.digits(cCpf.value)
+        });
+        if (!payment.ok) { UI.toast(payment.message, { type: 'error', title: 'Pagamento recusado' }); return; }
+        if (payment.status === 'APROVADO' || payment.statusPedido === 'PAGO') location.href = R.confirmation + '?pedido=' + order.id;
+        else UI.alert('O pagamento foi processado, mas ainda não foi aprovado. Verifique o status do pedido.', { title: 'Pagamento em análise', icon: UI.icons.warning });
     });
 
     selectPayment('PIX');

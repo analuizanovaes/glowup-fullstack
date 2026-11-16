@@ -19,6 +19,10 @@ public class Telefone {
     @Column(nullable = false, length = 20)
     private String numero;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean principal = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;

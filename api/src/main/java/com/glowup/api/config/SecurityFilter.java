@@ -30,7 +30,11 @@ public class SecurityFilter extends OncePerRequestFilter {
             if (!email.isEmpty()) {
                 var usuario = usuarioRepository.findByEmail(email).orElse(null);
                 
-                if (usuario != null && usuario.isEnabled()) {
+                if (usuario != null && usuario.isEnabled() && tokenService.tokenCorrespondeASenhaAtual(token, usuario)) {
+                    if (usuario.isSenhaProvisoria() && !permitidoComSenhaProvisoria(request)) {
+                        responderTrocaDeSenhaObrigatoria(response);
+                        return;
+                    }
                     var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
@@ -40,11 +44,28 @@ public class SecurityFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /** Com senha provisória só passam: ver o perfil, trocar a senha e renovar/encerrar a sessão. */
+    private boolean permitidoComSenhaProvisoria(HttpServletRequest request) {
+        String caminho = request.getRequestURI();
+        String metodo = request.getMethod();
+        return caminho.startsWith("/api/auth/")
+                || ("PUT".equalsIgnoreCase(metodo) && caminho.equals("/api/usuarios/me/senha"))
+                || ("GET".equalsIgnoreCase(metodo) && caminho.equals("/api/usuarios/me"));
+    }
+
+    private void responderTrocaDeSenhaObrigatoria(HttpServletResponse response) throws IOException {
+        String mensagem = "Troque a senha provisória em PUT /api/usuarios/me/senha para continuar.";
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("{\"status\":403,\"message\":\"" + mensagem + "\",\"erro\":\"" + mensagem
+                + "\",\"codigo\":\"TROCA_DE_SENHA_OBRIGATORIA\"}");
+    }
+
     private String recuperarToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
-        return authHeader.replace("Bearer ", "");
+        return authHeader.substring("Bearer ".length()).trim();
     }
 }

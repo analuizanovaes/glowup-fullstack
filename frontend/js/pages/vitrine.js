@@ -1,19 +1,24 @@
 /* Tela: vitrini.html (catálogo da cliente) */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, layout: L } = GlowUp;
     const esc = U.escapeHtml;
 
     const grid = U.$('.products-grid');
     const countEl = U.$('.filter-toolbar > span');
-    const brandButtons = U.$$('.cat-btn');
-    const state = { brand: 'Todas', category: 'Todas', sort: 'Destaques', q: U.query('q') || '' };
+    const brandBar = U.$('.categories-filter');
+    const catMenu = U.$('#dropdown-category .dropdown-menu');
+    const state = { brand: 'Todas', category: 'Todos', sort: 'Destaques', q: U.query('q') || '' };
+    let all = [];
 
     /* ---- filtros ---- */
     function filtered() {
         const q = U.normalize(state.q);
-        let list = S.listProducts().filter(p => {
+        let list = all.filter(p => {
             if (state.brand !== 'Todas' && p.marca !== state.brand) return false;
-            if (state.category !== 'Todas' && p.categoria !== state.category) return false;
+            if (state.category === 'Masculino' || state.category === 'Feminino') {
+                const re = state.category === 'Masculino' ? /masculin/i : /feminin/i;
+                if (!re.test(p.nome + ' ' + (p.descricao || '') + ' ' + (p.categoria || ''))) return false;
+            } else if (state.category !== 'Todos' && p.categoria !== state.category) return false;
             if (q && !U.normalize(p.nome + ' ' + p.marca + ' ' + p.categoria).includes(q)) return false;
             return true;
         });
@@ -63,16 +68,26 @@ GlowUp.ready(function () {
     grid.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn-add-cart');
         if (!btn) return;
+        void (async () => {
         const id = Number(btn.closest('.product-card').dataset.id);
-        const res = S.cartAdd(id, 1);
-        if (!res.ok) { UI.toast(res.message, { type: 'warning', title: 'Não foi possível adicionar' }); return; }
+        if (!Number.isFinite(id) || id <= 0) { UI.toast('Aguarde o catálogo terminar de carregar.', { type: 'info', title: 'Carregando' }); return; }
+        btn.disabled = true;
+        const res = await S.cartAdd(id, 1);
+        btn.disabled = false;
+        if (!res.ok) {
+            const pending = /aguardando pagamento/i.test(res.message || '');
+            UI.toast(res.message, Object.assign({ type: 'warning', title: 'Não foi possível adicionar' },
+                pending ? { actions: [{ label: 'Ver pedido', onClick: () => { location.href = GlowUp.config.routes.myOrders; } }] } : {}));
+            return;
+        }
         L.refreshCart();
         btn.classList.add('gu-added');
         setTimeout(() => btn.classList.remove('gu-added'), 500);
-        UI.toast(`"${res.product.nome}" foi para a sua sacola.`, {
+        UI.toast(`"${(res.product && res.product.nome) || 'Produto'}" foi para a sua sacola.`, {
             type: 'success', title: 'Adicionado', duration: 3500,
             actions: [{ label: 'Ver sacola', onClick: () => { location.href = GlowUp.config.routes.cart; } }]
         });
+        })();
     });
 
     /* ---- abrir detalhes do produto (modal) ---- */
@@ -128,33 +143,52 @@ GlowUp.ready(function () {
                     label: soldOut ? 'Esgotado' : 'Adicionar à sacola', 
                     primary: !soldOut,
                     value: true,
-                    onClick: () => {
+                    onClick: async () => {
                         if (soldOut) return false;
-                        const res = S.cartAdd(p.id, 1);
+                        const res = await S.cartAdd(p.id, 1);
                         if (res.ok) {
                             L.refreshCart();
                             UI.toast('Produto adicionado à sacola!', { type: 'success' });
                         } else {
                             UI.toast(res.message, { type: 'warning' });
                         }
+                        return false;
                     }
                 }
             ]
         });
     });
 
-    /* ---- marcas ---- */
-    brandButtons.forEach(b => b.addEventListener('click', () => {
-        brandButtons.forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        state.brand = b.textContent.trim();
-        render();
-    }));
+    /* ---- marcas e categorias (geradas a partir do catálogo real) ---- */
+    function buildFilters() {
+        const marcas = [...new Set(all.map(p => p.marca).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+        brandBar.innerHTML = ['Todas', ...marcas].map(m =>
+            `<button class="cat-btn${m === 'Todas' ? ' active' : ''}" data-brand="${esc(m)}">${esc(m)}</button>`).join('');
+        U.$$('.cat-btn', brandBar).forEach(b => b.addEventListener('click', () => {
+            U.$$('.cat-btn', brandBar).forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            state.brand = b.dataset.brand;
+            render();
+        }));
+
+        const opcoes = ['Todos', 'Feminino', 'Masculino'];
+        catMenu.innerHTML = opcoes.map(c =>
+            `<div class="dropdown-item${c === 'Todos' ? ' selected' : ''}" data-value="${esc(c)}">${esc(c)}</div>`).join('');
+        const catDrop = catMenu.closest('.custom-dropdown');
+        U.$$('.dropdown-item', catMenu).forEach(item => item.addEventListener('click', () => {
+            U.$$('.dropdown-item', catMenu).forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+            catDrop.querySelector('.selected-value').textContent = item.textContent;
+            catDrop.classList.remove('open');
+            state.category = item.dataset.value;
+            render();
+        }));
+    }
 
     /* ---- dropdowns (categoria / ordenação) ---- */
     U.$$('.custom-dropdown').forEach(dropdown => {
         const btn = U.$('.dropdown-select-btn', dropdown);
-        const items = U.$$('.dropdown-item', dropdown);
+        const items = dropdown.id === 'dropdown-category' ? [] : U.$$('.dropdown-item', dropdown);
         const label = U.$('.selected-value', dropdown);
         btn.addEventListener('click', e => {
             e.stopPropagation();
@@ -178,5 +212,36 @@ GlowUp.ready(function () {
     // avisa se algo da sacola mudou de estoque (RF06)
     S.cartReconcile().forEach(m => UI.toast(m, { type: 'warning', title: 'Sua sacola mudou' }));
     L.refreshCart();
-    render();
+
+    const isCold = e => !e || e.status == null || [408, 425, 502, 503, 504].includes(e.status) || e.name === 'AbortError' || e.name === 'TypeError';
+    const status = (title, small, retry) => {
+        countEl.textContent = '';
+        grid.innerHTML = `<div class="gu-empty">${title}<small>${small}</small>${retry ? '<br><button type="button" class="btn-add-cart" id="catalog-retry" style="width:auto;padding:.5rem 1.2rem;margin-top:.75rem">Tentar novamente</button>' : ''}</div>`;
+        const b = U.$('#catalog-retry'); if (b) b.addEventListener('click', loadAll);
+    };
+
+    async function loadAll() {
+        status('Carregando catálogo…', 'Se demorar um pouco, o servidor está acordando.');
+        GlowUp.showPage();
+        let lastError = null;
+        for (let attempt = 1; attempt <= 4; attempt++) {
+            try {
+                const [prods, kits] = await Promise.all([S.listProducts(), S.listKits().catch(() => [])]);
+                const seen = new Set(prods.map(p => p.id));
+                all = prods.concat((kits || []).filter(k => !seen.has(k.id)));
+                lastError = null;
+                break;
+            } catch (e) {
+                lastError = e;
+                if (e && e.status === 401) { location.replace(GlowUp.config.routes.login); return; }
+                if (!isCold(e) || attempt === 4) break;
+                status('Acordando o servidor…', `Tentativa ${attempt + 1} de 4.`);
+                await new Promise(r => setTimeout(r, 12000));
+            }
+        }
+        if (lastError) { status('Não foi possível carregar o catálogo', GlowUp.api.errorMessage(lastError), true); return; }
+        buildFilters();
+        render();
+    }
+    await loadAll();
 });

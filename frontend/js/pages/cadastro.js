@@ -53,14 +53,21 @@ GlowUp.ready(function () {
         if (err && err.classList.contains('gu-field-error')) err.remove();
     });
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
         UI.clearErrors(form);
         const phones = [telefone].concat(U.$$('.phone-extra input', extraBox)).map(i => i.value.trim()).filter(Boolean);
         const data = { nome: nome.value, nascimento: nascimento.value, email: email.value, telefones: phones, senha: senha.value, aceiteTermos: terms.checked };
 
         // validação visual imediata; o "servidor" (store) repete as regras de negócio
-        const res = S.register(data);
+        let wakeProc = null;
+        const res = await S.register(data, {
+            onWaiting: (attempt) => {
+                if (!wakeProc) wakeProc = UI.processing('Acordando o servidor', 'Estamos iniciando nosso servidor seguro para criar sua conta...');
+                else wakeProc.setText(`Ainda acordando o servidor... tentativa ${attempt} de 4.`);
+            }
+        });
+        if (wakeProc) wakeProc.close();
         if (!res.ok) {
             const map = { nome, nascimento, email, telefone, senha };
             Object.keys(res.errors).forEach(k => {

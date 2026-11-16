@@ -27,17 +27,21 @@
         }
         if (!C.guardsEnabled) return;
         if (kind === 'client' && !user) return redirect(R.login, 'Entre ou cadastre-se para ver o catálogo e comprar.', 'info');
-        if (kind === 'admin' && !user) return redirect(R.login);
+        if (kind === 'admin' && !user) return redirect(R.login, 'Entre para acessar o painel da administradora.', 'info');
         if (kind === 'admin' && user.role !== 'ADMIN') return redirect(R.store, 'Esta área é exclusiva da administradora.', 'error');
         if (user && ['login', 'cadastro', 'recuperaracesso'].indexOf(page) >= 0) return redirect(home(user));
     }
-    guard();
-    if (GlowUp.blocked) return;
-
-    /* ---------- utilidades ---------- */
+    /* ---------- proteção de rotas ---------- */
     L.refreshCart = function () {
-        const n = S.cartCount();
-        U.$$('.cart-badge').forEach(b => { b.textContent = n; });
+        // O painel da administradora não tem carrinho: evita uma chamada inútil à API em toda tela.
+        if (!U.$('.cart-badge') || S.isAdmin()) return Promise.resolve();
+        const paint = n => U.$$('.cart-badge').forEach(b => { b.textContent = n; });
+        const key = C.storagePrefix + 'cartCount';
+        try { const c = sessionStorage.getItem(key); if (c !== null) paint(c); } catch (e) { /* ignore */ }
+        return Promise.resolve(S.cartCount()).then(n => {
+            paint(n);
+            try { sessionStorage.setItem(key, n); } catch (e) { /* ignore */ }
+        });
     };
 
     L.logout = async function () {
@@ -46,7 +50,7 @@
             confirmText: 'Sair', icon: UI.icons.logout
         });
         if (!ok) return;
-        S.logout();
+        await S.logout();
         UI.flash('Você saiu da sua conta. Até logo!', { type: 'info', title: 'Sessão encerrada' });
         location.href = R.login;
     };
@@ -156,14 +160,27 @@
             if (mq.addEventListener) mq.addEventListener('change', onChange); else mq.addListener(onChange);
         }
 
+        // Modo manutenção: o estado real fica no back; a chave só reflete e altera esse estado.
         const toggle = U.$('.maintenance-toggle input[type=checkbox]');
         if (toggle) {
-            toggle.checked = S.isMaintenance();
-            toggle.addEventListener('change', () => {
-                S.setMaintenance(toggle.checked);
-                UI.toast(toggle.checked
+            toggle.disabled = true;
+            S.loadMaintenanceStatus()
+                .then(on => { toggle.checked = on; })
+                .catch(() => UI.toast('Não foi possível ler o estado do modo manutenção.', { type: 'warning' }))
+                .then(() => { toggle.disabled = false; });
+            toggle.addEventListener('change', async () => {
+                const wanted = toggle.checked;
+                toggle.disabled = true;
+                const res = await S.setMaintenance(wanted);
+                toggle.disabled = false;
+                if (!res.ok) {
+                    toggle.checked = !wanted;
+                    UI.toast(res.message || 'Não foi possível alterar o modo manutenção.', { type: 'error', title: 'Modo manutenção' });
+                    return;
+                }
+                UI.toast(wanted
                     ? 'As clientes verão a tela de manutenção até você desativar.'
-                    : 'A loja voltou a funcionar normalmente.', { type: toggle.checked ? 'warning' : 'success', title: toggle.checked ? 'Modo manutenção ativado' : 'Modo manutenção desativado' });
+                    : 'A loja voltou a funcionar normalmente.', { type: wanted ? 'warning' : 'success', title: wanted ? 'Modo manutenção ativado' : 'Modo manutenção desativado' });
             });
         }
 
@@ -186,14 +203,14 @@
             const params = U.query('q');
             if (params && !search.value) search.value = params;
             search.addEventListener('input', U.debounce(() => { if (L.onSearch) L.onSearch(search.value.trim()); }, 160));
-            search.addEventListener('keydown', e => {
+            search.addEventListener('keydown', async e => {
                 if (e.key !== 'Enter') return;
                 e.preventDefault();
                 const q = search.value.trim();
                 if (L.onSearch) { L.onSearch(q); return; }
                 if (!q) return;
                 if (kind === 'client') { location.href = R.store + '?q=' + encodeURIComponent(q); return; }
-                const r = S.searchAll(q);
+                const r = await S.searchAll(q);
                 if (r.products.length) location.href = R.products + '?q=' + encodeURIComponent(q);
                 else if (r.orders.length || r.clients.length) location.href = R.orders + '?q=' + encodeURIComponent(q);
                 else UI.toast(`Nada encontrado para "${q}".`, { type: 'info', title: 'Busca' });
@@ -203,11 +220,24 @@
     }
 
     /** Executa quando o HTML estiver pronto (e a página não tiver sido redirecionada). */
+    /* O conteúdo de exemplo do HTML fica escondido (css/base/reset.css) até todas as telas terminarem de carregar.
+       Telas que mostram o próprio "carregando" podem chamar GlowUp.showPage() antes. */
+    let pending = 0;
+    GlowUp.showPage = function () { if (document.body) document.body.classList.add('gu-ready'); };
+    const checkReady = function () { if (pending === 0 && document.readyState === 'complete') GlowUp.showPage(); };
+    window.addEventListener('load', checkReady);
     GlowUp.ready = function (fn) {
         if (GlowUp.blocked) return;
-        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn();
+        pending++;
+        const finish = function () { pending--; checkReady(); };
+        const go = function () { Promise.resolve().then(fn).catch(function (e) { console.error(e); }).then(finish); };
+        const run = function () { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go(); };
+        if (S.ready && typeof S.ready.then === 'function') S.ready.then(run, run); else run();
     };
-    GlowUp.ready(wire);
+    GlowUp.ready(function () {
+        guard();
+        if (!GlowUp.blocked) wire();
+    });
 })(window);
 
 /* Foto que não carrega vira a imagem padrão do GlowUp (no lugar de links externos). */

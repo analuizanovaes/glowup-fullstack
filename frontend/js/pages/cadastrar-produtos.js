@@ -1,7 +1,11 @@
 /* Tela: cadastrarprodutos.html (cadastro e edição de produto) */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, ui: UI, config: C } = GlowUp;
     const R = C.routes;
+
+    // O catálogo da administradora precisa estar carregado antes de editar um produto ou montar um kit.
+    let catalogError = null;
+    try { await S.ensureCatalog(); } catch (e) { catalogError = e; }
 
     const form = U.$('.modal-card form');
     form.noValidate = true;
@@ -20,15 +24,21 @@ GlowUp.ready(function () {
     estoque.min = 0; estoque.step = 1;
 
     /* ---- máscaras ---- */
-    UI.bindDateField(validade);
+    UI.bindDateField(validade, { future: true });
     U.bindMask(custo, 'money'); U.bindMask(preco, 'money');
 
     /* ---- campo de categoria (necessário para os filtros da vitrine) ---- */
+    // Mesmas opções da vitrine: Feminino e Masculino (a categoria gravada no banco é "Perfumaria feminina/masculina").
+    const CATEGORIAS = [
+        { rotulo: 'Feminino', valor: 'Perfumaria feminina' },
+        { rotulo: 'Masculino', valor: 'Perfumaria masculina' },
+        { rotulo: 'Kits e presentes', valor: 'Kits e presentes' }
+    ];
     const catRow = document.createElement('div');
     catRow.className = 'form-grid';
     catRow.innerHTML = '<div class="form-group" style="grid-column: 1 / -1;"><label class="form-label">Categoria</label>' +
         '<select class="form-select" id="pf-categoria"><option value="">Selecione</option>' +
-        ['Perfumaria feminina', 'Perfumaria masculina', 'Corpo e banho', 'Kits e presentes'].map(c => `<option>${c}</option>`).join('') + '</select></div>';
+        CATEGORIAS.map(c => `<option value="${c.valor}">${c.rotulo}</option>`).join('') + '</select></div>';
     modalidade.closest('.form-grid').parentNode.insertBefore(catRow, modalidade.closest('.form-grid'));
     const categoria = U.$('#pf-categoria', form);
 
@@ -90,17 +100,17 @@ GlowUp.ready(function () {
     const isKit = () => tipoVenda.value === 'kit';
     const isManual = () => isKit() && tipoKit.value === 'MANUAL';
 
-    function fillKitOptions() {
+    async function fillKitOptions() {
         const used = kitItems.map(i => i.produtoId);
-        const opts = S.listProducts()
-            .filter(p => p.modalidade === 'PRONTA_ENTREGA' && p.tipoVenda !== 'kit' && (!editing || p.id !== editing.id) && used.indexOf(p.id) < 0)
+        const opts = (await S.listProducts())
+            .filter(p => p.ativo !== false && p.modalidade === 'PRONTA_ENTREGA' && p.tipoVenda !== 'kit' && (!editing || p.id !== editing.id) && used.indexOf(p.id) < 0)
             .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
         kitSelect.innerHTML = '<option value="">Escolha um produto avulso</option>' +
             opts.map(p => `<option value="${p.id}">${esc(p.nome)} (${S.available(p)} disp.)</option>`).join('');
     }
 
     function renderKit() {
-        fillKitOptions();
+        void fillKitOptions();
         kitList.innerHTML = kitItems.length ? kitItems.map((c, i) => {
             const p = S.getProduct(c.produtoId);
             const nomeItem = p ? p.nome : 'Produto removido';
@@ -215,11 +225,17 @@ GlowUp.ready(function () {
     let editing = null;
     if (editId) {
         editing = S.getProduct(editId);
+        if (!editing && catalogError) { UI.flash('Não foi possível carregar o produto agora: ' + catalogError.message, { type: 'error' }); location.replace(R.products); return; }
         if (!editing) { UI.flash('Produto não encontrado.', { type: 'error' }); location.replace(R.products); return; }
         title.textContent = 'Editar produto';
-        nome.value = editing.nome; marca.value = editing.marca; categoria.value = editing.categoria;
+        nome.value = editing.nome; marca.value = editing.marca;
+        {
+            const achada = CATEGORIAS.find(c => U.normalize(c.valor) === U.normalize(editing.categoria || ''));
+            const texto = U.normalize((editing.nome || '') + ' ' + (editing.descricao || '') + ' ' + (editing.categoria || ''));
+            categoria.value = achada ? achada.valor : /masculin/.test(texto) ? 'Perfumaria masculina' : /feminin/.test(texto) ? 'Perfumaria feminina' : '';
+        }
         descricao.value = editing.descricao || '';
-        custo.value = U.mask.money(String(Math.round(editing.custo * 100)));
+        custo.value = U.mask.money(String(Math.round((editing.custoFabrica || 0) * 100)));
         preco.value = U.mask.money(String(Math.round(editing.precoBase * 100)));
         tipoVenda.value = editing.tipoVenda;
         if (editing.tipoVenda === 'kit') {
@@ -228,13 +244,14 @@ GlowUp.ready(function () {
         }
         modalidade.value = editing.modalidade === 'PRONTA_ENTREGA' ? 'pronta-entrega' : 'sob-encomenda';
         if (editing.estoque !== null) estoque.value = editing.estoque;
-        if (editing.validade) validade.value = U.formatDateBR(editing.validade + 'T12:00:00');
+        if (editing.dataValidade) validade.value = U.formatDateBR(editing.dataValidade + 'T12:00:00');
         if (editing.precoPromocional) {
             promoSwitch.checked = true; promoRow.style.display = '';
             promoPreco.value = U.mask.money(String(Math.round(editing.precoPromocional * 100)));
             promoFim.value = U.formatDateBR(editing.dataFimPromocao + 'T12:00:00');
         }
         showPreview(editing.imagem);
+        imagem = editing.imagem; // ao salvar sem trocar a foto, a atual é reenviada (senão a API a apagaria)
     }
     /* ---- MODO: produto avulso x kit ----
        Produto e kit têm botões separados na lista ("+ Novo produto" / "+ Adicionar kit").
@@ -277,7 +294,7 @@ GlowUp.ready(function () {
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && !document.querySelector('.gu-overlay')) close(); });
 
     /* ---- salvar ---- */
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
         e.preventDefault();
         UI.clearErrors(form);
         const data = {
@@ -289,11 +306,19 @@ GlowUp.ready(function () {
             modalidade: modalidade.value === 'pronta-entrega' ? 'PRONTA_ENTREGA' : 'SOB_ENCOMENDA',
             estoque: estoque.value === '' ? null : Number(estoque.value),
             validade: validade.value,
+            tempoMedioUsoDias: editing ? editing.tempoMedioUsoDias : null, // não é editável aqui: mantém o valor que já existe (o CRM usa)
             promoAtiva: promoSwitch.checked,
             precoPromocional: U.parseMoney(promoPreco.value), dataFimPromocao: promoFim.value,
             imagem
         };
-        const res = S.saveProduct(data);
+        // A categoria escolhida precisa existir no banco: se ainda não existir, é criada aqui.
+        try {
+            const existentes = (await S.listCategories()).map(c => U.normalize(c.nome));
+            if (categoria.value && !existentes.includes(U.normalize(categoria.value))) {
+                await GlowUp.api.post('/api/admin/categorias', { nome: categoria.value });
+            }
+        } catch (err) { /* se falhar, a API devolve o erro de categoria na hora de salvar */ }
+        const res = await S.saveProduct(data);
         if (!res.ok) {
             if (res.message) { UI.toast(res.message, { type: 'error', title: 'Não foi possível salvar' }); return; }
             const map = { nome, marca, categoria, descricao, custo, precoBase: preco, tipoVenda, modalidade, itensKit: builder, estoque, validade, precoPromocional: promoPreco, dataFimPromocao: promoFim };
@@ -302,7 +327,7 @@ GlowUp.ready(function () {
             UI.toast('Confira os campos destacados.', { type: 'warning', title: 'Quase lá' });
             return;
         }
-        if (res.product.precoBase < res.product.custo) UI.flash('Atenção: o preço base está abaixo do custo de fábrica.', { type: 'warning', title: 'Produto salvo' });
+        if (res.product && res.product.precoBase < res.product.custoFabrica) UI.flash('Atenção: o preço base está abaixo do custo de fábrica.', { type: 'warning', title: 'Produto salvo' });
         else UI.flash(res.isNew ? (kitMode ? 'O kit já aparece na vitrine.' : 'O produto já aparece na vitrine.') : 'As alterações foram salvas.', { type: 'success', title: res.isNew ? (kitMode ? 'Kit cadastrado' : 'Produto cadastrado') : (kitMode ? 'Kit atualizado' : 'Produto atualizado') });
         location.href = R.products;
     });

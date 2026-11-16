@@ -1,0 +1,54 @@
+/* Estilos exclusivos da tela: produtos inativos (reaproveita o visual de produtos.css) */
+
+.admin-product-card.is-inactive .admin-product-img {
+    filter: grayscale(0.85);
+    opacity: 0.7;
+}
+
+.admin-product-card.is-inactive .admin-product-title {
+    color: var(--text-muted);
+}
+
+.inactive-badge {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    padding: 0.15rem 0.65rem;
+    border-radius: 50px;
+    background: var(--badge-bg);
+    border: 1px solid var(--border-color);
+    color: var(--primary-pink);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.btn-reactivate {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: #ffffff;
+    color: var(--primary-pink);
+    border: 1.5px solid var(--primary-pink);
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.btn-reactivate:hover {
+    background-color: var(--badge-bg);
+}
+
+.btn-reactivate:focus-visible {
+    outline: 2px solid var(--primary-pink);
+    outline-offset: 2px;
+}
+
+/* Responsivo: tablet e mobile */
+@media (max-width: 768px) {
+    .btn-reactivate {
+        min-height: 44px;
+        padding: 0 1.2rem;
+    }
+}

@@ -1,0 +1,1044 @@
+{
+  "info": {
+    "name": "GlowUp - Integração Financeira (Etapa 3)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Leia docs/INTEGRACAO_FINANCEIRA.md antes de executar. Ordem sugerida: pastas 0 a 6."
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{tokenCliente}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "0 - Autenticação",
+      "item": [
+        {
+          "name": "Cadastrar cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/usuarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "usuarios"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Cliente Teste\",\n  \"email\": \"{{emailCliente}}\",\n  \"senha\": \"Senha@123\",\n  \"dataNascimento\": \"1995-05-20\",\n  \"telefones\": [\n    \"61999999999\"\n  ],\n  \"aceitaTermos\": true\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Login cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailCliente}}\",\n  \"senha\": \"Senha@123\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('tokenCliente', json.token); }",
+                  "pm.test('Login retornou token', () => pm.expect(json.token).to.be.a('string'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login administradora",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailAdmin}}\",\n  \"senha\": \"{{senhaAdmin}}\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "A conta precisa ter role ADMIN no banco (veja o passo 3 do guia)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.token) { pm.collectionVariables.set('tokenAdmin', json.token); }",
+                  "pm.test('Login retornou token', () => pm.expect(json.token).to.be.a('string'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sem token (deve retornar 401)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos/meus",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos",
+                "meus"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1 - Pagamento Pix",
+      "item": [
+        {
+          "name": "Pagar com Pix",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": \"{{pedidoId}}\",\n  \"metodo\": \"PIX\",\n  \"documentoPagador\": \"12345678909\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.idGateway) { pm.collectionVariables.set('mpPaymentId', json.idGateway); }",
+                  "pm.test('Status HTTP 201', () => pm.response.to.have.status(201));",
+                  "console.log('Pagamento:', json.status, '| Pedido:', json.statusPedido);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar pagamento do pedido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos/pedido/{{pedidoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos",
+                "pedido",
+                "{{pedidoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Sincronizar com o Mercado Pago",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos/pedido/{{pedidoId}}/sincronizar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos",
+                "pedido",
+                "{{pedidoId}}",
+                "sincronizar"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 - Pagamento Cartão",
+      "item": [
+        {
+          "name": "Gerar token de cartão de teste (APRO)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://api.mercadopago.com/v1/card_tokens?public_key={{mpPublicKey}}",
+              "protocol": "https",
+              "host": [
+                "api",
+                "mercadopago",
+                "com"
+              ],
+              "path": [
+                "v1",
+                "card_tokens"
+              ],
+              "query": [
+                {
+                  "key": "public_key",
+                  "value": "{{mpPublicKey}}"
+                }
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "Chama direto a API do Mercado Pago com a chave pública de teste. Troque o nome do titular para testar outros resultados: APRO (aprovado), OTHE (recusado), FUND (saldo insuficiente).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"card_number\": \"5031433215406351\",\n  \"security_code\": \"123\",\n  \"expiration_month\": 11,\n  \"expiration_year\": 2030,\n  \"cardholder\": {\n    \"name\": \"APRO\",\n    \"identification\": {\n      \"type\": \"CPF\",\n      \"number\": \"12345678909\"\n    }\n  }\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set('cardToken', json.id);",
+                  "pm.test('Token de cartão gerado', () => pm.expect(json.id).to.be.a('string'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cartão 1x",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": \"{{pedidoId}}\",\n  \"metodo\": \"CARTAO\",\n  \"parcelas\": 1,\n  \"tokenCartao\": \"{{cardToken}}\",\n  \"bandeiraCartao\": \"master\",\n  \"documentoPagador\": \"12345678909\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.idGateway) { pm.collectionVariables.set('mpPaymentId', json.idGateway); }",
+                  "pm.test('Status HTTP 201', () => pm.response.to.have.status(201));",
+                  "console.log('Pagamento:', json.status, '| Pedido:', json.statusPedido);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cartão 3x (juros pagos pela compradora)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": \"{{pedidoId}}\",\n  \"metodo\": \"CARTAO\",\n  \"parcelas\": 3,\n  \"tokenCartao\": \"{{cardToken}}\",\n  \"bandeiraCartao\": \"master\",\n  \"documentoPagador\": \"12345678909\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.idGateway) { pm.collectionVariables.set('mpPaymentId', json.idGateway); }",
+                  "pm.test('Status HTTP 201', () => pm.response.to.have.status(201));",
+                  "console.log('Pagamento:', json.status, '| Pedido:', json.statusPedido);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cartão 4x (deve retornar 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": \"{{pedidoId}}\",\n  \"metodo\": \"CARTAO\",\n  \"parcelas\": 4,\n  \"tokenCartao\": \"{{cardToken}}\",\n  \"bandeiraCartao\": \"master\",\n  \"documentoPagador\": \"12345678909\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Método inválido BOLETO (deve retornar 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagamentos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pedidoId\": \"{{pedidoId}}\",\n  \"metodo\": \"BOLETO\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 - Webhook",
+      "item": [
+        {
+          "name": "Webhook payment (execute 2x: 2ª resposta é imediata)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks/mercadopago?data.id={{mpPaymentId}}&type=payment",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "webhooks",
+                "mercadopago"
+              ],
+              "query": [
+                {
+                  "key": "data.id",
+                  "value": "{{mpPaymentId}}"
+                },
+                {
+                  "key": "type",
+                  "value": "payment"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"payment.updated\",\n  \"api_version\": \"v1\",\n  \"data\": {\n    \"id\": \"{{mpPaymentId}}\"\n  },\n  \"id\": \"{{webhookEventoId}}\",\n  \"type\": \"payment\"\n}"
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "description": "O status é sempre relido na API do Mercado Pago. Com webhookSecret preenchido, a assinatura x-signature é gerada automaticamente."
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const segredo = pm.collectionVariables.get('webhookSecret');",
+                  "if (segredo) {",
+                  "  const dataId = pm.collectionVariables.get('mpPaymentId');",
+                  "  const ts = Date.now().toString();",
+                  "  const requestId = pm.variables.replaceIn('{{$guid}}');",
+                  "  const manifesto = `id:${dataId.toLowerCase()};request-id:${requestId};ts:${ts};`;",
+                  "  const v1 = CryptoJS.HmacSHA256(manifesto, segredo).toString(CryptoJS.enc.Hex);",
+                  "  pm.request.headers.upsert({ key: 'x-signature', value: `ts=${ts},v1=${v1}` });",
+                  "  pm.request.headers.upsert({ key: 'x-request-id', value: requestId });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4 - Cliente (isolamento)",
+      "item": [
+        {
+          "name": "Meus pedidos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos/meus",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos",
+                "meus"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detalhar pedido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos/{{pedidoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos",
+                "{{pedidoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Pedido de outra cliente (deve retornar 404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos/{{pedidoOutraCliente}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos",
+                "{{pedidoOutraCliente}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Solicitar devolução",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pedidos/{{pedidoId}}/devolucao",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pedidos",
+                "{{pedidoId}}",
+                "devolucao"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivo\": \"Arrependimento (art. 49 do CDC)\",\n  \"arrependimento\": true,\n  \"itensDevolvidos\": [\n    { \"idItemPedido\": 1, \"quantidade\": 1 }\n  ]\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const j = pm.response.json(); if (j.id) { pm.collectionVariables.set('devolucaoId', j.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Minhas devoluções",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/devolucoes/minhas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "devolucoes",
+                "minhas"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 - Admin (pedidos e dashboard)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{tokenAdmin}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "Listar pedidos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar pedidos PAGO",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos?status=PAGO",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PAGO"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Detalhar pedido (Lucro Real)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos/{{pedidoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos",
+                "{{pedidoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "PATCH PAGO -> EM_SEPARACAO",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos/{{pedidoId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos",
+                "{{pedidoId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"EM_SEPARACAO\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH EM_SEPARACAO -> ENVIADO",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos/{{pedidoId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos",
+                "{{pedidoId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ENVIADO\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH ENVIADO -> ENTREGUE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos/{{pedidoId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos",
+                "{{pedidoId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"ENTREGUE\"\n}"
+            }
+          }
+        },
+        {
+          "name": "PATCH transição inválida -> CANCELADO (deve retornar 409)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos/{{pedidoId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos",
+                "{{pedidoId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CANCELADO\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Dashboard - resumo do mês",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/resumo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "dashboard",
+                "resumo"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Dashboard - período",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard/resumo?inicio=2026-10-01&fim=2026-10-31",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "dashboard",
+                "resumo"
+              ],
+              "query": [
+                {
+                  "key": "inicio",
+                  "value": "2026-10-01"
+                },
+                {
+                  "key": "fim",
+                  "value": "2026-10-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cliente tentando acessar admin (usar token de cliente: 403)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pedidos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pedidos"
+              ]
+            },
+            "description": "Troque o Authorization desta requisição para {{tokenCliente}} para ver o 403."
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 - Admin (devoluções)",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{tokenAdmin}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "Listar devoluções",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/devolucoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "devolucoes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Analisar: lacrado (aprova)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/devolucoes/{{devolucaoId}}/analise",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "devolucoes",
+                "{{devolucaoId}}",
+                "analise"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produtoLacrado\": true,\n  \"observacao\": \"Lacre original intacto\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Analisar: lacre violado (rejeita, sem estorno de estoque)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/devolucoes/{{devolucaoId}}/analise",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "devolucoes",
+                "{{devolucaoId}}",
+                "analise"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"produtoLacrado\": false,\n  \"observacao\": \"Lacre violado\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Confirmar recebimento (estoque + estorno no gateway)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/devolucoes/{{devolucaoId}}/recebimento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "devolucoes",
+                "{{devolucaoId}}",
+                "recebimento"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "emailCliente",
+      "value": "cliente.teste@glowup.com"
+    },
+    {
+      "key": "emailAdmin",
+      "value": "admin.teste@glowup.com"
+    },
+    {
+      "key": "senhaAdmin",
+      "value": "Senha@123"
+    },
+    {
+      "key": "tokenCliente",
+      "value": ""
+    },
+    {
+      "key": "tokenAdmin",
+      "value": ""
+    },
+    {
+      "key": "pedidoId",
+      "value": ""
+    },
+    {
+      "key": "pedidoOutraCliente",
+      "value": "999999"
+    },
+    {
+      "key": "devolucaoId",
+      "value": ""
+    },
+    {
+      "key": "mpPublicKey",
+      "value": "COLE_AQUI_A_PUBLIC_KEY_DE_TESTE"
+    },
+    {
+      "key": "cardToken",
+      "value": ""
+    },
+    {
+      "key": "mpPaymentId",
+      "value": ""
+    },
+    {
+      "key": "webhookSecret",
+      "value": ""
+    },
+    {
+      "key": "webhookEventoId",
+      "value": "900001"
+    }
+  ]
+}

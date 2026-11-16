@@ -1,10 +1,10 @@
 /* Tela: confirmacaodepedido.html */
-GlowUp.ready(function () {
+GlowUp.ready(async function () {
     const { utils: U, store: S, config: C } = GlowUp;
     const R = C.routes;
     const user = S.currentUser();
-    const order = S.getOrder(U.query('pedido'));
-    if (!order || (user && order.userId !== user.id) || order.status === 'Aguardando pagamento' || order.status === 'Cancelado') {
+    const order = await S.getOrder(U.query('pedido'));
+    if (!order || (user && order.userId !== user.id) || order.status === 'AGUARDANDO_PAGAMENTO' || order.status === 'CANCELADO') {
         location.replace(R.notFound);
         return;
     }
@@ -14,16 +14,17 @@ GlowUp.ready(function () {
 
     const p = document.createElement('p');
     p.className = 'order-confirm-info';
-    const prazo = order.entrega.tipo === 'home' ? `entrega em até ${order.entrega.prazoDias} dias` : 'retirada no local, combine o horário';
+    const prazo = order.entrega.tipo === 'home' ? `entrega em até ${C.deliveryDays} dias` : 'retirada no local, combine o horário';
     p.innerHTML = `Pedido <strong>${order.id}</strong> • ${U.money(order.total)} • ${prazo}`;
     U.$('.page-title').insertAdjacentElement('afterend', p);
 
     // ADICIONADO: Botão de WhatsApp para combinar a retirada no local
     if (order.entrega.tipo === 'pickup') {
-        const contatoDomingas = S.getAdminContact();
-        if (contatoDomingas.telefone) {
-            const msg = encodeURIComponent(`Olá, ${contatoDomingas.nome}! Acabei de fazer o pedido ${order.id} no GlowUp e escolhi a Retirada Grátis. Gostaria de combinar o horário e o endereço, por favor!`);
-            const linkWhatsApp = `https://wa.me/${contatoDomingas.telefone}?text=${msg}`;
+        const contatoDomingas = S.getAdminContact() || {};
+        const msg = encodeURIComponent(`Olá, ${contatoDomingas.nome || 'Domingas'}! Acabei de fazer o pedido ${order.id} no GlowUp e escolhi a Retirada Grátis. Gostaria de combinar o horário e o endereço, por favor!`);
+        // O back já manda o link pronto (WHATSAPP_NUMERO); o número do config.js é só o plano B.
+        const linkWhatsApp = order.linkWhatsapp || (contatoDomingas.telefone ? `https://wa.me/${contatoDomingas.telefone}?text=${msg}` : null);
+        if (linkWhatsApp) {
             
             const btnWa = document.createElement('a');
             btnWa.href = linkWhatsApp;
@@ -35,6 +36,11 @@ GlowUp.ready(function () {
                 Combinar Retirada no WhatsApp
             `;
             p.insertAdjacentElement('afterend', btnWa);
+        } else {
+            const note = document.createElement('p');
+            note.className = 'order-confirm-info';
+            note.textContent = 'Retirada no local: a Domingas vai entrar em contato para combinar o horário.';
+            p.insertAdjacentElement('afterend', note);
         }
     }
 });

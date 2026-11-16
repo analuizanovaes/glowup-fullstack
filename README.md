@@ -381,11 +381,11 @@ Cinco pessoas, cada uma com frentes bem definidas.
 
 | Integrante | Atuação |
 |:--|:--|
-| **Ana Luiza Fernandes Novaes** <br/><sub>[@SEU-USUARIO](https://github.com/SEU-USUARIO)</sub> | Back-end · Front-end |
-| **Yasmin Gomes de Matos** <br/><sub>[@USUARIO-YASMIN](https://github.com/USUARIO-YASMIN)</sub> | Back-end · Documentação |
-| **Emerson Júnior de Santana Oliveira Leite** <br/><sub>[@USUARIO-EMERSON](https://github.com/USUARIO-EMERSON)</sub> | Banco de dados · Documentação |
-| **Sthefanny Ramos Parrini** <br/><sub>[@USUARIO-STHEFANNY](https://github.com/USUARIO-STHEFANNY)</sub> | Front-end · Documentação |
-| **Marcelo Leitão e Silva Filho** <br/><sub>[@USUARIO-MARCELO](https://github.com/USUARIO-MARCELO)</sub> | Banco de dados · Documentação |
+| **Ana Luiza Fernandes Novaes** <br/><sub>[@analuizanovaes](https://github.com/analuizanovaes)</sub> | Back-end · Front-end |
+| **Yasmin Gomes de Matos** <br/><sub>[@yasminmatosg](https://github.com/yasminmatosg)</sub> | Back-end · Documentação |
+| **Emerson Júnior de Santana Oliveira Leite** <br/><sub>[emersonjuniorgit](https://github.com/emersonjuniorgit)</sub> | Banco de dados · Documentação |
+| **Sthefanny Ramos Parrini** <br/><sub>[@Sthef93](https://github.com/Sthef93)</sub> | Front-end · Documentação |
+| **Marcelo Leitão e Silva Filho** <br/><sub>[@marleitaofilho-hue](https://github.com/marleitaofilho-hue)</sub> | Banco de dados · Documentação |
 
 ### Gestão do projeto
 

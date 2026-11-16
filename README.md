@@ -399,7 +399,7 @@ Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais
 
 <sub>Projeto Integrador de Sistemas Computacionais · UNIEURO · 2026</sub>
 
-<br/><br/>
+<br/>
 
 <a href="https://github.com/SEU-USUARIO/glowup-fullstack/stargazers">
   <img src="https://img.shields.io/badge/⭐_Deixe_uma_estrela-181717?style=for-the-badge&logo=github&logoColor=white" alt="Deixe uma estrela">

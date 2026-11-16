@@ -2,12 +2,7 @@
 
 <img src="frontend/assets/img/banner.svg" alt="GlowUp — E-commerce full-stack para revendedora de cosméticos" width="100%"/>
 
-<br/>
-<br/>
-
 ### ✨ Um e-commerce completo, com gestão interna embutida,<br/>construído sob medida para a rotina de uma revendedora de cosméticos de verdade.
-
-<br/>
 
 <!-- BADGES DE TECNOLOGIA -->
 ![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
@@ -18,17 +13,15 @@
 ![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 ![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
-<br/>
-
-[**📖 Sobre**](#sobre-o-projeto) &nbsp;•&nbsp;
-[**🚀 Funcionalidades**](#funcionalidades) &nbsp;•&nbsp;
-[**⚖️ Regras de negócio**](#regras-de-negócio) &nbsp;•&nbsp;
-[**🛡️ Segurança**](#segurança-e-lgpd) &nbsp;•&nbsp;
-[**🏗️ Arquitetura**](#arquitetura) &nbsp;•&nbsp;
-[**💻 Como rodar**](#como-rodar-localmente) &nbsp;•&nbsp;
-[**👥 Equipe**](#equipe)
-
-<br/>
+<p>
+  <a href="#sobre-o-projeto">📖 <b>Sobre</b></a> &nbsp;•&nbsp;
+  <a href="#funcionalidades">🚀 <b>Funcionalidades</b></a> &nbsp;•&nbsp;
+  <a href="#regras-de-negócio">⚖️ <b>Regras de negócio</b></a> &nbsp;•&nbsp;
+  <a href="#segurança-e-lgpd">🛡️ <b>Segurança</b></a> &nbsp;•&nbsp;
+  <a href="#arquitetura">🏗️ <b>Arquitetura</b></a> &nbsp;•&nbsp;
+  <a href="#como-rodar-localmente">💻 <b>Como rodar</b></a> &nbsp;•&nbsp;
+  <a href="#equipe">👥 <b>Equipe</b></a>
+</p>
 
 <!-- CARDS DE ESTATÍSTICAS -->
 <table>
@@ -54,11 +47,9 @@
 
 </div>
 
-<br/>
-
 ---
 
-## 📖 Sobre o projeto
+## Sobre o projeto
 
 > [!IMPORTANT]  
 > **Este é um trabalho acadêmico, mas o problema é real.**
@@ -73,7 +64,7 @@ O sistema cumpre dois papéis ao mesmo tempo:
 
 Revender cosméticos tem regras próprias: **pronta-entrega** convive com **sob encomenda**, a entrega atende só **dois bairros**, produto lacrado é condição de devolução e as taxas do gateway comem a margem. O GlowUp transforma cada uma dessas situações em regra de sistema, validada no servidor e coberta por testes.
 
-### ✨ O que torna o projeto diferente
+### O que torna o projeto diferente
 
 - 🎯 **Cliente real, requisitos reais.** Cada regra de negócio saiu de um levantamento com quem vive a operação.
 - 💰 **Dinheiro tratado com seriedade.** Reserva atômica de estoque, pagamentos idempotentes e webhooks assinados, deduplicados e reconsultados no gateway.
@@ -83,7 +74,7 @@ Revender cosméticos tem regras próprias: **pronta-entrega** convive com **sob 
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 ### 🛍️ Para a cliente
 
@@ -115,7 +106,7 @@ Revender cosméticos tem regras próprias: **pronta-entrega** convive com **sob 
 
 ---
 
-## ⚖️ Regras de negócio
+## Regras de negócio
 
 Estas regras saíram do levantamento com a cliente e estão implementadas no **back-end**, não só na interface.
 
@@ -136,7 +127,7 @@ Estas regras saíram do levantamento com a cliente e estão implementadas no **b
 
 ---
 
-## 🛡️ Segurança e LGPD
+## Segurança e LGPD
 
 Projeto construído sob o princípio de **Security by Design**.
 
@@ -154,7 +145,7 @@ Projeto construído sob o princípio de **Security by Design**.
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 Arquitetura em camadas (N-Tier) hospedada em nuvem como PaaS (**Render**, sem Docker), com front-end, back-end e persistência separados.
 
@@ -185,7 +176,7 @@ flowchart LR
     SVC --> CL
 ```
 
-### 🔄 Fluxo de compra
+### Fluxo de compra
 
 ```mermaid
 sequenceDiagram
@@ -210,7 +201,7 @@ sequenceDiagram
     API-->>A: Notificação de nova venda
 ```
 
-### ⏰ Rotinas automáticas
+### Rotinas automáticas
 
 | Horário (America/Sao_Paulo) | Rotina |
 |:--|:--|
@@ -221,7 +212,7 @@ sequenceDiagram
 
 ---
 
-## 🛠️ Stack
+## Stack
 
 | Camada | Tecnologias |
 |:--|:--|
@@ -237,7 +228,7 @@ sequenceDiagram
 
 ---
 
-## 🗺️ Modelo de dados
+## Modelo de dados
 
 Visão simplificada das entidades centrais. O DER completo e o dicionário de dados estão na [documentação do projeto](#-documentação).
 
@@ -268,7 +259,7 @@ erDiagram
 
 ---
 
-## 📁 Estrutura do repositório
+## Estrutura do repositório
 
 ```
 glowup-fullstack/
@@ -295,7 +286,7 @@ glowup-fullstack/
 
 ---
 
-## 💻 Como rodar localmente
+## Como rodar localmente
 
 **Pré-requisitos:** Java 21 · PostgreSQL (banco `glowup`) · um servidor HTTP estático para o front-end.
 Opcional: contas de teste no Mercado Pago, Resend e Cloudinary para exercitar pagamentos, e-mails e imagens.
@@ -359,7 +350,7 @@ Acesse `http://localhost:5500`. O endereço da API fica em `frontend/js/core/con
 
 ---
 
-## 🧪 Testes e qualidade
+## Testes e qualidade
 
 ```bash
 cd api
@@ -372,7 +363,7 @@ cd api
 
 ---
 
-## 📚 Documentação
+## Documentação
 
 | Documento | Conteúdo |
 |:--|:--|
@@ -385,7 +376,7 @@ cd api
 
 ---
 
-## 👥 Equipe
+## Equipe
 
 Cinco pessoas, cada uma com frentes bem definidas.
 
@@ -397,7 +388,7 @@ Cinco pessoas, cada uma com frentes bem definidas.
 | **Sthefanny Ramos Parrini** <br/><sub>[@USUARIO-STHEFANNY](https://github.com/USUARIO-STHEFANNY)</sub> | Front-end · Documentação |
 | **Marcelo Leitão e Silva Filho** <br/><sub>[@USUARIO-MARCELO](https://github.com/USUARIO-MARCELO)</sub> | Banco de dados · Documentação |
 
-### 📋 Gestão do projeto
+### Gestão do projeto
 
 Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais entre agosto e outubro de 2026, **Git Flow** com branches por tarefa (`feature/`, `fix/`, `chore/`, `docs/`) e **Pull Requests** obrigatórios. Os registros do Kanban estão na documentação do projeto.
 
@@ -409,8 +400,7 @@ Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais
 
 <sub>Projeto Integrador de Sistemas Computacionais · UNIEURO · 2026</sub>
 
-<br/>
-<br/>
+<br/><br/>
 
 <a href="https://github.com/SEU-USUARIO/glowup-fullstack/stargazers">
   <img src="https://img.shields.io/badge/⭐_Deixe_uma_estrela-181717?style=for-the-badge&logo=github&logoColor=white" alt="Deixe uma estrela">

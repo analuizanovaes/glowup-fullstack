@@ -147,7 +147,7 @@ Projeto construído sob o princípio de **Security by Design**.
 
 ## Arquitetura
 
-Arquitetura em camadas (N-Tier) hospedada em nuvem como PaaS (**Render**, sem Docker), com front-end, back-end e persistência separados.
+Arquitetura em camadas (N-Tier) com front-end, back-end e persistência separados.
 
 ```mermaid
 flowchart LR
@@ -223,7 +223,6 @@ sequenceDiagram
 | 🎨 **Front-end** | `HTML5` `CSS3` `JavaScript nativo` `Mobile-first` |
 | 🔌 **Integrações** | `Mercado Pago` `ViaCEP` `Resend` `Cloudinary` |
 | 🧪 **Qualidade** | `JUnit` `Spring Test` `GitHub Actions (PostgreSQL 16)` `Dependabot` |
-| ☁️ **Infraestrutura** | `Render (PaaS)` |
 | 📋 **Gestão** | `Git Flow` `Pull Requests` `Kanban (Planner)` |
 
 ---

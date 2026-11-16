@@ -29,7 +29,11 @@ jobs:
       DB_URL: jdbc:postgresql://localhost:5432/glowup
       DB_USER: postgres
       DB_PASS: postgres
-
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/glowup
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      
     steps:
       - uses: actions/checkout@v4
 

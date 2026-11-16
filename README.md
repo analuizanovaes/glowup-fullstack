@@ -5,32 +5,52 @@
 <br/>
 <br/>
 
-### Um e-commerce completo, com gestão interna embutida,<br/>construído sob medida para a rotina de uma revendedora de cosméticos de verdade.
+### ✨ Um e-commerce completo, com gestão interna embutida,<br/>construído sob medida para a rotina de uma revendedora de cosméticos de verdade.
 
 <br/>
 
-[**Sobre**](#sobre-o-projeto) &nbsp;•&nbsp;
-[**Funcionalidades**](#funcionalidades) &nbsp;•&nbsp;
-[**Regras de negócio**](#regras-de-negócio) &nbsp;•&nbsp;
-[**Segurança**](#segurança-e-lgpd) &nbsp;•&nbsp;
-[**Arquitetura**](#arquitetura) &nbsp;•&nbsp;
-[**Como rodar**](#como-rodar-localmente) &nbsp;•&nbsp;
-[**Equipe**](#equipe)
+<!-- BADGES DE TECNOLOGIA -->
+![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Flyway](https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=json-web-tokens&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 <br/>
 
+[**📖 Sobre**](#sobre-o-projeto) &nbsp;•&nbsp;
+[**🚀 Funcionalidades**](#funcionalidades) &nbsp;•&nbsp;
+[**⚖️ Regras de negócio**](#regras-de-negócio) &nbsp;•&nbsp;
+[**🛡️ Segurança**](#segurança-e-lgpd) &nbsp;•&nbsp;
+[**🏗️ Arquitetura**](#arquitetura) &nbsp;•&nbsp;
+[**💻 Como rodar**](#como-rodar-localmente) &nbsp;•&nbsp;
+[**👥 Equipe**](#equipe)
+
+<br/>
+
+<!-- CARDS DE ESTATÍSTICAS -->
 <table>
   <tr>
-    <td align="center" width="180"><h2>80+</h2><sub>ENDPOINTS REST<br/>documentados no Swagger</sub></td>
-    <td align="center" width="180"><h2>200</h2><sub>TESTES AUTOMATIZADOS<br/>em 35 classes</sub></td>
-    <td align="center" width="180"><h2>23</h2><sub>MIGRATIONS FLYWAY<br/>30+ tabelas versionadas</sub></td>
-    <td align="center" width="180"><h2>25</h2><sub>TELAS RESPONSIVAS<br/>mobile-first</sub></td>
+    <td align="center" width="180">
+      <h2>🚀 80+</h2>
+      <sub><b>ENDPOINTS REST</b><br/>documentados no Swagger</sub>
+    </td>
+    <td align="center" width="180">
+      <h2>🧪 200</h2>
+      <sub><b>TESTES AUTOMATIZADOS</b><br/>em 35 classes</sub>
+    </td>
+    <td align="center" width="180">
+      <h2>🗄️ 23</h2>
+      <sub><b>MIGRATIONS FLYWAY</b><br/>30+ tabelas versionadas</sub>
+    </td>
+    <td align="center" width="180">
+      <h2>📱 25</h2>
+      <sub><b>TELAS RESPONSIVAS</b><br/>mobile-first</sub>
+    </td>
   </tr>
 </table>
-
-<br/>
-
-<sub>**Java 21** &nbsp;·&nbsp; **Spring Boot** &nbsp;·&nbsp; **PostgreSQL** &nbsp;·&nbsp; **Flyway** &nbsp;·&nbsp; **JWT + RBAC** &nbsp;·&nbsp; **Mercado Pago** &nbsp;·&nbsp; **OpenAPI** &nbsp;·&nbsp; **HTML · CSS · JS**</sub>
 
 </div>
 
@@ -38,103 +58,103 @@
 
 ---
 
-## Sobre o projeto
+## 📖 Sobre o projeto
 
+> [!IMPORTANT]  
 > **Este é um trabalho acadêmico, mas o problema é real.**
->
 > O GlowUp nasceu como **Projeto Integrador de Sistemas Computacionais** do Centro Universitário Euroamericano (**UNIEURO**), turmas ADS04M1 e SI04M1, sob orientação do **Prof. Paulo Augusto** (2026). Em vez de inventar um sistema fictício, o grupo trabalhou com uma **cliente real**: a revendedora **Domingas**, que vende Natura, O Boticário, Eudora e Avon. Requisitos, regras e restrições vêm da operação dela.
 
 O sistema cumpre dois papéis ao mesmo tempo:
 
-|  | Para quem | O que entrega |
+| Módulo | Para quem | O que entrega |
 |:--|:--|:--|
-| **Gestão** | A administradora | Controle de estoque, **lucro real** de cada venda, logística regional e alertas de validade e reposição |
-| **Vitrine** | As clientes | Cadastro seguro, carrinho, checkout com Pix e cartão, acompanhamento de pedidos e devoluções |
+| 👑 **Gestão** | A administradora | Controle de estoque, **lucro real** de cada venda, logística regional e alertas de validade e reposição |
+| 🛍️ **Vitrine** | As clientes | Cadastro seguro, carrinho, checkout com Pix e cartão, acompanhamento de pedidos e devoluções |
 
 Revender cosméticos tem regras próprias: **pronta-entrega** convive com **sob encomenda**, a entrega atende só **dois bairros**, produto lacrado é condição de devolução e as taxas do gateway comem a margem. O GlowUp transforma cada uma dessas situações em regra de sistema, validada no servidor e coberta por testes.
 
-### O que torna o projeto diferente
+### ✨ O que torna o projeto diferente
 
-- **Cliente real, requisitos reais.** Cada regra de negócio saiu de um levantamento com quem vive a operação.
-- **Dinheiro tratado com seriedade.** Reserva atômica de estoque, pagamentos idempotentes e webhooks assinados, deduplicados e reconsultados no gateway.
-- **Segurança desde o desenho.** JWT com rotação de refresh token, RBAC, rate limit e **zero CPF persistido** (LGPD).
-- **Banco versionado e auditável.** Flyway, exclusão lógica e `ON DELETE RESTRICT` em todas as chaves estrangeiras.
-- **Qualidade verificada.** CI no GitHub Actions rodando 200 testes contra um **PostgreSQL 16 real**.
-
----
-
-## Funcionalidades
-
-### Para a cliente
-
-| Módulo | O que oferece |
-|:--|:--|
-| **Conta e segurança** | Cadastro sem CPF, trava de maioridade (18+), senha forte, login com JWT e recuperação de acesso por código (OTP) por e-mail |
-| **Meu perfil** | Edição de dados, múltiplos telefones e endereços, troca de senha e exclusão lógica da conta |
-| **Vitrine** | Busca por nome, filtro por categoria, ordenação por preço e paginação |
-| **Carrinho** | Persistido no servidor, subtotal em tempo real e alerta quando estoque ou preço mudam |
-| **Checkout** | Frete, validação de CEP via ViaCEP, cupons de desconto e aceite dos termos de uso |
-| **Pagamento** | Pix com QR Code ou cartão em até 3x, com juros do parcelamento repassados à compradora |
-| **Pós-venda** | Status do pedido, cancelamento enquanto aguarda pagamento e devolução em até 7 dias |
-| **Retirada no local** | Link de WhatsApp com mensagem pronta para combinar com a revendedora |
-
-### Para a administradora
-
-| Módulo | O que oferece |
-|:--|:--|
-| **Painel e métricas** | Dashboard com vendas consolidadas por período |
-| **Lucro real** | Por pedido: valor total − custo de fábrica − taxas do gateway, congelado na aprovação do pagamento |
-| **Pedidos** | Lista completa e transição de status (`Pago → Em separação → Enviado → Entregue`) |
-| **Catálogo** | CRUD de produtos, categorias e kits (de fábrica ou montados), com inativação no lugar de exclusão |
-| **Estoque** | Entradas e ajustes com auditoria de cada movimentação |
-| **Cupons** | Validade, valor mínimo e limite de uso |
-| **Devoluções** | Análise, conferência do lacre e recebimento com estorno e reposição automáticos ao estoque |
-| **CRM de reposição** | Sugere quando contatar a cliente, com base na data da compra e no tempo médio de uso do cosmético |
-| **Alertas de validade** | Aviso de produtos de pronta-entrega que vencem em até 25 dias |
-| **Modo manutenção** | Interruptor que tira a loja do ar com uma tela de aviso |
+- 🎯 **Cliente real, requisitos reais.** Cada regra de negócio saiu de um levantamento com quem vive a operação.
+- 💰 **Dinheiro tratado com seriedade.** Reserva atômica de estoque, pagamentos idempotentes e webhooks assinados, deduplicados e reconsultados no gateway.
+- 🛡️ **Segurança desde o desenho.** JWT com rotação de refresh token, RBAC, rate limit e **zero CPF persistido** (LGPD).
+- 📚 **Banco versionado e auditável.** Flyway, exclusão lógica e `ON DELETE RESTRICT` em todas as chaves estrangeiras.
+- ✅ **Qualidade verificada.** CI no GitHub Actions rodando 200 testes contra um **PostgreSQL 16 real**.
 
 ---
 
-## Regras de negócio
+## 🚀 Funcionalidades
+
+### 🛍️ Para a cliente
+
+| Módulo | O que oferece |
+|:--|:--|
+| 🔐 **Conta e segurança** | Cadastro sem CPF, trava de maioridade (18+), senha forte, login com JWT e recuperação de acesso por código (OTP) por e-mail |
+| 👤 **Meu perfil** | Edição de dados, múltiplos telefones e endereços, troca de senha e exclusão lógica da conta |
+| 🏬 **Vitrine** | Busca por nome, filtro por categoria, ordenação por preço e paginação |
+| 🛒 **Carrinho** | Persistido no servidor, subtotal em tempo real e alerta quando estoque ou preço mudam |
+| 💳 **Checkout** | Frete, validação de CEP via ViaCEP, cupons de desconto e aceite dos termos de uso |
+| 💸 **Pagamento** | Pix com QR Code ou cartão em até 3x, com juros do parcelamento repassados à compradora |
+| 📦 **Pós-venda** | Status do pedido, cancelamento enquanto aguarda pagamento e devolução em até 7 dias |
+| 📍 **Retirada no local** | Link de WhatsApp com mensagem pronta para combinar com a revendedora |
+
+### 👑 Para a administradora
+
+| Módulo | O que oferece |
+|:--|:--|
+| 📊 **Painel e métricas** | Dashboard com vendas consolidadas por período |
+| 💵 **Lucro real** | Por pedido: valor total − custo de fábrica − taxas do gateway, congelado na aprovação do pagamento |
+| 📋 **Pedidos** | Lista completa e transição de status (`Pago → Em separação → Enviado → Entregue`) |
+| 🏷️ **Catálogo** | CRUD de produtos, categorias e kits (de fábrica ou montados), com inativação no lugar de exclusão |
+| 📦 **Estoque** | Entradas e ajustes com auditoria de cada movimentação |
+| 🎟️ **Cupons** | Validade, valor mínimo e limite de uso |
+| 🔄 **Devoluções** | Análise, conferência do lacre e recebimento com estorno e reposição automáticos ao estoque |
+| 📞 **CRM de reposição** | Sugere quando contatar a cliente, com base na data da compra e no tempo médio de uso do cosmético |
+| ⏳ **Alertas de validade** | Aviso de produtos de pronta-entrega que vencem em até 25 dias |
+| 🚧 **Modo manutenção** | Interruptor que tira a loja do ar com uma tela de aviso |
+
+---
+
+## ⚖️ Regras de negócio
 
 Estas regras saíram do levantamento com a cliente e estão implementadas no **back-end**, não só na interface.
 
 | Regra | Como o sistema trata |
 |:--|:--|
-| **Entrega restrita** (RN03) | Frete fixo de R$ 10,00 apenas para **Itapoã e Paranoá**. Qualquer outra região só tem **retirada grátis**. A trava é em cascata (país → UF → bairro) e o servidor rejeita o que a tela deixar passar |
-| **Carrinho misto** (RN03) | Com itens de pronta-entrega e sob encomenda, o checkout unifica a entrega e mostra o **prazo mais longo** |
-| **Taxas e juros** (RN02) | A vitrine mostra o preço oficial. As taxas do gateway são **absorvidas pela revendedora**; só os juros do parcelamento (máximo de 3x) vão para a compradora. Pix não tem custo extra |
-| **Estoque por modalidade** (RNF02) | Controle rígido de quantidade só em **pronta-entrega**. Itens sob encomenda não têm saldo |
-| **Reserva e baixa de estoque** (RN04) | Reserva atômica no checkout. A baixa definitiva só ocorre quando o webhook aprova o pagamento, e webhooks repetidos são ignorados |
-| **Sem "fiado"** (RN04) | Só Pix e cartão. Pagamento na entrega e venda a prazo estão bloqueados |
-| **Lucro real** (RN05) | Deduz custo de fábrica e taxas. Sem esses dados, o pedido aparece como "Dados insuficientes" e fica fora das somas |
-| **Resiliência no pagamento** (RN06) | Se o Mercado Pago cair, o carrinho **não é esvaziado** e a cliente recebe uma mensagem amigável |
-| **Maioridade** (RN07) | O servidor calcula a idade pela data de nascimento e bloqueia menores de 18 anos |
-| **Promoções** (RN08) | Rotina diária à meia-noite devolve ao preço base os produtos com promoção expirada, sem alterar o lucro de pedidos já registrados |
-| **Devolução** (RN01 / RD03) | Prazo de 7 dias, produto lacrado, estorno e reposição no recebimento. Cobre devolução parcial e direito de arrependimento (art. 49 do CDC) |
-| **Exclusão lógica** (RNF02) | Nenhum registro das tabelas principais é apagado fisicamente, preservando o histórico financeiro |
+| 🚚 **Entrega restrita** (RN03) | Frete fixo de R$ 10,00 apenas para **Itapoã e Paranoá**. Qualquer outra região só tem **retirada grátis**. A trava é em cascata (país → UF → bairro) e o servidor rejeita o que a tela deixar passar |
+| 🛒 **Carrinho misto** (RN03) | Com itens de pronta-entrega e sob encomenda, o checkout unifica a entrega e mostra o **prazo mais longo** |
+| 💸 **Taxas e juros** (RN02) | A vitrine mostra o preço oficial. As taxas do gateway são **absorvidas pela revendedora**; só os juros do parcelamento (máximo de 3x) vão para a compradora. Pix não tem custo extra |
+| 📦 **Estoque por modalidade** (RNF02) | Controle rígido de quantidade só em **pronta-entrega**. Itens sob encomenda não têm saldo |
+| ⚡ **Reserva e baixa de estoque** (RN04) | Reserva atômica no checkout. A baixa definitiva só ocorre quando o webhook aprova o pagamento, e webhooks repetidos são ignorados |
+| 🚫 **Sem "fiado"** (RN04) | Só Pix e cartão. Pagamento na entrega e venda a prazo estão bloqueados |
+| 💰 **Lucro real** (RN05) | Deduz custo de fábrica e taxas. Sem esses dados, o pedido aparece como "Dados insuficientes" e fica fora das somas |
+| 🛡️ **Resiliência no pagamento** (RN06) | Se o Mercado Pago cair, o carrinho **não é esvaziado** e a cliente recebe uma mensagem amigável |
+| 🔞 **Maioridade** (RN07) | O servidor calcula a idade pela data de nascimento e bloqueia menores de 18 anos |
+| 🏷️ **Promoções** (RN08) | Rotina diária à meia-noite devolve ao preço base os produtos com promoção expirada, sem alterar o lucro de pedidos já registrados |
+| 🔄 **Devolução** (RN01 / RD03) | Prazo de 7 dias, produto lacrado, estorno e reposição no recebimento. Cobre devolução parcial e direito de arrependimento (art. 49 do CDC) |
+| 🗑️ **Exclusão lógica** (RNF02) | Nenhum registro das tabelas principais é apagado fisicamente, preservando o histórico financeiro |
 
 ---
 
-## Segurança e LGPD
+## 🛡️ Segurança e LGPD
 
 Projeto construído sob o princípio de **Security by Design**.
 
 | Frente | O que foi feito |
 |:--|:--|
-| **Minimização de dados** | **Sem CPF no banco** (LGPD, art. 6º, III). Quando o cartão exige CPF, ele segue direto ao gateway e nunca é persistido nem logado |
-| **Termos auditáveis** | O aceite é gravado com data, hora e versão do documento, vinculado ao usuário |
-| **Autenticação** | Access token JWT de 30 min e refresh token com **rotação a cada uso**, guardado apenas como hash SHA-256. Se um token já usado reaparecer, todas as sessões da conta são encerradas. Trocar a senha invalida os tokens anteriores |
-| **Autorização (RBAC)** | Rotas `/api/admin/**` exigem o perfil `ADMIN`. Senhas com BCrypt e validação de complexidade |
-| **Primeiro acesso** | Com senha provisória, a API só libera a troca de senha até que ela seja feita |
-| **Proteção contra abuso** | Rate limit por IP (Bucket4j) em login, cadastro, checkout, pagamento e CEP, mais bloqueio temporário após falhas seguidas de login |
-| **Webhooks confiáveis** | Assinatura validada, eventos deduplicados e status sempre reconsultado no Mercado Pago, com valor e referência conferidos |
-| **Segredos fora do código** | Tudo vem de variáveis de ambiente. Em produção, a API **se recusa a subir** com segredo JWT fraco, CORS aberto ou remetente de e-mail de demonstração |
-| **Dependências em dia** | Dependabot abre pull requests semanais com atualizações e correções de segurança |
+| 👁️ **Minimização de dados** | **Sem CPF no banco** (LGPD, art. 6º, III). Quando o cartão exige CPF, ele segue direto ao gateway e nunca é persistido nem logado |
+| 📝 **Termos auditáveis** | O aceite é gravado com data, hora e versão do documento, vinculado ao usuário |
+| 🔑 **Autenticação** | Access token JWT de 30 min e refresh token com **rotação a cada uso**, guardado apenas como hash SHA-256. Se um token já usado reaparecer, todas as sessões da conta são encerradas. Trocar a senha invalida os tokens anteriores |
+| 🛂 **Autorização (RBAC)** | Rotas `/api/admin/**` exigem o perfil `ADMIN`. Senhas com BCrypt e validação de complexidade |
+| 🚪 **Primeiro acesso** | Com senha provisória, a API só libera a troca de senha até que ela seja feita |
+| 🚦 **Proteção contra abuso** | Rate limit por IP (Bucket4j) em login, cadastro, checkout, pagamento e CEP, mais bloqueio temporário após falhas seguidas de login |
+| 🪝 **Webhooks confiáveis** | Assinatura validada, eventos deduplicados e status sempre reconsultado no Mercado Pago, com valor e referência conferidos |
+| 🤫 **Segredos fora do código** | Tudo vem de variáveis de ambiente. Em produção, a API **se recusa a subir** com segredo JWT fraco, CORS aberto ou remetente de e-mail de demonstração |
+| 🔄 **Dependências em dia** | Dependabot abre pull requests semanais com atualizações e correções de segurança |
 
 ---
 
-## Arquitetura
+## 🏗️ Arquitetura
 
 Arquitetura em camadas (N-Tier) hospedada em nuvem como PaaS (**Render**, sem Docker), com front-end, back-end e persistência separados.
 
@@ -165,7 +185,7 @@ flowchart LR
     SVC --> CL
 ```
 
-### Fluxo de compra
+### 🔄 Fluxo de compra
 
 ```mermaid
 sequenceDiagram
@@ -190,7 +210,7 @@ sequenceDiagram
     API-->>A: Notificação de nova venda
 ```
 
-### Rotinas automáticas
+### ⏰ Rotinas automáticas
 
 | Horário (America/Sao_Paulo) | Rotina |
 |:--|:--|
@@ -201,25 +221,25 @@ sequenceDiagram
 
 ---
 
-## Stack
+## 🛠️ Stack
 
 | Camada | Tecnologias |
 |:--|:--|
-| **Back-end** | `Java 21` `Spring Boot` `Spring Security` `Spring Data JPA` `Bean Validation` `Lombok` |
-| **Banco de dados** | `PostgreSQL` `Flyway` |
-| **Autenticação** | `JWT (jjwt)` `Refresh token com rotação` `BCrypt` `RBAC` |
-| **Documentação da API** | `OpenAPI / Swagger UI (springdoc)` `Postman` |
-| **Front-end** | `HTML5` `CSS3` `JavaScript nativo` `Mobile-first` |
-| **Integrações** | `Mercado Pago` `ViaCEP` `Resend` `Cloudinary` |
-| **Qualidade** | `JUnit` `Spring Test` `GitHub Actions (PostgreSQL 16)` `Dependabot` |
-| **Infraestrutura** | `Render (PaaS)` |
-| **Gestão** | `Git Flow` `Pull Requests` `Kanban (Planner)` |
+| ⚙️ **Back-end** | `Java 21` `Spring Boot` `Spring Security` `Spring Data JPA` `Bean Validation` `Lombok` |
+| 🗄️ **Banco de dados** | `PostgreSQL` `Flyway` |
+| 🔐 **Autenticação** | `JWT (jjwt)` `Refresh token com rotação` `BCrypt` `RBAC` |
+| 📚 **Documentação da API** | `OpenAPI / Swagger UI (springdoc)` `Postman` |
+| 🎨 **Front-end** | `HTML5` `CSS3` `JavaScript nativo` `Mobile-first` |
+| 🔌 **Integrações** | `Mercado Pago` `ViaCEP` `Resend` `Cloudinary` |
+| 🧪 **Qualidade** | `JUnit` `Spring Test` `GitHub Actions (PostgreSQL 16)` `Dependabot` |
+| ☁️ **Infraestrutura** | `Render (PaaS)` |
+| 📋 **Gestão** | `Git Flow` `Pull Requests` `Kanban (Planner)` |
 
 ---
 
-## Modelo de dados
+## 🗺️ Modelo de dados
 
-Visão simplificada das entidades centrais. O DER completo e o dicionário de dados estão na [documentação do projeto](#documentação).
+Visão simplificada das entidades centrais. O DER completo e o dicionário de dados estão na [documentação do projeto](#-documentação).
 
 ```mermaid
 erDiagram
@@ -248,7 +268,7 @@ erDiagram
 
 ---
 
-## Estrutura do repositório
+## 📁 Estrutura do repositório
 
 ```
 glowup-fullstack/
@@ -275,12 +295,12 @@ glowup-fullstack/
 
 ---
 
-## Como rodar localmente
+## 💻 Como rodar localmente
 
 **Pré-requisitos:** Java 21 · PostgreSQL (banco `glowup`) · um servidor HTTP estático para o front-end.
 Opcional: contas de teste no Mercado Pago, Resend e Cloudinary para exercitar pagamentos, e-mails e imagens.
 
-**1. Clone e crie o banco**
+**1️⃣ Clone e crie o banco**
 
 ```bash
 git clone https://github.com/SEU-USUARIO/glowup-fullstack.git
@@ -291,7 +311,7 @@ cd glowup-fullstack
 CREATE DATABASE glowup;
 ```
 
-**2. Configure as variáveis de ambiente**
+**2️⃣ Configure as variáveis de ambiente**
 
 ```bash
 cd api
@@ -299,7 +319,7 @@ cp .env.example .env
 ```
 
 <details>
-<summary><b>Variáveis mínimas do <code>.env</code></b></summary>
+<summary><b>🔧 Variáveis mínimas do <code>.env</code></b></summary>
 
 <br/>
 
@@ -314,10 +334,10 @@ As integrações (`MP_*`, `RESEND_*`, `CLOUDINARY_*`) são necessárias para pag
 
 </details>
 
-> [!WARNING]
+> [!WARNING]  
 > **Nunca versione o `.env`.** Ele já está no `.gitignore`.
 
-**3. Suba a API**
+**3️⃣ Suba a API**
 
 ```bash
 ./rodar-local.sh        # Linux, macOS ou Git Bash
@@ -326,7 +346,7 @@ rodar-local.cmd         # Windows (CMD)
 
 Na primeira execução o Flyway cria todas as tabelas e carrega o catálogo inicial de **50 produtos**. A API sobe em `http://localhost:8080`, e com `SWAGGER_ENABLED=true` a documentação interativa fica em `/swagger-ui.html`.
 
-**4. Suba o front-end**
+**4️⃣ Suba o front-end**
 
 Em outro terminal, sirva a pasta `frontend/` por HTTP (não abra o `index.html` como `file://`):
 
@@ -339,33 +359,33 @@ Acesse `http://localhost:5500`. O endereço da API fica em `frontend/js/core/con
 
 ---
 
-## Testes e qualidade
+## 🧪 Testes e qualidade
 
 ```bash
 cd api
 ./mvnw verify
 ```
 
-- **200 testes automatizados** cobrem serviços de negócio, segurança, rate limit, autorização de rotas, webhooks, devoluções e conciliação de pagamentos.
-- O **CI (GitHub Actions)** compila e roda toda a suíte a cada push e pull request contra um **PostgreSQL 16 real**, o que pega erros como tabela sem migration.
-- O **Dependabot** mantém dependências Maven e Actions atualizadas.
+- 🧪 **200 testes automatizados** cobrem serviços de negócio, segurança, rate limit, autorização de rotas, webhooks, devoluções e conciliação de pagamentos.
+- ⚙️ O **CI (GitHub Actions)** compila e roda toda a suíte a cada push e pull request contra um **PostgreSQL 16 real**, o que pega erros como tabela sem migration.
+- 🤖 O **Dependabot** mantém dependências Maven e Actions atualizadas.
 
 ---
 
-## Documentação
+## 📚 Documentação
 
 | Documento | Conteúdo |
 |:--|:--|
-| [**Documentação do Projeto Integrador (PDF)**](docs/GlowUp_Projeto_Integrador.pdf) | Requisitos (RF, RNF, RN, RD), casos de uso, estórias, arquitetura, diagramas de classes e sequência, DER, dicionário de dados, protótipos e Kanban |
-| [`docs/BACKEND_COMPLETO.md`](docs/BACKEND_COMPLETO.md) | Cobertura do back-end, fluxos, decisões de projeto e contratos da API |
-| [`docs/CONFIGURACAO_AMBIENTE.md`](docs/CONFIGURACAO_AMBIENTE.md) | Variáveis de ambiente, execução local, e-mail e Mercado Pago |
-| [`docs/INTEGRACAO_FINANCEIRA.md`](docs/INTEGRACAO_FINANCEIRA.md) | Pagamentos, webhooks, lucro real e devoluções |
-| [`docs/GlowUp-API.postman_collection.json`](docs/GlowUp-API.postman_collection.json) | Coleção Postman com todas as rotas |
-| [`docs/GlowUp-Financeiro.postman_collection.json`](docs/GlowUp-Financeiro.postman_collection.json) | Cenários de teste de pagamento e devolução |
+| 📄 [**Documentação do Projeto Integrador (PDF)**](docs/GlowUp_Projeto_Integrador.pdf) | Requisitos (RF, RNF, RN, RD), casos de uso, estórias, arquitetura, diagramas de classes e sequência, DER, dicionário de dados, protótipos e Kanban |
+| ⚙️ [`docs/BACKEND_COMPLETO.md`](docs/BACKEND_COMPLETO.md) | Cobertura do back-end, fluxos, decisões de projeto e contratos da API |
+| 🛠️ [`docs/CONFIGURACAO_AMBIENTE.md`](docs/CONFIGURACAO_AMBIENTE.md) | Variáveis de ambiente, execução local, e-mail e Mercado Pago |
+| 💳 [`docs/INTEGRACAO_FINANCEIRA.md`](docs/INTEGRACAO_FINANCEIRA.md) | Pagamentos, webhooks, lucro real e devoluções |
+| 📬 [`docs/GlowUp-API.postman_collection.json`](docs/GlowUp-API.postman_collection.json) | Coleção Postman com todas as rotas |
+| 📊 [`docs/GlowUp-Financeiro.postman_collection.json`](docs/GlowUp-Financeiro.postman_collection.json) | Cenários de teste de pagamento e devolução |
 
 ---
 
-## Equipe
+## 👥 Equipe
 
 Cinco pessoas, cada uma com frentes bem definidas.
 
@@ -377,7 +397,7 @@ Cinco pessoas, cada uma com frentes bem definidas.
 | **Sthefanny Ramos Parrini** <br/><sub>[@USUARIO-STHEFANNY](https://github.com/USUARIO-STHEFANNY)</sub> | Front-end · Documentação |
 | **Marcelo Leitão e Silva Filho** <br/><sub>[@USUARIO-MARCELO](https://github.com/USUARIO-MARCELO)</sub> | Banco de dados · Documentação |
 
-### Gestão do projeto
+### 📋 Gestão do projeto
 
 Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais entre agosto e outubro de 2026, **Git Flow** com branches por tarefa (`feature/`, `fix/`, `chore/`, `docs/`) e **Pull Requests** obrigatórios. Os registros do Kanban estão na documentação do projeto.
 
@@ -389,4 +409,13 @@ Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais
 
 <sub>Projeto Integrador de Sistemas Computacionais · UNIEURO · 2026</sub>
 
+<br/>
+<br/>
+
+<a href="https://github.com/SEU-USUARIO/glowup-fullstack/stargazers">
+  <img src="https://img.shields.io/badge/⭐_Deixe_uma_estrela-181717?style=for-the-badge&logo=github&logoColor=white" alt="Deixe uma estrela">
+</a>
+
 </div>
+
+***

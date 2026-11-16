@@ -229,7 +229,7 @@ sequenceDiagram
 
 ## Modelo de dados
 
-Visão simplificada das entidades centrais. O DER completo e o dicionário de dados estão na [documentação do projeto](#-documentação).
+Visão simplificada das entidades centrais. O DER completo e o dicionário de dados estão na [documentação do projeto](docs/documentacao-completa.pdf).
 
 ```mermaid
 erDiagram
@@ -366,7 +366,7 @@ cd api
 
 | Documento | Conteúdo |
 |:--|:--|
-| 📄 [**Documentação do Projeto Integrador (PDF)**](docs/GlowUp_Projeto_Integrador.pdf) | Requisitos (RF, RNF, RN, RD), casos de uso, estórias, arquitetura, diagramas de classes e sequência, DER, dicionário de dados, protótipos e Kanban |
+| 📄 [**Documentação do Projeto Integrador (PDF)**](docs/documentacao-completa.pdf) | Requisitos (RF, RNF, RN, RD), casos de uso, estórias, arquitetura, diagramas de classes e sequência, DER, dicionário de dados, protótipos e Kanban |
 | ⚙️ [`docs/BACKEND_COMPLETO.md`](docs/BACKEND_COMPLETO.md) | Cobertura do back-end, fluxos, decisões de projeto e contratos da API |
 | 🛠️ [`docs/CONFIGURACAO_AMBIENTE.md`](docs/CONFIGURACAO_AMBIENTE.md) | Variáveis de ambiente, execução local, e-mail e Mercado Pago |
 | 💳 [`docs/INTEGRACAO_FINANCEIRA.md`](docs/INTEGRACAO_FINANCEIRA.md) | Pagamentos, webhooks, lucro real e devoluções |
@@ -389,7 +389,7 @@ Cinco pessoas, cada uma com frentes bem definidas.
 
 ### Gestão do projeto
 
-Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais entre agosto e outubro de 2026, **Git Flow** com branches por tarefa (`feature/`, `fix/`, `chore/`, `docs/`) e **Pull Requests** obrigatórios. Os registros do Kanban estão na documentação do projeto.
+Trabalho organizado em **quadro Kanban** (Microsoft Planner) com ciclos semanais entre agosto e outubro de 2026, **Git Flow** com branches por tarefa (`feature/`, `fix/`, `chore/`, `docs/`) e **Pull Requests** obrigatórios. Os registros do Kanban estão na [documentação do projeto](docs/documentacao-completa.pdf).
 
 ---
 

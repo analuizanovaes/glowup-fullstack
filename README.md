@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="frontend/assets/banner.svg" alt="GlowUp — E-commerce full-stack para revendedora de cosméticos" width="100%"/>
+<img src="frontend/assets/img/banner.svg" alt="GlowUp — E-commerce full-stack para revendedora de cosméticos" width="100%"/>
 
 <br/>
 
